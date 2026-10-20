@@ -62,7 +62,7 @@ Apache 2.4.18 es una versión de 2015/2016, y OpenSSH 7.2p2 es de 2016. Ninguna 
 
 Al visitar `http://10.129.78.142` nos encontramos con lo siguiente:
 
-![Página web al entrar por el puerto 80](shocker_images/01-pagina-web.png)
+![Página web al entrar por el puerto 80](01-pagina-web.png)
 
 ### 1.4 Búsqueda de vulnerabilidades con scripts de nmap
 
