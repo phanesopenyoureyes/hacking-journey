@@ -1,18 +1,22 @@
 <div align="center">
 
+```
+ph4n3s@htb:~$ cat hacking-journey
+```
+
 # `hacking-journey`
 
 **Writeups de máquinas retiradas de Hack The Box**<br>
-Reconocimiento · enumeración · explotación · escalada · mitigación
+`recon ──▶ foothold ──▶ privesc ──▶ root`
 
 <br>
 
 [![Hack The Box](https://img.shields.io/badge/Hack_The_Box-ph4n3s-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)](https://app.hackthebox.com/users/4011018)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Francisco_Guti%C3%A9rrez-8B5CF6?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/francisco-gutierrez-garcia)
 
-![Último commit](https://img.shields.io/github/last-commit/phanesopenyoureyes/hacking-journey?style=flat-square&color=8B5CF6&logo=github&logoColor=white)
-![Lenguaje principal](https://img.shields.io/github/languages/top/phanesopenyoureyes/hacking-journey?style=flat-square&color=8B5CF6)
-![Tamaño](https://img.shields.io/github/repo-size/phanesopenyoureyes/hacking-journey?style=flat-square&color=8B5CF6)
+![Último commit](https://img.shields.io/github/last-commit/phanesopenyoureyes/hacking-journey?style=flat-square&color=9FEF00&logo=github&logoColor=white)
+![Lenguaje principal](https://img.shields.io/github/languages/top/phanesopenyoureyes/hacking-journey?style=flat-square&color=9FEF00)
+![Tamaño](https://img.shields.io/github/repo-size/phanesopenyoureyes/hacking-journey?style=flat-square&color=9FEF00)
 
 </div>
 
