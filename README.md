@@ -1,33 +1,64 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d0b1a,45:2e1065,100:8b5cf6&height=220&section=header&text=HACK%20THE%20BOX%20WRITEUPS&fontSize=48&fontColor=ffffff&fontAlignY=38&desc=Offensive%20security%20machine%20writeups%20%C2%B7%20ph4n3s&descSize=18&descAlignY=60&animation=fadeIn" alt="Hack The Box Writeups" width="100%"/>
+# 🧠 hacking-journey
+
+### My road through Hack The Box — one machine, one writeup, no skipped steps.
+
+Enumeration → exploitation → privilege escalation → **how to actually fix it**.
+Written the way I solve them: dead ends included, so you learn the process, not just the flag.
 
 <br>
 
-[![HTB](https://img.shields.io/badge/Hack_The_Box-1a1033?style=for-the-badge&logo=hackthebox&logoColor=a78bfa)](https://app.hackthebox.com/users/4011018)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-5b21b6?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/francisco-gutierrez-garcia)
+[![Hack The Box](https://img.shields.io/badge/Hack_The_Box-profile-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black&labelColor=1a1033)](https://app.hackthebox.com/users/4011018)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=1a1033)](https://www.linkedin.com/in/francisco-gutierrez-garcia)
 
-![Writeups](https://img.shields.io/badge/Writeups-14-a78bfa?style=flat-square&labelColor=1a1033)
-![Status](https://img.shields.io/badge/Status-Active-8b5cf6?style=flat-square&labelColor=1a1033)
-![Scope](https://img.shields.io/badge/Scope-Educational-6d28d9?style=flat-square&labelColor=1a1033)
+![Machines](https://img.shields.io/badge/machines-14-8b5cf6?style=flat-square&labelColor=1a1033)
+![Linux](https://img.shields.io/badge/Linux-7-a78bfa?style=flat-square&labelColor=1a1033&logo=linux&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-7-a78bfa?style=flat-square&labelColor=1a1033&logo=windows&logoColor=white)
+![Difficulty](https://img.shields.io/badge/difficulty-Easy-6d28d9?style=flat-square&labelColor=1a1033)
+![Updated](https://img.shields.io/badge/status-actively_updated-8b5cf6?style=flat-square&labelColor=1a1033)
 
-**[Writeups](#writeups)** · **[Skills](#skills-practised)** · **[Repository layout](#repository-layout)** · **[Legal notice](#legal-notice)** · **[Contact](#contact)**
+<br>
+
+[**Writeups**](#-writeups) · [**How I work**](#-how-i-work) · [**Layout**](#-repository-layout) · [**What's next**](#-whats-next) · [**Legal**](#-legal)
 
 </div>
 
 ---
 
-## About this repository
-
-A collection of Hack The Box writeups documenting my training in offensive security. Each writeup covers the full process — enumeration, exploitation, privilege escalation and lessons learned — with special attention to how each vulnerability is mitigated.
-
-I write them as I actually solve the machines, dead ends included, because I think that reflects the real workflow better than a clean "command → result → flag" list.
+> [!NOTE]
+> I'm a cybersecurity student documenting every HTB machine I solve. These writeups are built to be **read**, not just archived — clear steps, real reasoning, and a mitigation note on every box. If that's useful to you, a ⭐ keeps me going.
 
 ---
 
-## Methodology
+## 📂 Writeups
 
-Every writeup follows the same workflow:
+Each machine links to its own folder with the full writeup and screenshots.
+
+| # | Machine | OS | Difficulty | What makes it tick | Writeup |
+|:-:|:--|:-:|:-:|:--|:-:|
+| 01 | **Lame** | 🐧 Linux | 🟢 Easy | Samba `username map script` — `CVE-2007-2447` | [→](./HTB/machines/easy/Lame) |
+| 02 | **Legacy** | 🪟 Windows | 🟢 Easy | SMB on Windows XP — `MS08-067` | [→](./HTB/machines/easy/Legacy) |
+| 03 | **Blue** | 🪟 Windows | 🟢 Easy | EternalBlue — `MS17-010` | [→](./HTB/machines/easy/Blue) |
+| 04 | **Devel** | 🪟 Windows | 🟢 Easy | Anonymous FTP → ASPX webshell → kernel exploit | [→](./HTB/machines/easy/Devel) |
+| 05 | **Grandpa** | 🪟 Windows | 🟢 Easy | IIS 6.0 WebDAV — `CVE-2017-7269` + Churrasco | [→](./HTB/machines/easy/Grandpa) |
+| 06 | **Granny** | 🪟 Windows | 🟢 Easy | IIS 6.0 WebDAV → `NETWORK SERVICE` → SYSTEM | [→](./HTB/machines/easy/Granny) |
+| 07 | **Optimum** | 🪟 Windows | 🟢 Easy | Rejetto HFS 2.3 RCE — `CVE-2014-6287` + `MS16-032` | [→](./HTB/machines/easy/Optimum) |
+| 08 | **Jerry** | 🪟 Windows | 🟢 Easy | Tomcat default creds → malicious WAR | [→](./HTB/machines/easy/Jerry) |
+| 09 | **Shocker** | 🐧 Linux | 🟢 Easy | Shellshock over CGI — `CVE-2014-6271` → sudo perl | [→](./HTB/machines/easy/Shocker) |
+| 10 | **Knife** | 🐧 Linux | 🟢 Easy | PHP 8.1.0-dev backdoor → sudo `knife` | [→](./HTB/machines/easy/Knife) |
+| 11 | **Bashed** | 🐧 Linux | 🟢 Easy | Exposed `phpbash` webshell → cron sudo | [→](./HTB/machines/easy/Bashed) |
+| 12 | **Nibbles** | 🐧 Linux | 🟢 Easy | Nibbleblog upload — `CVE-2015-6967` → editable script | [→](./HTB/machines/easy/Nibbles) |
+| 13 | **Traverxec** | 🐧 Linux | 🟢 Easy | Nostromo RCE — `CVE-2019-16278` → `journalctl`+`less` | [→](./HTB/machines/easy/Traverxec) |
+| 14 | **Validation** | 🐧 Linux | 🟢 Easy | UNION SQLi → `INTO OUTFILE` webshell → password reuse | [→](./HTB/machines/easy/Validation) |
+
+<div align="center"><sub>Ordered roughly by when I tackled them · updated with every new box.</sub></div>
+
+---
+
+## 🛠 How I work
+
+Same loop on every machine — predictable on purpose, so the writeups are easy to follow:
 
 ```mermaid
 %%{init: {'theme':'base','themeVariables':{'primaryColor':'#2e1065','primaryTextColor':'#ede9fe','primaryBorderColor':'#8b5cf6','lineColor':'#a78bfa','secondaryColor':'#1a1033','tertiaryColor':'#0d0b1a','fontFamily':'ui-sans-serif,system-ui'}}}%%
@@ -37,107 +68,82 @@ flowchart LR
     C --> D[Initial access]
     D --> E[Privilege escalation]
     E --> F[Flags]
-    F --> G[Lessons learned]
+    F --> G[Fix / mitigation]
 ```
 
----
+<table>
+<tr>
+<td width="50%" valign="top">
 
-## Writeups
+**What every writeup gives you**
+- The exact commands, with their output
+- *Why* each step works, not just *what* to type
+- The rabbit holes I fell into (and why)
+- A mitigation note: how the box should've been secured
 
-**14 machines completed** · 7 Linux · 7 Windows · all Easy difficulty
+</td>
+<td width="50%" valign="top">
 
-| Machine | OS | Difficulty | Key techniques | Writeup |
-|:--|:-:|:-:|:--|:-:|
-| **Bashed** | Linux | Easy | `Web fuzzing` · `Exposed webshell` · `Sudo misconfig` | [Read](./HTB/machines/easy/Bashed) |
-| **Blue** | Windows | Easy | `SMB` · `MS17-010 (EternalBlue)` | [Read](./HTB/machines/easy/Blue) |
-| **Devel** | Windows | Easy | `Anonymous FTP` · `ASPX upload` · `Kernel exploit` | [Read](./HTB/machines/easy/Devel) |
-| **Grandpa** | Windows | Easy | `IIS 6.0 WebDAV` · `CVE-2017-7269` · `Token impersonation` | [Read](./HTB/machines/easy/Grandpa) |
-| **Granny** | Windows | Easy | `IIS 6.0 WebDAV` · `File upload` · `Token impersonation` | [Read](./HTB/machines/easy/Granny) |
-| **Jerry** | Windows | Easy | `Apache Tomcat` · `Default credentials` · `Malicious WAR` | [Read](./HTB/machines/easy/Jerry) |
-| **Knife** | Linux | Easy | `PHP 8.1.0-dev backdoor` · `Sudo (knife)` | [Read](./HTB/machines/easy/Knife) |
-| **Lame** | Linux | Easy | `Samba` · `CVE-2007-2447` | [Read](./HTB/machines/easy/Lame) |
-| **Legacy** | Windows | Easy | `SMB` · `MS08-067 / MS17-010` | [Read](./HTB/machines/easy/Legacy) |
-| **Nibbles** | Linux | Easy | `Nibbleblog` · `CVE-2015-6967` · `Sudo + editable script` | [Read](./HTB/machines/easy/Nibbles) |
-| **Optimum** | Windows | Easy | `HttpFileServer 2.3` · `CVE-2014-6287` · `Kernel exploit` | [Read](./HTB/machines/easy/Optimum) |
-| **Shocker** | Linux | Easy | `CGI` · `Shellshock` · `Sudo (perl)` | [Read](./HTB/machines/easy/Shocker) |
-| **Traverxec** | Linux | Easy | `Nostromo` · `CVE-2019-16278` · `SSH key` · `journalctl` | [Read](./HTB/machines/easy/Traverxec) |
-| **Validation** | Linux | Easy | `SQLi` · `Command injection` | [Read](./HTB/machines/easy/Validation) |
+**Skills I'm building**
+- Service enumeration & attack-surface mapping
+- Mapping versions → known CVEs
+- Linux privesc (`sudo`, cron, GTFOBins)
+- Windows privesc (tokens, kernel exploits, Metasploit)
+- Clean, repeatable technical documentation
 
-<sub>The table is updated with every new machine completed.</sub>
-
----
-
-## Skills practised
-
-- Service enumeration and attack-surface reconnaissance (SMB, FTP, HTTP, WebDAV).
-- Identification and analysis of known vulnerabilities by their CVE.
-- Privilege escalation on Linux (`sudo` misconfigurations) and Windows (token impersonation, kernel exploits).
-- Review of insecure configurations: default credentials, exposed services and excessive permissions.
-- Structured technical documentation, with mitigation measures in every case.
+</td>
+</tr>
+</table>
 
 ---
 
-## Repository layout
+## 🗂 Repository layout
 
-Machines are organised by difficulty under `HTB/machines/`. Every machine has its own folder with a `README.md` writeup and its screenshots. Higher-difficulty folders (`medium`, `hard`, `insane`) will be added as I complete machines at those tiers.
+Machines live under `HTB/machines/`, split by difficulty. Every machine is a self-contained folder: the writeup is its `README.md`, so GitHub renders it the moment you open the folder.
 
 ```
 HTB/
 └── machines/
     └── easy/
-        ├── Bashed/        README.md + screenshots
-        ├── Blue/
-        ├── Devel/
-        ├── ...
-        └── Validation/
+        ├── Blue/          README.md + screenshots
+        ├── Bashed/
+        ├── Knife/
+        ├── Traverxec/
+        └── ...            (14 machines)
 ```
 
-<details>
-<summary><b>Standard writeup format</b></summary>
-
-<br>
-
-1. **Summary** — overview of the machine and the path taken.
-2. **Enumeration** — what was found and how.
-3. **Exploitation** — initial access, step by step.
-4. **Privilege escalation** — from user to full control.
-5. **Lessons learned** — conclusions and mitigation measures.
-6. **References** — resources consulted.
-
-</details>
+> `medium/`, `hard/` and `insane/` folders will appear here as I climb — the structure is already waiting for them.
 
 ---
 
-## Legal notice
+## 🚀 What's next
+
+- [x] Clear every classic **Easy** box (14 done)
+- [ ] Move into **Medium** machines
+- [ ] Add an Active Directory track
+- [ ] Short "lessons learned" index across all boxes
+
+<div align="center"><sub>Writeups are bilingual-friendly: written in English (Cambridge C1) so they're useful to anyone.</sub></div>
+
+---
+
+## ⚖ Legal
 
 > [!WARNING]
-> All content in this repository is for **educational purposes only**.
->
-> - Only writeups of **retired** Hack The Box machines are published, in line with their rules.
-> - The techniques are applied exclusively in **authorised environments**.
-> - The author is not responsible for any misuse of this information.
->
-> Attacking systems without authorisation is illegal.
-
----
-
-## Contact
-
-<div align="center">
-
-[![HTB](https://img.shields.io/badge/Hack_The_Box-Profile-1a1033?style=for-the-badge&logo=hackthebox&logoColor=a78bfa)](https://app.hackthebox.com/users/4011018)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-5b21b6?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/francisco-gutierrez-garcia)
-
-</div>
+> Everything here is for **educational purposes only**.
+> - Only **retired** Hack The Box machines are published, per HTB's rules.
+> - Techniques are used strictly in **authorised** lab environments.
+> - Attacking systems without permission is illegal — the author takes no responsibility for misuse.
 
 ---
 
 <div align="center">
 
-If you find the content useful, a star on the repository is always appreciated.
+### If these writeups helped you, drop a ⭐ — it's the only metric that tells me to keep writing.
 
-<sub>Author: Francisco Gutiérrez García (ph4n3s)</sub>
+[![Hack The Box](https://img.shields.io/badge/Hack_The_Box-4011018-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black&labelColor=1a1033)](https://app.hackthebox.com/users/4011018)
+[![LinkedIn](https://img.shields.io/badge/Francisco_Guti%C3%A9rrez-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=1a1033)](https://www.linkedin.com/in/francisco-gutierrez-garcia)
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d0b1a,45:2e1065,100:8b5cf6&height=100&section=footer" width="100%" alt=""/>
+<sub>Made by <b>Francisco Gutiérrez García</b> · <code>ph4n3s</code></sub>
 
 </div>
