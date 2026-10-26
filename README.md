@@ -31,6 +31,31 @@ Solo se publican máquinas **retiradas**, conforme a las normas de Hack The Box.
 > [!TIP]
 > Las máquinas están organizadas por dificultad en [`HTB/machines/`](./HTB/machines). Entra en cualquier carpeta y GitHub abrirá su writeup directamente.
 
+## Máquinas
+
+<div align="center">
+
+| # | Máquina | Sistema | Dificultad | Writeup |
+|:-:|:--|:-:|:-:|:-:|
+| 01 | **Lame** | 🐧 Linux | 🟢 Easy | [Leer](./HTB/machines/easy/Lame) |
+| 02 | **Legacy** | 🪟 Windows | 🟢 Easy | [Leer](./HTB/machines/easy/Legacy) |
+| 03 | **Blue** | 🪟 Windows | 🟢 Easy | [Leer](./HTB/machines/easy/Blue) |
+| 04 | **Devel** | 🪟 Windows | 🟢 Easy | [Leer](./HTB/machines/easy/Devel) |
+| 05 | **Jerry** | 🪟 Windows | 🟢 Easy | [Leer](./HTB/machines/easy/Jerry) |
+| 06 | **Granny** | 🪟 Windows | 🟢 Easy | [Leer](./HTB/machines/easy/Granny) |
+| 07 | **Grandpa** | 🪟 Windows | 🟢 Easy | [Leer](./HTB/machines/easy/Grandpa) |
+| 08 | **Optimum** | 🪟 Windows | 🟢 Easy | [Leer](./HTB/machines/easy/Optimum) |
+| 09 | **Bashed** | 🐧 Linux | 🟢 Easy | [Leer](./HTB/machines/easy/Bashed) |
+| 10 | **Nibbles** | 🐧 Linux | 🟢 Easy | [Leer](./HTB/machines/easy/Nibbles) |
+| 11 | **Shocker** | 🐧 Linux | 🟢 Easy | [Leer](./HTB/machines/easy/Shocker) |
+| 12 | **Knife** | 🐧 Linux | 🟢 Easy | [Leer](./HTB/machines/easy/Knife) |
+| 13 | **Traverxec** | 🐧 Linux | 🟢 Easy | [Leer](./HTB/machines/easy/Traverxec) |
+| 14 | **Validation** | 🐧 Linux | 🟢 Easy | [Leer](./HTB/machines/easy/Validation) |
+
+**14 máquinas** · 🐧 7 Linux · 🪟 7 Windows
+
+</div>
+
 ## Metodología
 
 ```mermaid
