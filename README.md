@@ -1,6 +1,6 @@
 # hacking-journey
 
-> Writeups de máquinas de Hack The Box. Documentación técnica del proceso completo: reconocimiento, enumeración, explotación, escalada de privilegios y mitigación.
+> Writeups de las máquinas que voy resolviendo en Hack The Box. En cada una documentamos el proceso completo —reconocimiento, enumeración, explotación, escalada de privilegios y mitigación— explicando el porqué de cada paso, no solo el comando.
 
 [![Hack The Box](https://img.shields.io/badge/Hack%20The%20Box-ph4n3s-9FEF00?logo=hackthebox&logoColor=black)](https://app.hackthebox.com/users/4011018)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Francisco%20Guti%C3%A9rrez-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/francisco-gutierrez-garcia)
@@ -12,7 +12,7 @@
 
 ## Sobre el repositorio
 
-Colección de writeups de mi progreso en **Hack The Box** como parte de mi formación en seguridad ofensiva. Cada writeup documenta el camino completo hasta comprometer la máquina, explicando el *porqué* de cada paso —no solo el comando— e incluyendo una nota de mitigación que describe cómo se habría evitado el fallo.
+Colección de writeups de Hack The Box que documenta mi formación en ciberseguridad ofensiva. Cada writeup recoge el proceso completo hasta comprometer la máquina: no solo ponemos el comando, sino que explicamos por qué lo usamos y qué hace realmente, con especial atención a cómo se mitiga cada vulnerabilidad.
 
 Solo se publican máquinas **retiradas**, conforme a las normas de Hack The Box.
 
@@ -72,7 +72,7 @@ flowchart LR
 
 ## Estructura del repositorio
 
-Las máquinas se organizan por dificultad bajo `HTB/machines/`. Cada máquina es una carpeta autocontenida cuyo writeup es su `README.md`, de modo que GitHub lo renderiza al abrir la carpeta.
+Las máquinas se organizan por dificultad bajo `HTB/machines/`. Cada máquina tiene su propia carpeta y su writeup es el `README.md`, así que GitHub lo renderiza en cuanto abres la carpeta.
 
 ```
 HTB/
@@ -90,10 +90,10 @@ Las carpetas `medium/`, `hard/` e `insane/` se añadirán a medida que complete 
 ## Formato de cada writeup
 
 1. **Enumeración** — reconocimiento, escaneo de puertos e identificación de servicios.
-2. **Explotación** — análisis de la vulnerabilidad y acceso inicial, paso a paso.
-3. **Escalada de privilegios** — del usuario inicial a control total.
-4. **Post-explotación** — obtención de las flags.
-5. **Resumen y mitigación** — conclusiones y cómo se habría prevenido el compromiso.
+2. **Explotación** — analizamos la vulnerabilidad y conseguimos el acceso inicial, paso a paso.
+3. **Escalada de privilegios** — del usuario inicial hasta root / SYSTEM.
+4. **Post-explotación** — obtenemos las flags.
+5. **Resumen rápido y mitigación** — conclusiones y cómo se habría evitado el fallo.
 
 ## Aviso legal
 
