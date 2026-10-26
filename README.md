@@ -4,7 +4,7 @@
 ph4n3s@htb:~$ cat hacking-journey
 ```
 
-# `hacking-journey`
+# `Hacking-Journey`
 
 **Writeups de máquinas retiradas de Hack The Box**<br>
 `recon ──▶ foothold ──▶ privesc ──▶ root`
