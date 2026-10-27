@@ -10,6 +10,7 @@ import re
 import sys
 
 PAT = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
+INLINE = re.compile(r"`[^`]*`")
 IGN = (".agents/", "site/", "docs/", "node_modules/")
 
 
@@ -19,7 +20,14 @@ def main():
         if f.startswith(IGN):
             continue
         base = os.path.dirname(f)
+        en_bloque = False
         for n, linea in enumerate(open(f, encoding="utf-8"), 1):
+            if linea.lstrip().startswith("```"):
+                en_bloque = not en_bloque
+                continue
+            if en_bloque:
+                continue  # los ejemplos dentro de bloques de código no se comprueban
+            linea = INLINE.sub("", linea)  # ni los enlaces en código en línea
             for dest in PAT.findall(linea):
                 d = dest.split("#")[0]
                 if not d or d.startswith(("http://", "https://", "mailto:", "/")):
