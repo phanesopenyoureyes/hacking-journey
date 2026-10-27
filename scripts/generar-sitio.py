@@ -63,6 +63,11 @@ def main():
         "(https://github.com/phanesopenyoureyes/hacking-journey).\n"
     )
     open("docs/index.md", "w", encoding="utf-8").write(index)
+
+    # .pages: título con tilde y orden por fecha (más reciente primero)
+    pages = "title: Máquinas\nnav:\n" + "".join(f"  - {d['_k']}\n" for d in pub)
+    open(f"{DST}/.pages", "w", encoding="utf-8").write(pages)
+
     print(f"sitio generado: {len(pub)} máquinas publicadas en {DST}/")
 
 
