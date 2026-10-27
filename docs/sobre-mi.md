@@ -1,14 +1,22 @@
 # Sobre mí
 
-Soy **Francisco Gutiérrez García**, estudiante de ASIR y en formación de seguridad
-ofensiva. Este sitio recoge mis writeups de máquinas retiradas de Hack The Box: los
-documento para aprender y para mostrar cómo trabajo y cómo explico lo que hago.
+<div class="perfil" markdown>
+![Foto de perfil de Francisco Gutiérrez García](https://github.com/phanesopenyoureyes.png?size=256){ loading=lazy }
+
+**Francisco Gutiérrez García** · *ph4n3s*<br>
+Estudiante de ASIR en formación de seguridad ofensiva.
+</div>
+
+Este sitio recoge mis writeups de máquinas retiradas de Hack The Box, mis
+certificaciones y mis herramientas. Lo documento para aprender y para mostrar cómo
+trabajo y cómo explico lo que hago.
 
 Cada writeup sigue la misma plantilla —reconocimiento, enumeración, explotación,
-escalada y una nota de mitigación— y pasa un validador antes de publicarse, para que
-la estructura sea siempre la misma.
+escalada y una nota de mitigación— y pasa un validador antes de publicarse.
 
 ## Contacto
 
-- **Hack The Box:** [ph4n3s](https://app.hackthebox.com/users/4011018)
-- **LinkedIn:** [Francisco Gutiérrez García](https://www.linkedin.com/in/francisco-gutierrez-garcia)
+- :simple-hackthebox: **Hack The Box:** [ph4n3s](https://app.hackthebox.com/users/4011018)
+- :fontawesome-brands-github: **GitHub:** [@phanesopenyoureyes](https://github.com/phanesopenyoureyes)
+- :fontawesome-brands-discord: **Discord:** `pacodametabaco` — [añádeme](https://discord.com/users/pacodametabaco)
+- :fontawesome-brands-linkedin: **LinkedIn:** [Francisco Gutiérrez García](https://www.linkedin.com/in/francisco-gutierrez-garcia)

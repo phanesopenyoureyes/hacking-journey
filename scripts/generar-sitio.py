@@ -134,16 +134,22 @@ def main():
     )
 
     index = (
-        "# Hacking-Journey\n\n"
+        "# Francisco Gutiérrez García · ph4n3s\n\n"
         "Writeups de máquinas **retiradas** de Hack The Box, certificaciones y "
-        "herramientas, documentados paso a paso por **Francisco Gutiérrez García** "
-        "como parte de su formación en seguridad ofensiva.\n\n"
+        "herramientas, documentados paso a paso como parte de mi formación en "
+        "seguridad ofensiva. Cada writeup explica el *porqué* de cada paso y cierra "
+        "con una nota de mitigación.\n\n"
         "Usa el buscador (arriba) para encontrar una técnica, un servicio o una máquina.\n\n"
-        "## Secciones\n\n"
-        f"- **[Máquinas](maquinas/facil/)** — {n_maq} resueltas, agrupadas por dificultad.\n"
-        f"- **[Certificaciones](certificaciones/)** — {n_cert} publicadas.\n"
-        f"- **[Herramientas](herramientas/)** — {n_herr} publicadas.\n"
-        "- **[Sobre mí](sobre-mi/)** — quién soy y cómo contactar.\n"
+        '<div class="grid cards" markdown>\n\n'
+        f"- :material-server-network:{{ .lg .middle }} **[Máquinas](maquinas/facil/)**\n\n"
+        f"    ---\n\n    {n_maq} máquinas resueltas, agrupadas por dificultad (Fácil, Media, Difícil, Insane).\n\n"
+        f"- :material-certificate:{{ .lg .middle }} **[Certificaciones](certificaciones/)**\n\n"
+        f"    ---\n\n    {n_cert} certificaciones publicadas.\n\n"
+        f"- :material-tools:{{ .lg .middle }} **[Herramientas](herramientas/)**\n\n"
+        f"    ---\n\n    {n_herr} herramientas propias publicadas.\n\n"
+        "- :material-account:{ .lg .middle } **[Sobre mí](sobre-mi/)**\n\n"
+        "    ---\n\n    Quién soy, mis perfiles y cómo contactar.\n\n"
+        "</div>\n"
     )
     escribir("docs/index.md", index)
     print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, {n_herr} herramientas")
