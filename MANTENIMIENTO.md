@@ -6,11 +6,16 @@ Guía para mantener el repositorio. Para leer cuando haga falta, no para memoriz
 
 Añadir un writeup son tres pasos:
 
-1. `scripts/nuevo-writeup.sh <nombre-maquina> htb` crea la carpeta con la plantilla
-   dentro de `maquinas/htb/`.
+1. `scripts/nuevo-writeup.sh <nombre-maquina> <dificultad>` crea la carpeta con la
+   plantilla dentro de `maquinas/htb/<dificultad>/` (dificultad: `facil`, `media`,
+   `dificil` o `insane`).
 2. Escribir el texto en el `README.md` que acaba de aparecer, respetando las secciones.
-   Las capturas van en `capturas/`.
+   Las capturas van en `capturas/`. Pon `estado: publicado` cuando esté listo.
 3. `git add . && git commit -m "writeup: <nombre>" && git push`.
+
+Para certificaciones y herramientas es igual, con `scripts/nueva-certificacion.sh
+<nombre>` y `scripts/nueva-herramienta.sh <nombre>`. Cada una aparece en su propia
+sección del sitio en cuanto la marcas como publicada y haces push.
 
 El índice y el sitio se regeneran solos. No hay ningún comando de publicación que
 recordar: el workflow de Pages se dispara con el push a `main`.

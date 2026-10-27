@@ -9,9 +9,17 @@ convirtiendo en portfolio. El lector objetivo (tutor de FCT o responsable técni
 el repo cinco minutos: tiene que ver qué sé hacer, dónde está la prueba y que escribo
 de forma ordenada.
 
-Estado actual: 14 writeups en `HTB/machines/easy/<Maquina>/README.md`, cada uno con
-sus capturas al lado. El plan de reorganización está en fases (0 a 6); cada fase se
-pide en una sesión distinta y termina en un commit revisable.
+El repo tiene tres tipos de contenido, todos con el mismo flujo (carpeta +
+`README.md` con front-matter + estado):
+
+- **Máquinas**: `maquinas/htb/<dificultad>/<maquina>/`, con `<dificultad>` =
+  `facil`, `media`, `dificil` o `insane`.
+- **Certificaciones**: `certificaciones/<slug>/`.
+- **Herramientas**: `herramientas/<slug>/`.
+
+Solo el contenido en `estado: publicado` aparece en el sitio y en los índices.
+El sitio (MkDocs Material) agrupa las máquinas por dificultad en menús
+desplegables y tiene secciones propias para Certificaciones y Herramientas.
 
 ## Git
 
@@ -62,7 +70,8 @@ de tocar nada.
 ## Convenciones (a partir de la fase 1)
 
 - Carpetas y ficheros en `kebab-case`, sin acentos, espacios ni mayúsculas.
-- Un writeup es una carpeta: `maquinas/htb/<nombre-maquina>/README.md` + `capturas/`.
+- Un writeup es una carpeta: `maquinas/htb/<dificultad>/<maquina>/README.md` + `capturas/`.
+- La dificultad la marca la carpeta (`facil|media|dificil|insane`), no solo el front-matter.
 - Fechas en formato `AAAA-MM-DD`.
 - Capturas en `.png` optimizado o `.webp`, nombradas por lo que muestran
   (`nmap-puertos.png`, no `Captura1.png`).
@@ -73,7 +82,9 @@ Casi todo lo que se pide es una de estas cosas:
 
 | Petición | Qué hacer |
 | --- | --- |
-| Añadir un writeup | `scripts/nuevo-writeup.sh <nombre> htb` crea la carpeta con la plantilla. Rellenar el front-matter y pedir al autor el texto técnico; no redactarlo por él. |
+| Añadir un writeup | `scripts/nuevo-writeup.sh <nombre> <dificultad>` (facil\|media\|dificil\|insane) crea la carpeta con la plantilla. Rellenar el front-matter y pedir al autor el texto técnico; no redactarlo por él. |
+| Añadir una certificación | `scripts/nueva-certificacion.sh <nombre>`. |
+| Añadir una herramienta | `scripts/nueva-herramienta.sh <nombre>`. |
 | Publicar los cambios | Pasar el validador y el comprobador de enlaces, commit, push, y comprobar que el workflow de Pages acaba en verde. |
 | Actualizar el índice | `python scripts/generar-indice.py`. Nunca editar a mano las tablas entre los marcadores. |
 | Cambiar el aspecto del sitio | Solo `mkdocs.yml`. No tocar las plantillas del tema. |

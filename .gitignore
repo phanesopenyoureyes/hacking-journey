@@ -30,4 +30,6 @@ Thumbs.db
 
 # Sitio generado por scripts/generar-sitio.py
 docs/maquinas/
+docs/certificaciones/
+docs/herramientas/
 docs/index.md
