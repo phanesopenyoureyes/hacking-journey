@@ -38,6 +38,11 @@ muestra de cómo trabajo y documento.
 | [`scripts/`](./scripts) | Scripts para crear contenido, validar, y generar índice y sitio |
 | [`docs/`](./docs) | Fuente del sitio web publicado |
 
+> [!NOTE]
+> ¿Quieres añadir una máquina, una certificación o una herramienta? Mira
+> [**GUIA.md**](./GUIA.md): se publica solo, incluso desde la web de GitHub sin
+> instalar nada.
+
 ## Competencias que se trabajan
 
 - Enumeración de servicios y mapeo de la superficie de ataque (SMB, FTP, HTTP, WebDAV, CGI).
