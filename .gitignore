@@ -27,3 +27,7 @@ Thumbs.db
 *~
 .idea/
 .vscode/
+
+# Sitio generado por scripts/generar-sitio.py
+docs/maquinas/
+docs/index.md
