@@ -487,6 +487,12 @@
       "skillPath": "skills/histolab/SKILL.md",
       "computedHash": "c8636ca17b3f520b3aae86aaba4a059424b62a8083ba91fc958cb20eba1a0321"
     },
+    "huashu-design": {
+      "source": "alchaincyf/huashu-design",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "4bad475ac16b5c9b1911482d8297c4f6ca6073f3bf352fb8d49ff9291fec5348"
+    },
     "hugging-science": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
