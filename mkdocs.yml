@@ -1,5 +1,6 @@
-site_name: Hacking-Journey
-site_description: Writeups de máquinas de Hack The Box — Francisco Gutiérrez García
+site_name: Francisco Gutiérrez García · ph4n3s
+site_description: Writeups de Hack The Box, certificaciones y herramientas — Francisco Gutiérrez García (ph4n3s)
+site_author: Francisco Gutiérrez García
 site_url: https://phanesopenyoureyes.github.io/hacking-journey/
 repo_url: https://github.com/phanesopenyoureyes/hacking-journey
 repo_name: hacking-journey
@@ -8,29 +9,41 @@ docs_dir: docs
 theme:
   name: material
   language: es
+  icon:
+    logo: material/spider
+    repo: fontawesome/brands/github
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: green
-      accent: green
+      accent: light green
       toggle:
         icon: material/weather-night
         name: Cambiar a modo oscuro
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: green
-      accent: green
+      accent: light green
       toggle:
         icon: material/weather-sunny
         name: Cambiar a modo claro
+  font:
+    text: Inter
+    code: JetBrains Mono
   features:
     - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.top
     - navigation.indexes
     - navigation.tracking
+    - navigation.footer
     - search.suggest
     - search.highlight
     - content.code.copy
+    - content.code.annotate
+    - toc.follow
 
 plugins:
   - search:
@@ -48,6 +61,27 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.inlinehilite
   - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: simple/hackthebox
+      link: https://app.hackthebox.com/users/4011018
+      name: Hack The Box
+    - icon: fontawesome/brands/github
+      link: https://github.com/phanesopenyoureyes
+      name: GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/francisco-gutierrez-garcia
+      name: LinkedIn
+    - icon: fontawesome/brands/discord
+      link: https://discord.com/users/pacodametabaco
+      name: Discord
 
 exclude_docs: |
   _auditoria.md

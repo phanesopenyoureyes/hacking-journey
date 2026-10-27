@@ -1,0 +1,81 @@
+/* Personalización visual del portfolio. */
+
+:root {
+  --md-primary-fg-color: #1a8f3c;
+  --md-accent-fg-color: #9FEF00;         /* verde HTB */
+}
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #0b3d20;
+  --md-accent-fg-color: #9FEF00;
+  --md-typeset-a-color: #9FEF00;
+}
+
+/* Transiciones suaves en toda la interfaz */
+a, .md-nav__link, .md-button, .md-typeset .md-button {
+  transition: color .2s ease, background-color .2s ease,
+              transform .2s ease, box-shadow .2s ease;
+}
+
+/* Tarjetas de la portada: elevación al pasar el ratón */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid.cards > :is(ul) > :is(li) {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .7rem;
+  padding: 1rem;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.md-typeset .grid.cards > ul > li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 .4rem 1.2rem rgba(0,0,0,.18);
+  border-color: var(--md-accent-fg-color);
+}
+
+/* Título de la portada con un degradado sutil */
+.md-typeset h1 {
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+/* Foto de perfil */
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin: 1rem 0 1.5rem;
+}
+.perfil img {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--md-accent-fg-color);
+  box-shadow: 0 .3rem 1rem rgba(0,0,0,.25);
+}
+
+/* Filas de tabla con resalte al pasar el ratón */
+.md-typeset table:not([class]) tbody tr {
+  transition: background-color .15s ease;
+}
+.md-typeset table:not([class]) tbody tr:hover {
+  background-color: var(--md-accent-fg-color--transparent, rgba(159,239,0,.08));
+}
+
+/* Etiquetas de técnicas (código en línea) un poco más marcadas */
+.md-typeset table code {
+  background-color: var(--md-code-bg-color);
+  border-radius: .4rem;
+}
+
+/* Animación de aparición del contenido */
+.md-content__inner > * {
+  animation: aparecer .35s ease both;
+}
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-content__inner > * { animation: none; }
+  a, .md-nav__link, .md-button { transition: none; }
+}
