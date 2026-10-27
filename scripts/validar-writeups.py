@@ -63,7 +63,7 @@ def seccion_pendiente(cuerpo, titulo):
 
 def main():
     errores = []
-    ficheros = sorted(glob.glob("maquinas/**/README.md", recursive=True))
+    ficheros = sorted(glob.glob("maquinas/*/*/README.md"))
     if not ficheros:
         print("No se encontró ningún writeup en maquinas/")
         return 1

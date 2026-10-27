@@ -66,3 +66,30 @@ de tocar nada.
 - Fechas en formato `AAAA-MM-DD`.
 - Capturas en `.png` optimizado o `.webp`, nombradas por lo que muestran
   (`nmap-puertos.png`, no `Captura1.png`).
+
+## Tareas rutinarias
+
+Casi todo lo que se pide es una de estas cosas:
+
+| Petición | Qué hacer |
+| --- | --- |
+| Añadir un writeup | `scripts/nuevo-writeup.sh <nombre> htb` crea la carpeta con la plantilla. Rellenar el front-matter y pedir al autor el texto técnico; no redactarlo por él. |
+| Publicar los cambios | Pasar el validador y el comprobador de enlaces, commit, push, y comprobar que el workflow de Pages acaba en verde. |
+| Actualizar el índice | `python scripts/generar-indice.py`. Nunca editar a mano las tablas entre los marcadores. |
+| Cambiar el aspecto del sitio | Solo `mkdocs.yml`. No tocar las plantillas del tema. |
+| Actualizar dependencias | Solo si lo pide el autor: fijar la versión nueva en `requirements.txt`, probar en local y decir qué cambia. Las versiones están fijadas a propósito. |
+
+## Cuando algo se rompe
+
+El fallo casi siempre está en el contenido, no en la infraestructura. Antes de tocar
+configuración, reproducir en local con `mkdocs build --strict` y leer la primera línea
+del error, que suele señalar fichero y línea.
+
+Prohibido:
+
+- «Arreglar» un fallo desactivando comprobaciones (`--no-verify`, quitar `--strict`) o
+  borrando ficheros que molestan.
+- Cambiar la versión de una dependencia para esquivar un error sin decirlo.
+- Hacer un cambio estructural sin explicarlo antes y esperar confirmación.
+
+Al terminar cualquier tarea, dejar escrito en una línea qué se cambió y por qué.

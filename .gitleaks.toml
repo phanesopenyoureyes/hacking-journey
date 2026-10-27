@@ -1,0 +1,15 @@
+# Configuración de gitleaks. Se parte de las reglas por defecto y se añade una
+# lista de permitidos para las credenciales que forman parte de los writeups de
+# las máquinas (son públicas y de laboratorio, no secretos propios).
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Credenciales de máquinas de HTB y rangos de laboratorio"
+paths = [
+  '''maquinas/.*README\.md''',
+]
+regexes = [
+  '''\$1\$e7NfNpNi\$''',
+  '''uhc-9qual-global-pw''',
+]
