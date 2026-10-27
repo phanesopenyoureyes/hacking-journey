@@ -1,11 +1,19 @@
-# Bashed (Easy Linux)
-
-**Author:** Ph4n3s
-**Fecha:** 21/10/2026
-**IP:** 10.129.78.225
-**Dificultad:** Easy / Linux
-
 ---
+titulo: "Bashed"
+fecha: 2026-10-21
+plataforma: htb
+so: linux
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-web, exposicion-de-herramienta, sudo-misconfig, cron-abuse]
+herramientas: [nmap, ffuf, nc]
+---
+
+# Bashed
+
+## Resumen
+
+Servidor Apache con el blog de desarrollo de «Arrexel», que dejó expuesta públicamente una pseudo-shell PHP (`phpbash`) en `/dev/`. Desde ahí se obtiene ejecución de comandos como `www-data`, se salta a `scriptmanager` por un `sudo` mal configurado y se llega a root abusando de un cron que ejecuta un script escribible.
 
 ## 1. Enumeración
 
@@ -184,7 +192,11 @@ Flag root -> ccf156f4bdeb07a6ee1c61cc8561adcf
 
 ---
 
-## Resumen rápido
+## Mitigación
+
+No exponer herramientas de pruebas como `phpbash` en un directorio accesible: deben quedar fuera del *document root* o protegidas con autenticación. Restringir las reglas `NOPASSWD` de `sudo` al mínimo imprescindible. Revisar que las carpetas ejecutadas por cron (`/scripts`) no sean escribibles por usuarios sin privilegios.
+
+## Qué he aprendido
 
 **Qué era la máquina:** un servidor Apache con el blog de desarrollo de "Arrexel", que dejó expuesta públicamente (y sin darse cuenta) una pseudo-shell PHP (`phpbash`) en `/dev/`, usada originalmente para sus propias pruebas.
 

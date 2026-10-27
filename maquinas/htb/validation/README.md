@@ -1,12 +1,19 @@
-# HTB - Validation
+---
+titulo: "Validation"
+fecha: 2026-10-12
+plataforma: htb
+so: linux
+dificultad: Easy
+estado: publicado
+tecnicas: [inyeccion-sql, webshell, reutilizacion-de-credenciales]
+herramientas: [nmap, burpsuite]
+---
+
+# Validation
+
+## Resumen
 
 Máquina Linux, dificultad Easy. La hice como parte de mi ruta de aprendizaje en seguridad mientras estudio ASIR. La dejo documentada tal y como la fui resolviendo, con los atascos incluidos, porque creo que así se entiende mejor el proceso real que si solo pongo "comando → resultado → flag".
-
-- **IP:** 10.129.95.235
-- **SO:** Linux (Debian)
-- **Dificultad:** Easy
-
----
 
 ## Primeros pasos
 
@@ -252,7 +259,11 @@ Y con eso, dentro.
 
 ---
 
-## Lo que me llevo de esta máquina
+## Mitigación
+
+Usar consultas parametrizadas (*prepared statements*) para eliminar la inyección SQL. No reutilizar contraseñas entre servicios: la de la base de datos no debería servir para la cuenta de root del sistema. Aplicar privilegios mínimos a la cuenta de base de datos.
+
+## Qué he aprendido
 
 - **Nunca concatenar input del usuario en una query SQL.** Esto se arregla con prepared statements/consultas parametrizadas — así el motor trata lo que escribes siempre como dato, nunca como código, pase lo que pase.
 - **No reutilizar contraseñas entre sistemas distintos.** La contraseña de MySQL y la de root del sistema operativo eran la misma. Son dos niveles de acceso totalmente distintos (datos vs. control total del servidor) y nunca deberían depender del mismo secreto.

@@ -1,10 +1,19 @@
 ---
-title: "HTB: Grandpa"
-date: 2026-10-18 00:00:00 +0200
-categories: [HackTheBox, Windows]
-tags: [htb, windows, easy, iis, webdav, buffer-overflow, churrasco, privilege-escalation]
-author: Ph4n3s
+titulo: "Grandpa"
+fecha: 2026-10-19
+plataforma: htb
+so: windows
+dificultad: Easy
+estado: pendiente
+tecnicas: [iis, webdav, buffer-overflow, token-impersonation]
+herramientas: [nmap, metasploit]
 ---
+
+# Grandpa
+
+## Resumen
+
+Servidor IIS 6.0 con WebDAV habilitado, vulnerable a un desbordamiento de búfer (CVE-2017-7269). La explotación da una shell de bajos privilegios y, mediante abuso de tokens (Churrasco), se eleva a `SYSTEM`.
 
 ## Ficha de la máquina
 
@@ -121,3 +130,12 @@ Repito el proceso navegando a `C:\Documents and Settings\Administrator\Desktop` 
 ---
 
 ¡GRACIAS por leer mi write-up! 🎉
+
+## Mitigación
+
+Retirar IIS 6.0 y WebDAV, software sin soporte desde hace años. Si el servicio es imprescindible, aislarlo y aplicar los parches disponibles. Limitar los privilegios de la cuenta de servicio para dificultar el abuso de tokens.
+
+## Qué he aprendido
+
+PENDIENTE
+

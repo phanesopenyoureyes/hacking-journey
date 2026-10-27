@@ -1,11 +1,19 @@
-# Devel (Easy Windows)
-
-**Author:** Ph4n3s
-**Fecha:** 23/10/2026
-**IP:** 10.129.79.200
-**Dificultad:** Easy / Windows
-
 ---
+titulo: "Devel"
+fecha: 2026-10-23
+plataforma: htb
+so: windows
+dificultad: Easy
+estado: publicado
+tecnicas: [ftp-anonimo, carga-de-archivos, iis, kernel-exploit]
+herramientas: [nmap, msfvenom]
+---
+
+# Devel
+
+## Resumen
+
+Servidor IIS cuyo FTP permite acceso anónimo con escritura sobre la misma raíz que sirve la web. Se sube una webshell `.aspx` que da ejecución como el usuario del *application pool*, y después un exploit de kernel eleva a `SYSTEM`.
 
 ## 1. Enumeración
 
@@ -154,7 +162,11 @@ USER FLAG -> bcd649fa3811b0c77561b89f131b64e4
 
 ---
 
-## Resumen rápido
+## Mitigación
+
+Desactivar el acceso anónimo al FTP y, sobre todo, no permitir escritura sobre el directorio que sirve IIS. Mantener el sistema parcheado para cerrar el exploit de kernel usado en la escalada. Aplicar el principio de mínimo privilegio al *application pool*.
+
+## Qué he aprendido
 
 **Qué era la máquina:** un IIS 7.5 recién instalado con FTP anónimo apuntando a la misma raíz web — configuración por defecto sin asegurar — sobre un Windows sin parches de kernel.
 

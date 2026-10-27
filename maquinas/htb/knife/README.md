@@ -1,11 +1,19 @@
-# Knife (Easy Linux)
-
-**Author:** Ph4n3s
-**Fecha:** 19/10/2026
-**IP:** 10.129.78.40
-**Dificultad:** Easy / Linux
-
 ---
+titulo: "Knife"
+fecha: 2026-10-19
+plataforma: htb
+so: linux
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-web, php-backdoor, sudo-misconfig, gtfobins]
+herramientas: [nmap]
+---
+
+# Knife
+
+## Resumen
+
+Servidor web que corre una versión de PHP (8.1.0-dev) con una puerta trasera conocida en la cabecera `User-Agentt`. Da ejecución como `james`, y un `sudo` sobre el binario `knife` permite escalar a root vía GTFOBins.
 
 ## 1. Enumeración
 
@@ -172,7 +180,11 @@ Luego escucharíamos con un `nc -lnvp 4444` en el puerto 4444 (listen, numeric, 
 
 ---
 
-## Resumen rápido
+## Mitigación
+
+No desplegar nunca versiones *dev* o no oficiales de PHP en producción: esta llevaba una puerta trasera introducida en el repositorio. Restringir las reglas de `sudo` y evitar permitir binarios que, como `knife`, pueden ejecutar código arbitrario (ver GTFOBins).
+
+## Qué he aprendido
 
 **Qué era la máquina:** un servidor web Apache con PHP 8.1.0-dev que tenía un backdoor introducido maliciosamente en el código fuente oficial de PHP.
 

@@ -1,11 +1,19 @@
-# Optimum (Easy Windows)
-
-**Author:** Ph4n3s
-**Fecha:** 24/10/2026
-**IP:** 10.129.80.29
-**Dificultad:** Easy / Windows
-
 ---
+titulo: "Optimum"
+fecha: 2026-10-24
+plataforma: htb
+so: windows
+dificultad: Easy
+estado: publicado
+tecnicas: [http-file-server, rce, kernel-exploit]
+herramientas: [nmap, metasploit, powershell]
+---
+
+# Optimum
+
+## Resumen
+
+Servidor HttpFileServer (HFS) 2.3 vulnerable a ejecución remota de código (CVE-2014-6287). Da una shell como `kostas`, y un exploit de kernel (MS16-032) eleva a `SYSTEM`.
 
 ## 1. Enumeración
 
@@ -197,7 +205,11 @@ El resultado es el mismo: una sesión final como `NT AUTHORITY\SYSTEM`.
 
 ---
 
-## Resumen rápido
+## Mitigación
+
+Actualizar HFS: la versión 2.3 tiene un fallo de RCE conocido. Mantener el sistema parcheado para cerrar la escalada de kernel. No exponer servicios de terceros sin mantenimiento directamente a la red.
+
+## Qué he aprendido
 
 **Qué era la máquina:** un servidor de ficheros HFS 2.3 (Rejetto) con una RCE conocida, sobre un Windows Server 2012 R2 sin el parche de una vulnerabilidad de escalada de privilegios local.
 

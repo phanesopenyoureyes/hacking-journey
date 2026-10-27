@@ -1,8 +1,19 @@
-# Granny - Hack The Box | Write Up
-
-**Dificultad:** Easy | **OS:** Windows | **Autor:** Ph4n3s
-
 ---
+titulo: "Granny"
+fecha: 2026-10-18
+plataforma: htb
+so: windows
+dificultad: Easy
+estado: publicado
+tecnicas: [iis, webdav, buffer-overflow, token-impersonation]
+herramientas: [nmap, metasploit]
+---
+
+# Granny
+
+## Resumen
+
+Servidor IIS 6.0 con WebDAV, de la misma familia que Grandpa. Se sube contenido mediante los métodos WebDAV y se explota el servicio para obtener una shell, que luego se eleva a `SYSTEM` mediante abuso de tokens.
 
 ## 1. Enumeración
 
@@ -135,7 +146,11 @@ aa4bf**************************
 
 ---
 
-## Conclusión
+## Mitigación
+
+Retirar IIS 6.0 y WebDAV por falta de soporte. Deshabilitar los métodos HTTP de escritura (PUT, MOVE) si no se usan. Mantener el sistema parcheado y limitar los privilegios de la cuenta de servicio.
+
+## Qué he aprendido
 
 Granny es una máquina muy similar a Grandpa pero con una diferencia clave: aquí no se obtiene SYSTEM directamente, hay una escalada de privilegios desde `NETWORK SERVICE` que añade un paso extra. El vector de entrada es **CVE-2017-7269**, el mismo Buffer Overflow en WebDAV de IIS 6.0 que afecta a Windows Server 2003 sin parchear.
 

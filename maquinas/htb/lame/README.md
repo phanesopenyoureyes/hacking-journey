@@ -1,10 +1,19 @@
-# Lame — HackTheBox Write Up
-
-**Dificultad:** Easy  
-**OS:** Linux  
-**Autor:** ph4n3s
-
 ---
+titulo: "Lame"
+fecha: 2026-10-15
+plataforma: htb
+so: linux
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-smb, samba, rce]
+herramientas: [nmap, metasploit]
+---
+
+# Lame
+
+## Resumen
+
+Máquina Linux antigua con un Samba 3.0.20 vulnerable a `usermap_script` (CVE-2007-2447), que permite inyección de comandos. La explotación da directamente una shell como root.
 
 ## 1. Enumeración
 
@@ -114,7 +123,11 @@ cat /root/root.txt
 
 ---
 
-## 5. Conclusiones
+## Mitigación
+
+Actualizar Samba a una versión con soporte: el fallo está parcheado desde hace años. Deshabilitar la opción `username map script` si no se usa. Exponer SMB solo en redes de confianza.
+
+## Qué he aprendido
 
 - **vsFTPd 2.3.4** tiene un backdoor conocido pero en este caso no era el vector correcto.
 - **Samba 3.0.20** es la vulnerabilidad real de la máquina y da acceso directo como root.

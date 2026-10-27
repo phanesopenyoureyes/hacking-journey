@@ -1,9 +1,19 @@
-# Jerry — HackTheBox
-
-> **Dificultad:** Easy · **OS:** Windows · **Fecha:** Oct 14, 2026  
-> **Autor:** [@ph4n3s](https://github.com/phanesopenyoureyes)
-
 ---
+titulo: "Jerry"
+fecha: 2026-10-14
+plataforma: htb
+so: windows
+dificultad: Easy
+estado: pendiente
+tecnicas: [tomcat, credenciales-por-defecto, war-malicioso]
+herramientas: [nmap, msfvenom]
+---
+
+# Jerry
+
+## Resumen
+
+Servidor Apache Tomcat cuyo panel de gestión usa credenciales por defecto. Con ellas se despliega un `.war` malicioso que da una shell con privilegios de `SYSTEM`, ya que Tomcat corre como servicio.
 
 ## Índice
 1. [Reconocimiento](#1-reconocimiento)
@@ -137,3 +147,12 @@ Navegamos a las flags:
 ---
 
 *Write-up por [ph4n3s](https://github.com/phanesopenyoureyes) — seguiré mejorando conforme aprenda más.*
+
+## Mitigación
+
+Cambiar siempre las credenciales por defecto del panel de gestión de Tomcat y usar contraseñas robustas. Restringir el acceso a `/manager` por IP. Ejecutar Tomcat con una cuenta de servicio de privilegios mínimos, no como `SYSTEM`.
+
+## Qué he aprendido
+
+PENDIENTE
+

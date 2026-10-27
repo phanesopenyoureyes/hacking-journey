@@ -1,11 +1,19 @@
-# Nibbles (Easy Linux)
-
-**Author:** Ph4n3s
-**Fecha:** 22/10/2026
-**IP:** 10.129.96.84
-**Dificultad:** Easy / Linux
-
 ---
+titulo: "Nibbles"
+fecha: 2026-10-22
+plataforma: htb
+so: linux
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-web, fuzzing, carga-de-archivos, sudo-misconfig]
+herramientas: [nmap, ffuf, hydra, nc]
+---
+
+# Nibbles
+
+## Resumen
+
+Servidor web con Nibbleblog, vulnerable a subida de ficheros (CVE-2015-6967). Tras acceder al panel se sube una shell que da ejecución como `nibbler`, y un `sudo` sobre un script escribible (`monitor.sh`) permite escalar a root.
 
 ## 1. Enumeración
 
@@ -213,7 +221,11 @@ ROOT FLAG -> d9521cd9b5bc0e62ba70208666214f66
 
 ---
 
-## Resumen rápido
+## Mitigación
+
+Mantener Nibbleblog actualizado para cerrar la subida de ficheros. Usar credenciales robustas en el panel de administración. Revisar las reglas de `sudo` y que los scripts ejecutables como root no sean escribibles por el usuario.
+
+## Qué he aprendido
 
 **Qué era la máquina:** un blog personal con el CMS **Nibbleblog 4.0.3**, oculto tras una página estática, vulnerable a subida arbitraria de archivos (CVE-2015-6967) una vez dentro del panel de administración.
 

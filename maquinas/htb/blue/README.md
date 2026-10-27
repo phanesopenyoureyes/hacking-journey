@@ -1,8 +1,19 @@
-# Blue - Hack The Box | Write Up
-
-**Dificultad:** Easy | **OS:** Windows | **Autor:** Ph4n3s
-
 ---
+titulo: "Blue"
+fecha: 2026-10-16
+plataforma: htb
+so: windows
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-smb, ms17-010, eternalblue]
+herramientas: [nmap, metasploit]
+---
+
+# Blue
+
+## Resumen
+
+Máquina Windows vulnerable a EternalBlue (MS17-010) en el servicio SMBv1. La explotación del fallo concede directamente una shell con privilegios de `NT AUTHORITY\SYSTEM`, por lo que no hace falta escalada posterior.
 
 ## 1. Enumeración
 
@@ -98,7 +109,11 @@ type root.txt
 
 ---
 
-## Conclusión
+## Mitigación
+
+Aplicar el parche MS17-010 y, en general, mantener el sistema actualizado. Deshabilitar SMBv1, que está obsoleto y es el protocolo explotado. Segmentar la red para que el puerto 445 no sea accesible desde fuera de la red de confianza.
+
+## Qué he aprendido
 
 Una máquina muy buena para iniciarse. El vector de ataque es **EternalBlue (CVE-2017-0144)**, uno de los exploits más conocidos de la historia, responsable del ransomware WannaCry en 2017. Al ser Windows 7 sin parchear con SMB expuesto, el acceso directo como SYSTEM lo hace una máquina sin escalada de privilegios, perfecta para entender cómo funciona este tipo de vulnerabilidad.
 

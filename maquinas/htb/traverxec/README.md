@@ -1,11 +1,19 @@
-# Traverxec (Easy Linux)
-
-**Author:** Ph4n3s
-**Fecha:** 25/10/2026
-**IP:** 10.129.80.148
-**Dificultad:** Easy / Linux
-
 ---
+titulo: "Traverxec"
+fecha: 2026-10-25
+plataforma: htb
+so: linux
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-web, rce, crackeo-de-hash, sudo-misconfig, gtfobins]
+herramientas: [nmap, john, nc]
+---
+
+# Traverxec
+
+## Resumen
+
+Servidor web nostromo vulnerable a RCE (CVE-2019-16278). Da ejecución como `www-data`; desde ahí se obtiene un `.htpasswd` y una clave SSH cifrada que, crackeada, da acceso como `david`. Un `sudo` sobre `journalctl` permite escalar a root vía GTFOBins.
 
 ## 1. Enumeración
 
@@ -186,7 +194,11 @@ ROOT FLAG -> 786d5a52942ffcbc6bda07db118cb418
 
 ---
 
-## Resumen rápido
+## Mitigación
+
+Actualizar nostromo para cerrar el RCE. No almacenar hashes de contraseñas ni claves privadas en rutas accesibles por el servicio web, y proteger las claves SSH con passphrases robustas. Restringir `sudo`, en especial sobre `journalctl`, que puede lanzar un shell (ver GTFOBins).
+
+## Qué he aprendido
 
 **Qué era la máquina:** un servidor nostromo 1.9.6 vulnerable a RCE (CVE-2019-16278), cuya propia configuración filtraba credenciales que llevaban, en cadena, hasta una clave SSH y finalmente a un binario mal configurado en sudoers.
 

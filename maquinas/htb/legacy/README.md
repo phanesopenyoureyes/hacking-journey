@@ -1,10 +1,19 @@
-# Legacy — HTB Writeup
-
-**Autor:** Ph4n3s  
-**Dificultad:** Easy  
-**OS:** Windows XP  
-
 ---
+titulo: "Legacy"
+fecha: 2026-10-16
+plataforma: htb
+so: windows
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-smb, ms08-067, ms17-010]
+herramientas: [nmap, metasploit]
+---
+
+# Legacy
+
+## Resumen
+
+Windows XP vulnerable a fallos clásicos de SMB (MS08-067 / MS17-010). La explotación concede directamente una shell con privilegios de `SYSTEM`.
 
 ## 1. Enumeración
 
@@ -112,7 +121,11 @@ type root.txt
 
 ---
 
-## Conclusión
+## Mitigación
+
+Retirar Windows XP, sin soporte desde 2014. Aplicar los parches MS08-067 y MS17-010 y deshabilitar SMBv1. Aislar en la red cualquier sistema heredado que no pueda actualizarse.
+
+## Qué he aprendido
 
 Máquina sencilla pero muy didáctica para entender cómo funciona la explotación de SMB en sistemas sin parchear. El exploit `ms08_067_netapi` es prácticamente automático, lo que la hace ideal para iniciarse con Metasploit.
 

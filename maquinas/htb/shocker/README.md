@@ -1,11 +1,19 @@
-# Shocker (Easy Linux)
-
-**Author:** Ph4n3s
-**Fecha:** 20/10/2026
-**IP:** 10.129.78.142
-**Dificultad:** Easy / Linux
-
 ---
+titulo: "Shocker"
+fecha: 2026-10-20
+plataforma: htb
+so: linux
+dificultad: Easy
+estado: publicado
+tecnicas: [enumeracion-web, fuzzing, shellshock, sudo-misconfig, gtfobins]
+herramientas: [nmap, ffuf, nc]
+---
+
+# Shocker
+
+## Resumen
+
+Servidor web con un script CGI vulnerable a Shellshock (CVE-2014-6271). La inyección en la cabecera da ejecución como `shelly`, y un `sudo` sobre `perl` permite escalar a root vía GTFOBins.
 
 ## 1. Enumeración
 
@@ -141,7 +149,11 @@ Navegamos a `/root` y hacemos `cat` a `root.txt`. Después a `/home/shelly` y `c
 
 ---
 
-## Resumen rápido
+## Mitigación
+
+Parchear Bash para cerrar Shellshock. Deshabilitar CGI si no es imprescindible y evitar que los scripts CGI invoquen el shell. Restringir las reglas de `sudo`, en especial sobre intérpretes como `perl` (ver GTFOBins).
+
+## Qué he aprendido
 
 **Qué era la máquina:** un servidor web Apache que exponía un script CGI en Bash, vulnerable a Shellshock (CVE-2014-6271).
 
