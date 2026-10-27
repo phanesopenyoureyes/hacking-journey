@@ -16,6 +16,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [ServMon](facil/servmon/) | Windows | 2026-10-27 | `ftp-anonimo`, `directory-traversal`, `nvms-1000`, `reutilizacion-de-credenciales`, `nsclient-abuse` |
 | [Traverxec](facil/traverxec/) | Linux | 2026-10-25 | `enumeracion-web`, `rce`, `crackeo-de-hash`, `sudo-misconfig`, `gtfobins` |
 | [Optimum](facil/optimum/) | Windows | 2026-10-24 | `http-file-server`, `rce`, `kernel-exploit` |
 | [Devel](facil/devel/) | Windows | 2026-10-23 | `ftp-anonimo`, `carga-de-archivos`, `iis`, `kernel-exploit` |
