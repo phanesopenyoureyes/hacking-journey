@@ -150,7 +150,7 @@ ROOT FLAG -> e84dbb08663ab19315472bfb585a6ede
 USER FLAG -> bcd649fa3811b0c77561b89f131b64e4
 ```
 
-![Máquina Devel resuelta en HackTheBox](devel-pwned.png)
+![Máquina Devel resuelta en HackTheBox](capturas/devel-pwned.png)
 
 ---
 

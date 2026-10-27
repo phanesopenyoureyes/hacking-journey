@@ -47,7 +47,7 @@ PORT   STATE SERVICE VERSION
 
 Apache 2.4.18 es una versión de 2015, por lo que podría tener alguna vulnerabilidad conocida. Visitamos la web para ver de qué trata:
 
-![Página principal: Arrexel's Development Site, con un post sobre "phpbash"](bashed-pagina-web.png)
+![Página principal: Arrexel's Development Site, con un post sobre "phpbash"](capturas/bashed-pagina-web.png)
 
 Es el blog personal de "Arrexel". El primer post que aparece, titulado **phpbash**, es una pista importante: phpbash es una pseudo-shell en PHP de una sola línea pensada para pentesting, y el propio post dice que la desarrolló *"en este mismo servidor"* — es decir, probablemente esté alojada en algún directorio de esta web.
 
@@ -109,7 +109,7 @@ uploads                 [Status: 301, Size: 316, Words: 20, Lines: 10, Duration:
 
 Al entrar en `http://10.129.78.225/dev/` encontramos `phpbash.php`, la herramienta mencionada en el blog, ya desplegada y accesible sin autenticación. Es una pseudo-shell web que ejecuta comandos con los permisos del usuario del servidor (`www-data`):
 
-![Shell vía phpbash.php: navegación hasta /home/arrexel y lectura de user.txt](bashed-phpbash-user-flag.png)
+![Shell vía phpbash.php: navegación hasta /home/arrexel y lectura de user.txt](capturas/bashed-phpbash-user-flag.png)
 
 Navegando con ella llegamos a `/home/arrexel/user.txt`:
 

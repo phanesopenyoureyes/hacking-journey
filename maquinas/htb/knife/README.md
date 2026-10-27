@@ -78,7 +78,7 @@ Nmap done: 1 IP address (1 host up) scanned in 32.85 seconds
 
 Podemos observar varias cosas: primero en el puerto ssh nada de nada, pero hay una carpeta en la web que es la `/icons/`, de potencial interés, así que vamos a echarle un vistazo y si no, utilizar una herramienta de fuzzing para enumerar subdominios. Al principio parece ser una página de un centro médico.
 
-![Página web - Emergent Medical Idea](01-pagina-web.png)
+![Página web - Emergent Medical Idea](capturas/knife-01-pagina-web.png)
 
 Antes de hacer fuzz, vamos a enumerar con un curl la cabecera de la web:
 
@@ -94,7 +94,7 @@ Lo más importante es esto: `X-Powered-By: PHP/8.1.0-dev`, o sea, está escrita 
 
 La versión tiene una vulnerabilidad que es un backdoor. No es en sí una inyección en PHP, sino que es un backdoor ya hecho que tiene exploits ya creados, por ejemplo este: *PHP 8.1.0-dev - 'User-Agentt' Remote Code Execution* (`php/webapps/49933.py`).
 
-![Exploit-DB: PHP 8.1.0-dev User-Agentt RCE](02-exploit-db.png)
+![Exploit-DB: PHP 8.1.0-dev User-Agentt RCE](capturas/knife-02-exploit-db.png)
 
 ---
 
@@ -108,7 +108,7 @@ sudo python3 /usr/share/exploitdb/exploits/php/webapps/49933.py
 
 Me pide la url de la web, que sería `http://10.129.78.40:80/`, y me abre directamente la reverse.
 
-![Shell obtenida tras ejecutar el exploit](03-shell-james.png)
+![Shell obtenida tras ejecutar el exploit](capturas/knife-03-shell-james.png)
 
 ### 2.1 Escalada de privilegios y post explotación
 
@@ -128,11 +128,11 @@ Knife es una herramienta documentada que nos da directamente, con un comando, ac
 sudo knife exec -E "exec \"/bin/sh\""
 ```
 
-![Escalada de privilegios con knife y acceso root](04-privesc-knife.png)
+![Escalada de privilegios con knife y acceso root](capturas/knife-04-privesc-knife.png)
 
 Tras ello navegamos a `/home/james` y hacemos `cat` a `user.txt`, obteniendo el siguiente output: `0b5d83ce1592f91e60061603b260b1f8`. Y luego a `/root` y hago `cat` a `root.txt`, que me da la flag: `c886b9a3411dc5c171acf5f86d12e2bb`.
 
-![Shell como root navegando el filesystem](05-root-shell.png)
+![Shell como root navegando el filesystem](capturas/knife-05-root-shell.png)
 
 ---
 
@@ -186,7 +186,7 @@ Luego escucharíamos con un `nc -lnvp 4444` en el puerto 4444 (listen, numeric, 
 
 ---
 
-![Knife - Pwned](06-pwned.png)
+![Knife - Pwned](capturas/knife-06-pwned.png)
 
 **Flags:**
 - `user.txt` → `0b5d83ce1592f91e60061603b260b1f8`

