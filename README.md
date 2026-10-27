@@ -31,9 +31,11 @@ muestra de cómo trabajo y documento.
 
 | Área | Contenido |
 | --- | --- |
-| [`maquinas/htb/`](./maquinas/htb) | Writeups de máquinas de Hack The Box |
-| [`.plantillas/`](./.plantillas) | Plantilla común de cada writeup |
-| [`scripts/`](./scripts) | Validador de writeups y generador del índice |
+| [`maquinas/htb/`](./maquinas/htb) | Writeups de Hack The Box, por dificultad: `facil/`, `media/`, `dificil/`, `insane/` |
+| [`certificaciones/`](./certificaciones) | Certificaciones obtenidas |
+| [`herramientas/`](./herramientas) | Herramientas propias |
+| [`.plantillas/`](./.plantillas) | Plantillas de writeup, certificación y herramienta |
+| [`scripts/`](./scripts) | Scripts para crear contenido, validar, y generar índice y sitio |
 | [`docs/`](./docs) | Fuente del sitio web publicado |
 
 ## Competencias que se trabajan
@@ -53,20 +55,22 @@ muestra de cómo trabajo y documento.
 
 <!-- INDICE:INICIO -->
 
-| Máquina | SO | Dificultad | Fecha | Técnicas |
-| --- | --- | --- | --- | --- |
-| [Traverxec](maquinas/htb/traverxec/) | Linux | Easy | 2026-10-25 | `enumeracion-web`, `rce`, `crackeo-de-hash`, `sudo-misconfig`, `gtfobins` |
-| [Optimum](maquinas/htb/optimum/) | Windows | Easy | 2026-10-24 | `http-file-server`, `rce`, `kernel-exploit` |
-| [Devel](maquinas/htb/devel/) | Windows | Easy | 2026-10-23 | `ftp-anonimo`, `carga-de-archivos`, `iis`, `kernel-exploit` |
-| [Nibbles](maquinas/htb/nibbles/) | Linux | Easy | 2026-10-22 | `enumeracion-web`, `fuzzing`, `carga-de-archivos`, `sudo-misconfig` |
-| [Bashed](maquinas/htb/bashed/) | Linux | Easy | 2026-10-21 | `enumeracion-web`, `exposicion-de-herramienta`, `sudo-misconfig`, `cron-abuse` |
-| [Shocker](maquinas/htb/shocker/) | Linux | Easy | 2026-10-20 | `enumeracion-web`, `fuzzing`, `shellshock`, `sudo-misconfig`, `gtfobins` |
-| [Knife](maquinas/htb/knife/) | Linux | Easy | 2026-10-19 | `enumeracion-web`, `php-backdoor`, `sudo-misconfig`, `gtfobins` |
-| [Granny](maquinas/htb/granny/) | Windows | Easy | 2026-10-18 | `iis`, `webdav`, `buffer-overflow`, `token-impersonation` |
-| [Blue](maquinas/htb/blue/) | Windows | Easy | 2026-10-16 | `enumeracion-smb`, `ms17-010`, `eternalblue` |
-| [Legacy](maquinas/htb/legacy/) | Windows | Easy | 2026-10-16 | `enumeracion-smb`, `ms08-067`, `ms17-010` |
-| [Lame](maquinas/htb/lame/) | Linux | Easy | 2026-10-15 | `enumeracion-smb`, `samba`, `rce` |
-| [Validation](maquinas/htb/validation/) | Linux | Easy | 2026-10-12 | `inyeccion-sql`, `webshell`, `reutilizacion-de-credenciales` |
+### Fácil
+
+| Máquina | SO | Fecha | Técnicas |
+| --- | --- | --- | --- |
+| [Traverxec](maquinas/htb/facil/traverxec/) | Linux | 2026-10-25 | `enumeracion-web`, `rce`, `crackeo-de-hash`, `sudo-misconfig`, `gtfobins` |
+| [Optimum](maquinas/htb/facil/optimum/) | Windows | 2026-10-24 | `http-file-server`, `rce`, `kernel-exploit` |
+| [Devel](maquinas/htb/facil/devel/) | Windows | 2026-10-23 | `ftp-anonimo`, `carga-de-archivos`, `iis`, `kernel-exploit` |
+| [Nibbles](maquinas/htb/facil/nibbles/) | Linux | 2026-10-22 | `enumeracion-web`, `fuzzing`, `carga-de-archivos`, `sudo-misconfig` |
+| [Bashed](maquinas/htb/facil/bashed/) | Linux | 2026-10-21 | `enumeracion-web`, `exposicion-de-herramienta`, `sudo-misconfig`, `cron-abuse` |
+| [Shocker](maquinas/htb/facil/shocker/) | Linux | 2026-10-20 | `enumeracion-web`, `fuzzing`, `shellshock`, `sudo-misconfig`, `gtfobins` |
+| [Knife](maquinas/htb/facil/knife/) | Linux | 2026-10-19 | `enumeracion-web`, `php-backdoor`, `sudo-misconfig`, `gtfobins` |
+| [Granny](maquinas/htb/facil/granny/) | Windows | 2026-10-18 | `iis`, `webdav`, `buffer-overflow`, `token-impersonation` |
+| [Blue](maquinas/htb/facil/blue/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms17-010`, `eternalblue` |
+| [Legacy](maquinas/htb/facil/legacy/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms08-067`, `ms17-010` |
+| [Lame](maquinas/htb/facil/lame/) | Linux | 2026-10-15 | `enumeracion-smb`, `samba`, `rce` |
+| [Validation](maquinas/htb/facil/validation/) | Linux | 2026-10-12 | `inyeccion-sql`, `webshell`, `reutilizacion-de-credenciales` |
 
 <!-- INDICE:FIN -->
 

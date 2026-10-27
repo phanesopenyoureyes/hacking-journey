@@ -10,7 +10,7 @@ import re
 import sys
 
 PAT = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
-IGN = (".agents/", "site/", "docs/maquinas/", "node_modules/")
+IGN = (".agents/", "site/", "docs/", "node_modules/")
 
 
 def main():
