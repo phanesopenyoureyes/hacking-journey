@@ -10,7 +10,5 @@ la estructura sea siempre la misma.
 
 ## Contacto
 
-- **Correo:** [frangutierrezgarcia170708@gmail.com](mailto:frangutierrezgarcia170708@gmail.com)
-- **GitHub:** [@phanesopenyoureyes](https://github.com/phanesopenyoureyes)
 - **Hack The Box:** [ph4n3s](https://app.hackthebox.com/users/4011018)
 - **LinkedIn:** [Francisco Gutiérrez García](https://www.linkedin.com/in/francisco-gutierrez-garcia)
