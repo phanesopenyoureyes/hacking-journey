@@ -38,12 +38,26 @@ pide en una sesión distinta y termina en un commit revisable.
 ## Lo que nunca se publica
 
 - Credenciales: contraseñas, hashes, claves SSH o privadas, ficheros `.ovpn`, tokens.
-- IPs internas del instituto y nombres o datos de compañeros y profesores.
+- IPs internas del instituto, de casa (`192.168.x.x`) o la IP pública propia, y
+  nombres o datos de compañeros y profesores.
+
+Las IPs del laboratorio de HTB (`10.129.x.x`, `10.10.10.x` y la propia de la VPN,
+`10.10.14-16.x`) **sí se pueden publicar**: son privadas, solo se alcanzan desde la VPN
+de HTB y se reasignan entre usuarios. Es lo habitual en cualquier writeup.
+
+Las credenciales que forman parte de la propia máquina (la contraseña por defecto que
+se explota, el hash que se crackea) son contenido del writeup y se pueden mostrar.
+Lo que nunca se publica son credenciales propias.
 - Writeups de máquinas **activas** de HTB: se marcan `estado: privado` y se excluyen
   del índice y del sitio.
 
 Si se encuentra un secreto ya commiteado en el historial: **parar todo y avisar** antes
 de tocar nada.
+
+## Licencias
+
+- Textos y writeups: **CC BY 4.0**.
+- Código (`scripts/` y demás utilidades): **Apache 2.0**.
 
 ## Convenciones (a partir de la fase 1)
 
