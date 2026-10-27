@@ -1,0 +1,15 @@
+# Reglas de formato para los writeups. Se relajan las que chocan con el estilo:
+# líneas largas en bloques de comandos y HTML en el README.
+config:
+  default: true
+  MD013: false   # longitud de línea
+  MD033: false   # HTML embebido (badges del README)
+  MD041: false   # el front-matter precede al primer encabezado
+  MD024:
+    siblings_only: true   # permite subtítulos repetidos en secciones distintas
+globs:
+  - "**/*.md"
+ignores:
+  - ".agents/**"
+  - "site/**"
+  - "LICENSE*"

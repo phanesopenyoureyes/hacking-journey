@@ -1,0 +1,33 @@
+# Entornos y dependencias
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+node_modules/
+
+# Sitio generado
+site/
+.cache/
+
+# Ficheros sensibles: nunca deben entrar al repo
+*.ovpn
+*.pem
+*.kdbx
+id_rsa
+id_rsa.*
+*.key
+.env
+.env.*
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Sitio generado por scripts/generar-sitio.py
+docs/maquinas/
+docs/index.md

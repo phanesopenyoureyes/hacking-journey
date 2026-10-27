@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  comprobaciones:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # gitleaks necesita el historial completo
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validar writeups
+        run: python scripts/validar-writeups.py
+
+      - name: Comprobar enlaces relativos
+        run: python scripts/comprobar-enlaces.py
+
+      - name: Buscar secretos propios
+        run: bash scripts/buscar-secretos.sh
+
+      - name: Comprobar que el índice está regenerado
+        run: |
+          python scripts/generar-indice.py
+          git diff --exit-code -- README.md maquinas/htb/README.md
+
+      - name: Escaneo de secretos (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comprobar que el sitio construye
+        run: |
+          pip install -r requirements.txt
+          python scripts/generar-sitio.py
+          mkdocs build --strict

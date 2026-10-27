@@ -1,0 +1,19 @@
+Los writeups y textos de este repositorio (todos los ficheros .md y las
+imágenes que los acompañan, bajo maquinas/ y docs/) se publican bajo la
+licencia Creative Commons Reconocimiento 4.0 Internacional (CC BY 4.0).
+
+SPDX-License-Identifier: CC-BY-4.0
+Copyright (c) 2026 Francisco Gutiérrez García
+
+Eres libre de compartir y adaptar el material para cualquier finalidad,
+incluso comercial, siempre que des el crédito adecuado al autor, enlaces a
+la licencia e indiques si se han hecho cambios.
+
+Texto legal completo de la licencia:
+https://creativecommons.org/licenses/by/4.0/legalcode.es
+
+Resumen legible:
+https://creativecommons.org/licenses/by/4.0/deed.es
+
+El código del repositorio (carpeta scripts/ y ficheros de configuración) NO
+se rige por esta licencia, sino por Apache 2.0; ver el fichero LICENSE-code.

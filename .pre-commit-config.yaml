@@ -1,0 +1,35 @@
+# Comprobaciones antes de cada commit. Instalar con: pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: validar-writeups
+        name: Validar metadatos y secciones de los writeups
+        entry: python scripts/validar-writeups.py
+        language: system
+        pass_filenames: false
+        files: ^maquinas/.*\.md$
+
+      - id: comprobar-enlaces
+        name: Comprobar enlaces relativos
+        entry: python scripts/comprobar-enlaces.py
+        language: system
+        pass_filenames: false
+        files: \.md$
+
+      - id: buscar-secretos
+        name: Buscar secretos propios (claves, .ovpn, tokens)
+        entry: bash scripts/buscar-secretos.sh
+        language: system
+        pass_filenames: false
+
+      - id: regenerar-indice
+        name: Regenerar el índice y comprobar que está al día
+        entry: bash -c 'python scripts/generar-indice.py >/dev/null && git diff --exit-code -- README.md maquinas/htb/README.md'
+        language: system
+        pass_filenames: false
+        files: ^maquinas/.*\.md$
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
