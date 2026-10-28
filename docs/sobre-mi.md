@@ -3,7 +3,8 @@
 <div class="perfil" markdown>
 ![Foto de perfil de Francisco Gutiérrez García](https://github.com/phanesopenyoureyes.png?size=256){ loading=lazy }
 
-**Francisco Gutiérrez García** · *ph4n3s*<br>
+**Francisco Gutiérrez García**<br>
+Alias **ph4n3s** — mi identificador en Hack The Box y plataformas de seguridad.<br>
 Estudiante de ASIR en formación de seguridad ofensiva.
 </div>
 

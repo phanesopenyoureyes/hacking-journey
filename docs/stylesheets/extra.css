@@ -95,3 +95,10 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   .md-content__inner > * { animation: none; }
   a, .md-nav__link, .md-button, .md-typeset .grid.cards > ul > li { transition: none; }
 }
+
+/* Subtítulo de la portada con el alias */
+.md-typeset .hero-sub {
+  margin-top: -.4rem;
+  font-size: 1.05rem;
+  color: var(--md-default-fg-color--light);
+}

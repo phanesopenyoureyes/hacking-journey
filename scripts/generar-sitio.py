@@ -134,7 +134,8 @@ def main():
     )
 
     index = (
-        "# Francisco Gutiérrez García · ph4n3s\n\n"
+        "# Francisco Gutiérrez García\n\n"
+        "Seguridad ofensiva · alias **ph4n3s** en Hack The Box.\n{ .hero-sub }\n\n"
         "Writeups de máquinas **retiradas** de Hack The Box, certificaciones y "
         "herramientas, documentados paso a paso como parte de mi formación en "
         "seguridad ofensiva. Cada writeup explica el *porqué* de cada paso y cierra "
