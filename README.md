@@ -64,6 +64,7 @@ muestra de cómo trabajo y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Buff](maquinas/htb/facil/buff/) | Windows | 2026-10-28 | `enumeracion-web`, `file-upload`, `rce`, `pivoting`, `chisel`, `buffer-overflow` |
 | [ServMon](maquinas/htb/facil/servmon/) | Windows | 2026-10-27 | `ftp-anonimo`, `directory-traversal`, `nvms-1000`, `reutilizacion-de-credenciales`, `nsclient-abuse` |
 | [Traverxec](maquinas/htb/facil/traverxec/) | Linux | 2026-10-25 | `enumeracion-web`, `rce`, `crackeo-de-hash`, `sudo-misconfig`, `gtfobins` |
 | [Optimum](maquinas/htb/facil/optimum/) | Windows | 2026-10-24 | `http-file-server`, `rce`, `kernel-exploit` |
