@@ -10,20 +10,19 @@ theme:
   name: material
   language: es
   icon:
-    logo: material/spider
     repo: fontawesome/brands/github
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: green
-      accent: light green
+      primary: indigo
+      accent: purple
       toggle:
         icon: material/weather-night
         name: Cambiar a modo oscuro
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: green
-      accent: light green
+      primary: indigo
+      accent: purple
       toggle:
         icon: material/weather-sunny
         name: Cambiar a modo claro
