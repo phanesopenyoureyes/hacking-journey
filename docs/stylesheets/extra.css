@@ -1,40 +1,56 @@
-/* Personalización visual del portfolio. */
+/* Personalización visual del portfolio.
+   Paleta moderna índigo / violeta / cian, con claro y oscuro. */
 
 :root {
-  --md-primary-fg-color: #1a8f3c;
-  --md-accent-fg-color: #9FEF00;         /* verde HTB */
+  --brand-1: #4f46e5;   /* índigo */
+  --brand-2: #7c3aed;   /* violeta */
+  --brand-3: #06b6d4;   /* cian */
+  --brand-4: #ec4899;   /* rosa */
+  --md-primary-fg-color: var(--brand-1);
+  --md-accent-fg-color: var(--brand-2);
 }
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #0b3d20;
-  --md-accent-fg-color: #9FEF00;
-  --md-typeset-a-color: #9FEF00;
+  --md-primary-fg-color: #312e81;
+  --md-accent-fg-color: #a78bfa;
+  --md-typeset-a-color: #a5b4fc;
 }
 
-/* Transiciones suaves en toda la interfaz */
-a, .md-nav__link, .md-button, .md-typeset .md-button {
+/* Cabecera y pestañas con degradado en vez de color plano */
+.md-header,
+.md-tabs {
+  background: linear-gradient(90deg, var(--brand-1) 0%, var(--brand-2) 55%, var(--brand-3) 100%);
+}
+
+/* Transiciones suaves */
+a, .md-nav__link, .md-button, .md-typeset .md-button,
+.md-typeset .grid.cards > ul > li {
   transition: color .2s ease, background-color .2s ease,
-              transform .2s ease, box-shadow .2s ease;
+              transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
-/* Tarjetas de la portada: elevación al pasar el ratón */
-.md-typeset .grid.cards > ul > li,
-.md-typeset .grid.cards > :is(ul) > :is(li) {
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: .7rem;
-  padding: 1rem;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-}
-.md-typeset .grid.cards > ul > li:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 .4rem 1.2rem rgba(0,0,0,.18);
-  border-color: var(--md-accent-fg-color);
-}
-
-/* Título de la portada con un degradado sutil */
+/* Título principal más marcado */
 .md-typeset h1 {
   font-weight: 800;
   letter-spacing: -.02em;
 }
+
+/* Tarjetas de la portada: elevación al pasar el ratón */
+.md-typeset .grid.cards > ul > li {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .8rem;
+  padding: 1rem;
+}
+.md-typeset .grid.cards > ul > li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 .5rem 1.4rem rgba(79, 70, 229, .22);
+  border-color: var(--md-accent-fg-color);
+}
+
+/* Un color distinto para el icono de cada sección de la portada */
+.md-typeset .grid.cards > ul > li:nth-child(1) svg { fill: var(--brand-1); }
+.md-typeset .grid.cards > ul > li:nth-child(2) svg { fill: var(--brand-2); }
+.md-typeset .grid.cards > ul > li:nth-child(3) svg { fill: var(--brand-3); }
+.md-typeset .grid.cards > ul > li:nth-child(4) svg { fill: var(--brand-4); }
 
 /* Foto de perfil */
 .perfil {
@@ -50,7 +66,7 @@ a, .md-nav__link, .md-button, .md-typeset .md-button {
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--md-accent-fg-color);
-  box-shadow: 0 .3rem 1rem rgba(0,0,0,.25);
+  box-shadow: 0 .3rem 1rem rgba(0, 0, 0, .25);
 }
 
 /* Filas de tabla con resalte al pasar el ratón */
@@ -58,10 +74,10 @@ a, .md-nav__link, .md-button, .md-typeset .md-button {
   transition: background-color .15s ease;
 }
 .md-typeset table:not([class]) tbody tr:hover {
-  background-color: var(--md-accent-fg-color--transparent, rgba(159,239,0,.08));
+  background-color: rgba(124, 58, 237, .08);
 }
 
-/* Etiquetas de técnicas (código en línea) un poco más marcadas */
+/* Etiquetas de técnicas (código en línea) */
 .md-typeset table code {
   background-color: var(--md-code-bg-color);
   border-radius: .4rem;
@@ -77,5 +93,5 @@ a, .md-nav__link, .md-button, .md-typeset .md-button {
 }
 @media (prefers-reduced-motion: reduce) {
   .md-content__inner > * { animation: none; }
-  a, .md-nav__link, .md-button { transition: none; }
+  a, .md-nav__link, .md-button, .md-typeset .grid.cards > ul > li { transition: none; }
 }
