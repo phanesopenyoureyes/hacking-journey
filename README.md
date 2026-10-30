@@ -33,6 +33,7 @@ muestra de cómo trabajo y documento.
 | --- | --- |
 | [`maquinas/htb/`](./maquinas/htb) | Writeups de Hack The Box, por dificultad: `facil/`, `media/`, `dificil/`, `insane/` |
 | [`certificaciones/`](./certificaciones) | Certificaciones obtenidas |
+| [`preparacion/`](./preparacion) | Guías de preparación de certificaciones |
 | [`herramientas/`](./herramientas) | Herramientas propias |
 | [`.plantillas/`](./.plantillas) | Plantillas de writeup, certificación y herramienta |
 | [`scripts/`](./scripts) | Scripts para crear contenido, validar, y generar índice y sitio |
