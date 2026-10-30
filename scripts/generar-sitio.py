@@ -90,22 +90,24 @@ def seccion_maquinas():
     return total
 
 
-def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji):
-    """Genera una sección tipo lista (certificaciones, herramientas)."""
+def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, vacio=None):
+    """Genera una sección tipo lista (certificaciones, herramientas, preparación)."""
     items = publicados(f"{carpeta}/*/README.md")
     base = f"docs/{carpeta}"
     os.makedirs(base, exist_ok=True)
     for d in items:
         shutil.copytree(d["_src"], f"{base}/{d['_slug']}")
     if items:
+        intro_txt = intro.format(n=len(items)) if intro else f"Mis {titulo.lower()} ({len(items)})."
         filas = ["| " + " | ".join(c[0] for c in columnas) + " |",
                  "| " + " | ".join("---" for _ in columnas) + " |"]
         for d in items:
             celdas = [c[1](d) for c in columnas]
             filas.append("| " + " | ".join(celdas) + " |")
-        cuerpo = f"# {emoji} {titulo}\n\nMis {titulo.lower()} ({len(items)}).\n\n" + "\n".join(filas) + "\n"
+        cuerpo = f"# {emoji} {titulo}\n\n{intro_txt}\n\n" + "\n".join(filas) + "\n"
     else:
-        cuerpo = f"# {emoji} {titulo}\n\nAún no hay {titulo.lower()} publicadas. Se añadirán aquí según las vaya documentando.\n"
+        vacio_txt = vacio or f"Aún no hay {titulo.lower()} publicadas. Se añadirán aquí según las vaya documentando."
+        cuerpo = f"# {emoji} {titulo}\n\n{vacio_txt}\n"
     escribir(f"{base}/index.md", cuerpo)
     pages = f"title: {titulo}\nnav:\n  - index.md\n" + "".join(f"  - {d['_slug']}\n" for d in items)
     escribir(f"{base}/.pages", pages)
@@ -113,7 +115,7 @@ def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji):
 
 
 def main():
-    for d in ("docs/maquinas", "docs/certificaciones", "docs/herramientas"):
+    for d in ("docs/maquinas", "docs/certificaciones", "docs/herramientas", "docs/preparacion"):
         if os.path.isdir(d):
             shutil.rmtree(d)
 
@@ -132,6 +134,14 @@ def main():
          ("Fecha", lambda d: d.get("fecha", ""))],
         "🛠️",
     )
+    n_prep = seccion_simple(
+        "preparacion", "Preparación para certificaciones", "preparación",
+        [("Certificación", lambda d: f"[{d['titulo']}]({d['_slug']}/README.md)"),
+         ("Entidad", lambda d: d.get("entidad", ""))],
+        "📚",
+        intro="Guías y recursos para preparar certificaciones de seguridad ofensiva ({n}).",
+        vacio="Aún no hay guías de preparación publicadas. Se añadirán aquí según prepare cada certificación.",
+    )
 
     index = (
         "# Francisco Gutiérrez García\n\n"
@@ -146,6 +156,8 @@ def main():
         f"    ---\n\n    {n_maq} máquinas resueltas, agrupadas por dificultad (Fácil, Media, Difícil, Insane).\n\n"
         f"- :material-certificate:{{ .lg .middle }} **[Certificaciones](certificaciones/)**\n\n"
         f"    ---\n\n    {n_cert} certificaciones publicadas.\n\n"
+        f"- :material-book-open-variant:{{ .lg .middle }} **[Preparación para certificaciones](preparacion/)**\n\n"
+        f"    ---\n\n    {n_prep} guías de preparación con recursos y temas clave.\n\n"
         f"- :material-tools:{{ .lg .middle }} **[Herramientas](herramientas/)**\n\n"
         f"    ---\n\n    {n_herr} herramientas propias publicadas.\n\n"
         "- :material-account:{ .lg .middle } **[Sobre mí](sobre-mi/)**\n\n"
@@ -153,7 +165,7 @@ def main():
         "</div>\n"
     )
     escribir("docs/index.md", index)
-    print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, {n_herr} herramientas")
+    print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, {n_prep} preparaciones, {n_herr} herramientas")
 
 
 if __name__ == "__main__":

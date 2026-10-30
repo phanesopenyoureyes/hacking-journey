@@ -16,6 +16,7 @@ El repo tiene tres tipos de contenido, todos con el mismo flujo (carpeta +
   `facil`, `media`, `dificil` o `insane`.
 - **Certificaciones**: `certificaciones/<slug>/`.
 - **Herramientas**: `herramientas/<slug>/`.
+- **Preparación de certificaciones**: `preparacion/<slug>/`.
 
 Solo el contenido en `estado: publicado` aparece en el sitio y en los índices.
 El sitio (MkDocs Material) agrupa las máquinas por dificultad en menús
@@ -85,6 +86,7 @@ Casi todo lo que se pide es una de estas cosas:
 | Añadir un writeup | `scripts/nuevo-writeup.sh <nombre> <dificultad>` (facil\|media\|dificil\|insane) crea la carpeta con la plantilla. Rellenar el front-matter y pedir al autor el texto técnico; no redactarlo por él. |
 | Añadir una certificación | `scripts/nueva-certificacion.sh <nombre>`. |
 | Añadir una herramienta | `scripts/nueva-herramienta.sh <nombre>`. |
+| Añadir una preparación de cert | `scripts/nueva-preparacion.sh <nombre>`. |
 | Publicar los cambios | Pasar el validador y el comprobador de enlaces, commit, push, y comprobar que el workflow de Pages acaba en verde. |
 | Actualizar el índice | `python scripts/generar-indice.py`. Nunca editar a mano las tablas entre los marcadores. |
 | Cambiar el aspecto del sitio | Solo `mkdocs.yml`. No tocar las plantillas del tema. |

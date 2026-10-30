@@ -31,6 +31,11 @@ TIPOS = {
         ["titulo", "fecha", "tipo", "estado", "temas"],
         ["que hace", "uso"],
     ),
+    "preparacion": (
+        "preparacion/*/README.md",
+        ["titulo", "fecha", "entidad", "estado", "temas"],
+        ["resumen", "recursos"],
+    ),
 }
 
 
