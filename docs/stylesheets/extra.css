@@ -102,3 +102,28 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   font-size: 1.05rem;
   color: var(--md-default-fg-color--light);
 }
+
+/* Imagen de certificado: grande, centrada y clicable */
+.md-typeset .cert-img {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  margin: .5rem auto 1rem;
+  border-radius: .7rem;
+  box-shadow: 0 .5rem 1.4rem rgba(0, 0, 0, .28);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.md-typeset a:hover .cert-img {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 .8rem 2rem rgba(79, 70, 229, .3);
+}
+.md-typeset .cert-pie {
+  text-align: center;
+  font-size: .8rem;
+  color: var(--md-default-fg-color--light);
+  margin-top: -.4rem;
+}
+/* Botones centrados bajo el certificado */
+.md-typeset .cert-img + p {
+  text-align: center;
+}

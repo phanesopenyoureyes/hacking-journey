@@ -3,13 +3,19 @@ titulo: "eJPT — Junior Penetration Tester"
 fecha: 2026-10-30
 entidad: "INE Security (eLearnSecurity)"
 estado: publicado
-enlace: "https://certs.ine.com/8e06fa35-b83f-44bb-b02c-2d12024fd260"
+enlace: "https://certs.ine.com/8e06fa35-b83f-44bb-b02c-2d12024fd260#acc.2epksVSN"
 temas: [pentesting, redes, web, enumeracion]
 ---
 
 # eJPT — Junior Penetration Tester
 
-[![Credencial verificable](https://img.shields.io/badge/Credencial-verificable-7c3aed?style=for-the-badge&logo=verizon&logoColor=white)](https://certs.ine.com/8e06fa35-b83f-44bb-b02c-2d12024fd260)
+[![Certificado eJPT de Francisco Gutiérrez García, emitido por INE Security](capturas/ejpt-certificado.png){ .cert-img }](https://certs.ine.com/8e06fa35-b83f-44bb-b02c-2d12024fd260#acc.2epksVSN)
+
+[:material-shield-check: Verificar credencial](https://certs.ine.com/8e06fa35-b83f-44bb-b02c-2d12024fd260#acc.2epksVSN){ .md-button .md-button--primary }
+[:material-school: INE Security](https://ine.com/learning/certifications/internal/elearnsecurity-junior-penetration-tester-cert){ .md-button }
+
+*Haz clic en el certificado para verificarlo en INE.*
+{ .cert-pie }
 
 ## Resumen
 
@@ -20,7 +26,8 @@ nivel inicial en pruebas de penetración.
 - **Entidad emisora:** INE Security (eLearnSecurity)
 - **Obtenida:** 30 de octubre de 2026
 - **Válida hasta:** 30 de octubre de 2029
-- **Verificación:** [certs.ine.com](https://certs.ine.com/8e06fa35-b83f-44bb-b02c-2d12024fd260)
+- **ID de certificación:** 198762124
+- **Verificación:** [certs.ine.com](https://certs.ine.com/8e06fa35-b83f-44bb-b02c-2d12024fd260#acc.2epksVSN)
 
 ## Qué cubre
 
