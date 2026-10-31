@@ -65,6 +65,7 @@ muestra de cómo trabajo y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Antique](maquinas/htb/facil/antique/) | Linux | 2026-10-31 | `snmp`, `telnet`, `cups`, `lectura-de-ficheros`, `cve` |
 | [Irked](maquinas/htb/facil/irked/) | Linux | 2026-10-30 | `enumeracion-web`, `unrealircd-backdoor`, `esteganografia`, `suid`, `path-hijacking` |
 | [Buff](maquinas/htb/facil/buff/) | Windows | 2026-10-28 | `enumeracion-web`, `file-upload`, `rce`, `pivoting`, `chisel`, `buffer-overflow` |
 | [ServMon](maquinas/htb/facil/servmon/) | Windows | 2026-10-27 | `ftp-anonimo`, `directory-traversal`, `nvms-1000`, `reutilizacion-de-credenciales`, `nsclient-abuse` |
