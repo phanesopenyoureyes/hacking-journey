@@ -16,6 +16,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Bank](facil/bank/) | Linux | 2026-11-01 | `dns`, `vhosts`, `enumeracion-web`, `carga-de-archivos`, `suid` |
 | [Antique](facil/antique/) | Linux | 2026-10-31 | `snmp`, `telnet`, `cups`, `lectura-de-ficheros`, `cve` |
 | [Irked](facil/irked/) | Linux | 2026-10-30 | `enumeracion-web`, `unrealircd-backdoor`, `esteganografia`, `suid`, `path-hijacking` |
 | [Buff](facil/buff/) | Windows | 2026-10-28 | `enumeracion-web`, `file-upload`, `rce`, `pivoting`, `chisel`, `buffer-overflow` |
