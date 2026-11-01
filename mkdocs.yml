@@ -9,8 +9,8 @@ docs_dir: docs
 theme:
   name: material
   language: es
-  logo: assets/logo.svg
-  favicon: assets/favicon.svg
+  logo: assets/logo.png
+  favicon: assets/logo.png
   icon:
     repo: fontawesome/brands/github
   palette:
