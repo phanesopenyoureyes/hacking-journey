@@ -7,9 +7,12 @@ dificultad: Fácil
 estado: publicado
 tecnicas: [ftp-anonimo, directory-traversal, nvms-1000, reutilizacion-de-credenciales, nsclient-abuse]
 herramientas: [nmap, ffuf, metasploit, ssh]
+htb: "https://app.hackthebox.com/machines/ServMon"
 ---
 
 # ServMon
+
+[![Icono de la máquina ServMon en Hack The Box](capturas/servmon-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/ServMon)
 
 ## Resumen
 

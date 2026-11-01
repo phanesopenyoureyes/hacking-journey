@@ -7,9 +7,12 @@ dificultad: Easy
 estado: pendiente        # publicado | privado | pendiente
 tecnicas: [enumeracion-web, sudo-misconfig]
 herramientas: [nmap, nc]
+htb: "https://app.hackthebox.com/machines/Nombre"  # enlace a la máquina en HTB
 ---
 
 # Nombre de la máquina
+
+[![Icono de la máquina en Hack The Box](capturas/icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Nombre)
 
 ## Resumen
 

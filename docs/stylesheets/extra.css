@@ -127,3 +127,25 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
 .md-typeset .cert-img + p {
   text-align: center;
 }
+
+/* Icono de la máquina (clicable, lleva a HTB) */
+.md-typeset .maquina-icono {
+  display: block;
+  width: 128px;
+  height: 128px;
+  margin: .3rem auto 1.2rem;
+  border-radius: 50%;
+  box-shadow: 0 .4rem 1.1rem rgba(0, 0, 0, .3);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.md-typeset a:hover .maquina-icono {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 .7rem 1.6rem rgba(79, 70, 229, .35);
+}
+.md-typeset .maquina-icono + em,
+.md-typeset p:has(> .maquina-icono) + p em {
+  display: block;
+  text-align: center;
+  font-size: .8rem;
+  color: var(--md-default-fg-color--light);
+}

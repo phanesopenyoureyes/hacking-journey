@@ -7,9 +7,12 @@ dificultad: Fácil
 estado: publicado
 tecnicas: [snmp, telnet, cups, lectura-de-ficheros, cve]
 herramientas: [nmap, snmpwalk, telnet, xxd, nc]
+htb: "https://app.hackthebox.com/machines/Antique"
 ---
 
 # Antique
+
+[![Icono de la máquina Antique en Hack The Box](capturas/antique-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Antique)
 
 ## Resumen
 
