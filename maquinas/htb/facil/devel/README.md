@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [ftp-anonimo, carga-de-archivos, iis, kernel-exploit]
 herramientas: [nmap, msfvenom]
+htb: "https://app.hackthebox.com/machines/Devel"
 ---
 
 # Devel
+
+[![Icono de la máquina Devel en Hack The Box](capturas/devel-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Devel)
 
 ## Resumen
 

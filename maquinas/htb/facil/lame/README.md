@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-smb, samba, rce]
 herramientas: [nmap, metasploit]
+htb: "https://app.hackthebox.com/machines/Lame"
 ---
 
 # Lame
+
+[![Icono de la máquina Lame en Hack The Box](capturas/lame-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Lame)
 
 ## Resumen
 

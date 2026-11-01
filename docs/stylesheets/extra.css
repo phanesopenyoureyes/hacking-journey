@@ -128,6 +128,164 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   text-align: center;
 }
 
+/* ===== Ficha interactiva de máquina (cabecera del writeup) ===== */
+.md-typeset .ficha {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  margin: .4rem 0 1.8rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: 1rem;
+  background:
+    linear-gradient(var(--md-default-bg-color), var(--md-default-bg-color)) padding-box,
+    linear-gradient(120deg, var(--brand-1), var(--brand-2) 50%, var(--brand-3)) border-box;
+  border: 2px solid transparent;
+  box-shadow: 0 .5rem 1.6rem rgba(79, 70, 229, .12);
+}
+.md-typeset .ficha__ico {
+  flex: 0 0 auto;
+  display: block;
+  line-height: 0;
+}
+.md-typeset .ficha__ico img {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  box-shadow: 0 .4rem 1.1rem rgba(0, 0, 0, .3);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.md-typeset a.ficha__ico:hover img {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 .8rem 1.8rem rgba(79, 70, 229, .4);
+}
+.md-typeset .ficha__info { flex: 1 1 260px; min-width: 240px; }
+.md-typeset .ficha__info > h1 {
+  margin: 0 0 .5rem;
+  font-size: 2.1rem;
+  line-height: 1.1;
+}
+.md-typeset .ficha__info > h1 .headerlink { display: none; }
+
+/* Chips (metadatos) */
+.md-typeset .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .3em;
+  margin: 0 .3rem .4rem 0;
+  padding: .18rem .6rem;
+  border-radius: 2rem;
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.md-typeset .chip .twemoji { height: 1.05em; }
+.md-typeset .chip .twemoji svg { height: 1.05em; width: auto; }
+.md-typeset .chip--linux  { background: rgba(6, 182, 212, .14);  color: #0e7490; border-color: rgba(6, 182, 212, .4); }
+.md-typeset .chip--windows{ background: rgba(37, 99, 235, .14);  color: #1d4ed8; border-color: rgba(37, 99, 235, .4); }
+.md-typeset .chip--dif    { background: rgba(16, 185, 129, .14); color: #047857; border-color: rgba(16, 185, 129, .4); }
+.md-typeset .chip--dif-media  { background: rgba(234, 179, 8, .16);  color: #a16207; border-color: rgba(234, 179, 8, .45); }
+.md-typeset .chip--dif-dificil { background: rgba(239, 68, 68, .14); color: #b91c1c; border-color: rgba(239, 68, 68, .4); }
+.md-typeset .chip--dif-insane  { background: rgba(124, 58, 237, .16); color: #6d28d9; border-color: rgba(124, 58, 237, .45); }
+.md-typeset .chip--date   { background: var(--md-code-bg-color); color: var(--md-default-fg-color--light); }
+.md-typeset .chip--htb {
+  background: linear-gradient(120deg, var(--brand-1), var(--brand-2));
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 .2rem .6rem rgba(79, 70, 229, .3);
+}
+.md-typeset a.chip--htb:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 .4rem 1rem rgba(79, 70, 229, .45);
+}
+.md-typeset a.chip--htb { text-decoration: none; }
+
+/* Etiquetas de técnicas y herramientas */
+.md-typeset .ficha__tecs { margin-top: .35rem; line-height: 2.1; }
+.md-typeset .tec {
+  display: inline-block;
+  margin: 0 .3rem .25rem 0;
+  padding: .1rem .5rem;
+  border-radius: .4rem;
+  font-size: .68rem;
+  font-family: var(--md-code-font-family, monospace);
+  background: rgba(124, 58, 237, .1);
+  color: var(--brand-2);
+  border: 1px solid rgba(124, 58, 237, .22);
+}
+.md-typeset .tec--herr {
+  background: rgba(6, 182, 212, .1);
+  color: #0e7490;
+  border-color: rgba(6, 182, 212, .25);
+}
+
+/* ===== Galería de máquinas (índices por dificultad) ===== */
+.md-typeset .maq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.1rem;
+  margin: 1.2rem 0;
+}
+.md-typeset .maq-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: .5rem;
+  padding: 1.1rem .7rem .9rem;
+  border-radius: .9rem;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background: var(--md-default-bg-color);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.md-typeset .maq-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 .7rem 1.6rem rgba(79, 70, 229, .22);
+  border-color: var(--md-accent-fg-color);
+}
+.md-typeset .maq-card__ico {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .25);
+}
+.md-typeset .maq-card__nombre { font-weight: 700; font-size: .95rem; }
+.md-typeset .maq-card__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25rem;
+}
+.md-typeset .maq-card__fecha {
+  font-size: .68rem;
+  color: var(--md-default-fg-color--light);
+}
+.md-typeset .maq-card .chip { margin: 0; cursor: pointer; }
+
+/* Ajustes de la ficha y galería en modo oscuro */
+[data-md-color-scheme="slate"] .md-typeset .chip--linux  { color: #67e8f9; }
+[data-md-color-scheme="slate"] .md-typeset .chip--windows { color: #93c5fd; }
+[data-md-color-scheme="slate"] .md-typeset .chip--dif     { color: #6ee7b7; }
+[data-md-color-scheme="slate"] .md-typeset .chip--dif-media   { color: #fde047; }
+[data-md-color-scheme="slate"] .md-typeset .chip--dif-dificil { color: #fca5a5; }
+[data-md-color-scheme="slate"] .md-typeset .chip--dif-insane  { color: #c4b5fd; }
+[data-md-color-scheme="slate"] .md-typeset .tec      { color: #c4b5fd; }
+[data-md-color-scheme="slate"] .md-typeset .tec--herr{ color: #67e8f9; }
+[data-md-color-scheme="slate"] .md-typeset .ficha { box-shadow: 0 .5rem 1.6rem rgba(0, 0, 0, .4); }
+
+@media (max-width: 480px) {
+  .md-typeset .ficha { flex-direction: column; text-align: center; }
+  .md-typeset .ficha__info > h1 { font-size: 1.7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset a.ficha__ico:hover img,
+  .md-typeset .maq-card:hover { transform: none; }
+}
+
 /* Icono de la máquina (clicable, lleva a HTB) */
 .md-typeset .maquina-icono {
   display: block;
