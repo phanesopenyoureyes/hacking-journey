@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-web, php-backdoor, sudo-misconfig, gtfobins]
 herramientas: [nmap]
+htb: "https://app.hackthebox.com/machines/Knife"
 ---
 
 # Knife
+
+[![Icono de la máquina Knife en Hack The Box](capturas/knife-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Knife)
 
 ## Resumen
 

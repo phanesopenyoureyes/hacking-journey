@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [http-file-server, rce, kernel-exploit]
 herramientas: [nmap, metasploit, powershell]
+htb: "https://app.hackthebox.com/machines/Optimum"
 ---
 
 # Optimum
+
+[![Icono de la máquina Optimum en Hack The Box](capturas/optimum-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Optimum)
 
 ## Resumen
 

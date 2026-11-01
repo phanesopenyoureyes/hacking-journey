@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-web, rce, crackeo-de-hash, sudo-misconfig, gtfobins]
 herramientas: [nmap, john, nc]
+htb: "https://app.hackthebox.com/machines/Traverxec"
 ---
 
 # Traverxec
+
+[![Icono de la máquina Traverxec en Hack The Box](capturas/traverxec-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Traverxec)
 
 ## Resumen
 

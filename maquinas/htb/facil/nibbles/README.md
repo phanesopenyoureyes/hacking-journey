@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-web, fuzzing, carga-de-archivos, sudo-misconfig]
 herramientas: [nmap, ffuf, hydra, nc]
+htb: "https://app.hackthebox.com/machines/Nibbles"
 ---
 
 # Nibbles
+
+[![Icono de la máquina Nibbles en Hack The Box](capturas/nibbles-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Nibbles)
 
 ## Resumen
 

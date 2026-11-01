@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [iis, webdav, buffer-overflow, token-impersonation]
 herramientas: [nmap, metasploit]
+htb: "https://app.hackthebox.com/machines/Granny"
 ---
 
 # Granny
+
+[![Icono de la máquina Granny en Hack The Box](capturas/granny-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Granny)
 
 ## Resumen
 

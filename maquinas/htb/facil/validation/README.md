@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [inyeccion-sql, webshell, reutilizacion-de-credenciales]
 herramientas: [nmap, burpsuite]
+htb: "https://app.hackthebox.com/machines/Validation"
 ---
 
 # Validation
+
+[![Icono de la máquina Validation en Hack The Box](capturas/validation-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Validation)
 
 ## Resumen
 

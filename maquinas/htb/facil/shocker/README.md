@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-web, fuzzing, shellshock, sudo-misconfig, gtfobins]
 herramientas: [nmap, ffuf, nc]
+htb: "https://app.hackthebox.com/machines/Shocker"
 ---
 
 # Shocker
+
+[![Icono de la máquina Shocker en Hack The Box](capturas/shocker-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Shocker)
 
 ## Resumen
 

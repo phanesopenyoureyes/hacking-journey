@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-smb, ms08-067, ms17-010]
 herramientas: [nmap, metasploit]
+htb: "https://app.hackthebox.com/machines/Legacy"
 ---
 
 # Legacy
+
+[![Icono de la máquina Legacy en Hack The Box](capturas/legacy-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Legacy)
 
 ## Resumen
 

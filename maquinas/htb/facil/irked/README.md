@@ -7,9 +7,12 @@ dificultad: Fácil
 estado: publicado
 tecnicas: [enumeracion-web, unrealircd-backdoor, esteganografia, suid, path-hijacking]
 herramientas: [nmap, ffuf, nc, tcpdump, steghide, ltrace]
+htb: "https://app.hackthebox.com/machines/Irked"
 ---
 
 # Irked
+
+[![Icono de la máquina Irked en Hack The Box](capturas/irked-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Irked)
 
 ## Resumen
 

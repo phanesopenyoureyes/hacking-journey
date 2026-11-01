@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-smb, ms17-010, eternalblue]
 herramientas: [nmap, metasploit]
+htb: "https://app.hackthebox.com/machines/Blue"
 ---
 
 # Blue
+
+[![Icono de la máquina Blue en Hack The Box](capturas/blue-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Blue)
 
 ## Resumen
 

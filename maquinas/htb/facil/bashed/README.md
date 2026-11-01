@@ -7,9 +7,12 @@ dificultad: Easy
 estado: publicado
 tecnicas: [enumeracion-web, exposicion-de-herramienta, sudo-misconfig, cron-abuse]
 herramientas: [nmap, ffuf, nc]
+htb: "https://app.hackthebox.com/machines/Bashed"
 ---
 
 # Bashed
+
+[![Icono de la máquina Bashed en Hack The Box](capturas/bashed-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Bashed)
 
 ## Resumen
 

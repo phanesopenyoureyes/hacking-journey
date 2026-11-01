@@ -7,9 +7,12 @@ dificultad: Fácil
 estado: publicado
 tecnicas: [enumeracion-web, file-upload, rce, pivoting, chisel, buffer-overflow]
 herramientas: [nmap, metasploit, msfvenom, chisel, nc]
+htb: "https://app.hackthebox.com/machines/Buff"
 ---
 
 # Buff
+
+[![Icono de la máquina Buff en Hack The Box](capturas/buff-icono.png){ .maquina-icono }](https://app.hackthebox.com/machines/Buff)
 
 ## Resumen
 

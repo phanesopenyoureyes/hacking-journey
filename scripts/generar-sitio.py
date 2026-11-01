@@ -18,7 +18,78 @@ import re
 import shutil
 
 SO = {"linux": "Linux", "windows": "Windows"}
+OS_ICONO = {"linux": ":material-linux:", "windows": ":material-microsoft-windows:"}
 DIFICULTADES = [("facil", "Fácil"), ("media", "Media"), ("dificil", "Difícil"), ("insane", "Insane")]
+
+
+def lista(campo):
+    """Convierte un valor de front-matter tipo `[a, b, c]` en lista de strings."""
+    return [t.strip() for t in str(campo or "").strip().strip("[]").split(",") if t.strip()]
+
+
+def ficha_maquina(d, dif_nombre):
+    """Cabecera interactiva (icono + metadatos + técnicas) de una máquina."""
+    slug, titulo = d["_slug"], d["titulo"]
+    htb = d.get("htb", "")
+    so = d.get("so", "")
+    dif_slug = next((s for s, n in DIFICULTADES if n == dif_nombre), "facil")
+    tecs = "".join(f'<span class="tec">{t}</span>' for t in lista(d.get("tecnicas")))
+    herr = "".join(f'<span class="tec tec--herr">{t}</span>' for t in lista(d.get("herramientas")))
+    ini = (f'<a class="ficha__ico" href="{htb}" target="_blank" rel="noopener" '
+           f'title="Ver {titulo} en Hack The Box">') if htb else '<span class="ficha__ico">'
+    fin = "</a>" if htb else "</span>"
+    chip_htb = (f'<a class="chip chip--htb" href="{htb}" target="_blank" rel="noopener">'
+                f':simple-hackthebox: Ver en Hack The Box</a>') if htb else ""
+    return (
+        '<div class="ficha" markdown>\n'
+        f'{ini}<img src="capturas/{slug}-icono.png" alt="Icono de {titulo} en Hack The Box" '
+        f'loading="lazy">{fin}\n'
+        '<div class="ficha__info" markdown>\n\n'
+        f'# {titulo}\n\n'
+        f'<span class="chip chip--os chip--{so}">{OS_ICONO.get(so, "")} {SO.get(so, so)}</span> '
+        f'<span class="chip chip--dif chip--dif-{dif_slug}">{dif_nombre}</span> '
+        f'<span class="chip chip--date">:material-calendar-outline: {d.get("fecha", "")}</span> '
+        f'{chip_htb}\n\n'
+        f'<div class="ficha__tecs">{tecs}{herr}</div>\n'
+        '</div>\n'
+        '</div>'
+    )
+
+
+def reescribir_con_ficha(path, d, dif_nombre):
+    """Sustituye el `# Título` + icono suelto del README por la ficha interactiva."""
+    txt = open(path, encoding="utf-8").read()
+    m = re.match(r"^---\n.*?\n---\n", txt, re.S)
+    fm_txt = m.group(0) if m else ""
+    body = txt[m.end():] if m else txt
+    nuevas, h1_fuera = [], False
+    for ln in body.split("\n"):
+        if ".maquina-icono" in ln:
+            continue
+        if not h1_fuera and re.match(r"#\s+\S", ln):
+            h1_fuera = True
+            continue
+        nuevas.append(ln)
+    body = "\n".join(nuevas).lstrip("\n")
+    open(path, "w", encoding="utf-8").write(f"{fm_txt}\n{ficha_maquina(d, dif_nombre)}\n\n{body}")
+
+
+def galeria_maquinas(items, base_rel):
+    """Rejilla de tarjetas clicables de máquinas para los índices por dificultad."""
+    cards = []
+    for d in items:
+        slug, so = d["_slug"], d.get("so", "")
+        cards.append(
+            f'<a class="maq-card maq-card--{so}" href="{base_rel}{slug}/README.md">'
+            f'<img class="maq-card__ico" src="{base_rel}{slug}/capturas/{slug}-icono.png" '
+            f'alt="" loading="lazy">'
+            f'<span class="maq-card__nombre">{d["titulo"]}</span>'
+            f'<span class="maq-card__meta">'
+            f'<span class="chip chip--os chip--{so}">{SO.get(so, so)}</span>'
+            f'<span class="maq-card__fecha">{d.get("fecha", "")}</span>'
+            f'</span></a>'
+        )
+    return '<div class="maq-grid">\n' + "\n".join(cards) + "\n</div>"
 
 
 def fm(texto):
@@ -70,12 +141,14 @@ def seccion_maquinas():
         destdir = f"{base}/{slug}"
         os.makedirs(destdir, exist_ok=True)
         for d in items:
-            shutil.copytree(d["_src"], f"{destdir}/{d['_slug']}")
+            destino = f"{destdir}/{d['_slug']}"
+            shutil.copytree(d["_src"], destino)
+            reescribir_con_ficha(f"{destino}/README.md", d, nombre)
         if items:
             cuerpo = (
                 f"# Máquinas · {nombre}\n\n"
                 f"Máquinas de dificultad **{nombre}** resueltas ({len(items)}).\n\n"
-                + tabla_maquinas(items, "")
+                + galeria_maquinas(items, "")
                 + "\n"
             )
         else:
