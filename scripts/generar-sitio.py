@@ -84,7 +84,7 @@ def galeria_maquinas(items, base_rel):
     for d in items:
         slug, so = d["_slug"], d.get("so", "")
         cards.append(
-            f'<a class="maq-card maq-card--{so}" href="{base_rel}{slug}/README.md">'
+            f'<a class="maq-card maq-card--{so}" href="{base_rel}{slug}/">'
             f'<img class="maq-card__ico" src="{base_rel}{slug}/capturas/{slug}-icono.png" '
             f'alt="" loading="lazy">'
             f'<span class="maq-card__nombre">{d["titulo"]}</span>'
