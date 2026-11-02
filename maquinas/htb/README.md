@@ -34,4 +34,10 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 | [Lame](facil/lame/) | Linux | 2026-10-15 | `enumeracion-smb`, `samba`, `rce` |
 | [Validation](facil/validation/) | Linux | 2026-10-12 | `inyeccion-sql`, `webshell`, `reutilizacion-de-credenciales` |
 
+### Media
+
+| Máquina | SO | Fecha | Técnicas |
+| --- | --- | --- | --- |
+| [Cronos](media/cronos/) | Linux | 2026-11-02 | `dns`, `vhosts`, `inyeccion-sql`, `bypass-autenticacion`, `command-injection`, `cron-abuse` |
+
 <!-- INDICE:FIN -->

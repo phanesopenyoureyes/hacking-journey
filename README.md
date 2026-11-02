@@ -83,6 +83,12 @@ muestra de cómo trabajo y documento.
 | [Lame](maquinas/htb/facil/lame/) | Linux | 2026-10-15 | `enumeracion-smb`, `samba`, `rce` |
 | [Validation](maquinas/htb/facil/validation/) | Linux | 2026-10-12 | `inyeccion-sql`, `webshell`, `reutilizacion-de-credenciales` |
 
+### Media
+
+| Máquina | SO | Fecha | Técnicas |
+| --- | --- | --- | --- |
+| [Cronos](maquinas/htb/media/cronos/) | Linux | 2026-11-02 | `dns`, `vhosts`, `inyeccion-sql`, `bypass-autenticacion`, `command-injection`, `cron-abuse` |
+
 <!-- INDICE:FIN -->
 
 ## Metodología
