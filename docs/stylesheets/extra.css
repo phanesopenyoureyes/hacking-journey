@@ -190,17 +190,61 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
 .md-typeset .chip--dif-dificil { background: rgba(239, 68, 68, .14); color: #b91c1c; border-color: rgba(239, 68, 68, .4); }
 .md-typeset .chip--dif-insane  { background: rgba(124, 58, 237, .16); color: #6d28d9; border-color: rgba(124, 58, 237, .45); }
 .md-typeset .chip--date   { background: var(--md-code-bg-color); color: var(--md-default-fg-color--light); }
-.md-typeset .chip--htb {
-  background: linear-gradient(120deg, var(--brand-1), var(--brand-2));
-  color: #fff !important;
-  border: none;
-  box-shadow: 0 .2rem .6rem rgba(79, 70, 229, .3);
+
+/* Fila de chips de metadatos */
+.md-typeset .ficha__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  align-items: center;
+  margin-bottom: .2rem;
 }
-.md-typeset a.chip--htb:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 .4rem 1rem rgba(79, 70, 229, .45);
+.md-typeset .ficha__chips .chip { margin: 0; }
+
+/* Botón principal "Ver en Hack The Box" (verde HTB, dinámico) */
+.md-typeset .btn-htb {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  margin: .8rem 0 .1rem;
+  padding: .55rem 1.05rem;
+  border-radius: .6rem;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-decoration: none;
+  color: #0b1f00 !important;
+  background: linear-gradient(135deg, #c6ff4d 0%, #9fef00 48%, #83cf00 100%);
+  box-shadow: 0 .25rem .8rem rgba(159, 239, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .45);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
 }
-.md-typeset a.chip--htb { text-decoration: none; }
+.md-typeset .btn-htb .twemoji { height: 1.2em; }
+.md-typeset .btn-htb .twemoji svg { height: 1.2em; width: auto; fill: #0b1f00; }
+.md-typeset .btn-htb__arrow { font-weight: 800; transition: transform .18s ease; }
+.md-typeset .btn-htb::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -130%;
+  width: 65%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .6), transparent);
+  transform: skewX(-18deg);
+  transition: left .6s ease;
+  z-index: -1;
+}
+.md-typeset .btn-htb:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 .55rem 1.4rem rgba(159, 239, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .55);
+  filter: saturate(1.08);
+}
+.md-typeset .btn-htb:hover::before { left: 150%; }
+.md-typeset .btn-htb:hover .btn-htb__arrow { transform: translateX(4px); }
+.md-typeset .btn-htb:active { transform: translateY(0); box-shadow: 0 .2rem .6rem rgba(159, 239, 0, .4); }
+.md-typeset .btn-htb:focus-visible { outline: 2px solid var(--brand-2); outline-offset: 2px; }
+/* El botón puede quedar envuelto en <p> por Markdown: sin margen extra */
+.md-typeset .ficha__info p:has(> .btn-htb) { margin: 0; }
 
 /* Etiquetas de técnicas y herramientas */
 .md-typeset .ficha__tecs { margin-top: .35rem; line-height: 2.1; }
