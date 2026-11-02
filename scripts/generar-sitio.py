@@ -38,19 +38,23 @@ def ficha_maquina(d, dif_nombre):
     ini = (f'<a class="ficha__ico" href="{htb}" target="_blank" rel="noopener" '
            f'title="Ver {titulo} en Hack The Box">') if htb else '<span class="ficha__ico">'
     fin = "</a>" if htb else "</span>"
-    chip_htb = (f'<a class="chip chip--htb" href="{htb}" target="_blank" rel="noopener">'
-                f':simple-hackthebox: Ver en Hack The Box</a>') if htb else ""
+    cta = (f'<a class="btn-htb" href="{htb}" target="_blank" rel="noopener" '
+           f'aria-label="Ver {titulo} en Hack The Box">'
+           f':simple-hackthebox: <span class="btn-htb__txt">Ver en Hack The Box</span>'
+           f'<span class="btn-htb__arrow" aria-hidden="true">→</span></a>') if htb else ""
     return (
         '<div class="ficha" markdown>\n'
         f'{ini}<img src="capturas/{slug}-icono.png" alt="Icono de {titulo} en Hack The Box" '
         f'loading="lazy">{fin}\n'
         '<div class="ficha__info" markdown>\n\n'
         f'# {titulo}\n\n'
-        f'<span class="chip chip--os chip--{so}">{OS_ICONO.get(so, "")} {SO.get(so, so)}</span> '
-        f'<span class="chip chip--dif chip--dif-{dif_slug}">{dif_nombre}</span> '
-        f'<span class="chip chip--date">:material-calendar-outline: {d.get("fecha", "")}</span> '
-        f'{chip_htb}\n\n'
-        f'<div class="ficha__tecs">{tecs}{herr}</div>\n'
+        '<span class="ficha__chips">'
+        f'<span class="chip chip--os chip--{so}">{OS_ICONO.get(so, "")} {SO.get(so, so)}</span>'
+        f'<span class="chip chip--dif chip--dif-{dif_slug}">{dif_nombre}</span>'
+        f'<span class="chip chip--date">:material-calendar-outline: {d.get("fecha", "")}</span>'
+        '</span>\n\n'
+        f'<div class="ficha__tecs">{tecs}{herr}</div>\n\n'
+        f'{cta}\n'
         '</div>\n'
         '</div>'
     )
