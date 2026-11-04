@@ -65,6 +65,7 @@ muestra de cómo trabajo y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Pilgrimage](maquinas/htb/facil/pilgrimage/) | Linux | 2026-11-03 | `exposicion-git`, `imagemagick`, `lectura-de-ficheros`, `cve`, `reutilizacion-de-credenciales`, `binwalk-rce` |
 | [Bank](maquinas/htb/facil/bank/) | Linux | 2026-11-01 | `dns`, `vhosts`, `enumeracion-web`, `carga-de-archivos`, `suid` |
 | [Antique](maquinas/htb/facil/antique/) | Linux | 2026-10-31 | `snmp`, `telnet`, `cups`, `lectura-de-ficheros`, `cve` |
 | [Irked](maquinas/htb/facil/irked/) | Linux | 2026-10-30 | `enumeracion-web`, `unrealircd-backdoor`, `esteganografia`, `suid`, `path-hijacking` |
