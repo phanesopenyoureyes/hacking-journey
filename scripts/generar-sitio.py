@@ -66,6 +66,11 @@ def reescribir_con_ficha(path, d, dif_nombre):
     m = re.match(r"^---\n.*?\n---\n", txt, re.S)
     fm_txt = m.group(0) if m else ""
     body = txt[m.end():] if m else txt
+    # El H1 va dentro del bloque HTML de la ficha, así que MkDocs no lo detecta
+    # como título (y la página saldría como "Index"). Fijamos el título de la
+    # página con la clave `title:` del front-matter, que MkDocs sí respeta.
+    if m and not re.search(r"^title:\s", fm_txt, re.M):
+        fm_txt = fm_txt.replace("---\n", f'---\ntitle: "{d["titulo"]}"\n', 1)
     nuevas, h1_fuera = [], False
     for ln in body.split("\n"):
         if ".maquina-icono" in ln:
