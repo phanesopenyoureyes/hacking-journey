@@ -16,6 +16,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Broker](facil/broker/) | Linux | 2026-11-05 | `activemq`, `cve`, `rce`, `sudo-misconfig`, `gtfobins` |
 | [Sau](facil/sau/) | Linux | 2026-11-04 | `ssrf`, `cve`, `inyeccion-de-comandos`, `reverse-shell`, `sudo-misconfig`, `gtfobins` |
 | [Pilgrimage](facil/pilgrimage/) | Linux | 2026-11-03 | `exposicion-git`, `imagemagick`, `lectura-de-ficheros`, `cve`, `reutilizacion-de-credenciales`, `binwalk-rce` |
 | [Bank](facil/bank/) | Linux | 2026-11-01 | `dns`, `vhosts`, `enumeracion-web`, `carga-de-archivos`, `suid` |
