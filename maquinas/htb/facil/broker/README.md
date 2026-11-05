@@ -4,7 +4,7 @@ fecha: 2026-11-05
 plataforma: htb
 so: linux
 dificultad: Fácil
-estado: pendiente
+estado: publicado
 tecnicas: [activemq, cve, rce, sudo-misconfig, gtfobins]
 herramientas: [nmap, nc, curl, ssh-keygen, nginx]
 htb: "https://app.hackthebox.com/machines/Broker"
