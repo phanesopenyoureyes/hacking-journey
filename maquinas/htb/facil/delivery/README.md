@@ -123,7 +123,7 @@ cat user.txt
 ![Acceso SSH como maildeliverer y lectura de user.txt](capturas/delivery-ssh-user.png)
 
 ```
-USER FLAG -> 6057822c6e14ae757565272db9043eb9
+USER FLAG -> [censurada]
 ```
 
 ## Escalada de privilegios
@@ -179,7 +179,7 @@ cd /root && cat root.txt
 ![Somos root y leemos root.txt](capturas/delivery-root.png)
 
 ```
-ROOT FLAG -> 9debe6acfcf82139f871ee7a004d8f4c
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

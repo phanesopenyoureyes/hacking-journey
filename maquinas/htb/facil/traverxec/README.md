@@ -151,7 +151,7 @@ ssh -i home/david/.ssh/id_rsa david@10.129.80.148
 ```
 
 ```
-USER FLAG -> a8bdc84f3fd32e9597417ff7447f7ba5
+USER FLAG -> [censurada]
 ```
 
 ---
@@ -192,7 +192,7 @@ sudo /usr/bin/journalctl -n5 -unostromo.service
 Esto nos da una shell como **root**. Navegamos a `/root` y leemos la flag final:
 
 ```
-ROOT FLAG -> 786d5a52942ffcbc6bda07db118cb418
+ROOT FLAG -> [censurada]
 ```
 
 ---
@@ -218,5 +218,5 @@ Actualizar nostromo para cerrar el RCE. No almacenar hashes de contraseñas ni c
 ---
 
 **Flags:**
-- `david/user.txt` → `a8bdc84f3fd32e9597417ff7447f7ba5`
-- `root.txt` → `786d5a52942ffcbc6bda07db118cb418`
+- `david/user.txt` → `[censurada]`
+- `root.txt` → `[censurada]`

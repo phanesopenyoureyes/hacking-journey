@@ -157,8 +157,8 @@ type C:\Users\babis\Desktop\user.txt
 ```
 
 ```
-ROOT FLAG -> e84dbb08663ab19315472bfb585a6ede
-USER FLAG -> bcd649fa3811b0c77561b89f131b64e4
+ROOT FLAG -> [censurada]
+USER FLAG -> [censurada]
 ```
 
 ![Máquina Devel resuelta en HackTheBox](capturas/devel-pwned.png)
@@ -184,5 +184,5 @@ Desactivar el acceso anónimo al FTP y, sobre todo, no permitir escritura sobre 
 ---
 
 **Flags:**
-- `user.txt` (babis) → `bcd649fa3811b0c77561b89f131b64e4`
-- `root.txt` (Administrator) → `e84dbb08663ab19315472bfb585a6ede`
+- `user.txt` (babis) → `[censurada]`
+- `root.txt` (Administrator) → `[censurada]`

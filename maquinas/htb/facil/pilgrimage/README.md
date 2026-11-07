@@ -147,7 +147,7 @@ cat user.txt
 ![whoami emily y lectura de user.txt](capturas/pilgrimage-user-flag.png)
 
 ```
-USER FLAG -> 78899613b3799d1044abd28c45e5a6ac
+USER FLAG -> [censurada]
 ```
 
 ## Escalada de privilegios
@@ -198,7 +198,7 @@ cd /root && cat root.txt
 ```
 
 ```
-ROOT FLAG -> 1498053f41278fe0492729c62d65959f
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

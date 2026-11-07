@@ -106,7 +106,7 @@ Ya dentro, comprobamos quién somos y leemos la flag de usuario:
 ![whoami: somos el usuario activemq, y leemos user.txt](capturas/broker-user.png)
 
 ```
-USER FLAG -> 26e99a2560e0cc4ba54da31c8ebfa774
+USER FLAG -> [censurada]
 ```
 
 ## Escalada de privilegios
@@ -182,7 +182,7 @@ Y leemos la flag:
 ![whoami root y lectura de root.txt](capturas/broker-root.png)
 
 ```
-ROOT FLAG -> 92d8648769edf10d6895091e165c96e5
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

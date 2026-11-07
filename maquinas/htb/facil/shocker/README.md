@@ -171,5 +171,5 @@ Parchear Bash para cerrar Shellshock. Deshabilitar CGI si no es imprescindible y
 ---
 
 **Flags:**
-- `shelly.txt` → `fde40593b667845862b8984fa0ad854e`
-- `root.txt` → `bc4b64775928762be10c699859222e4d`
+- `shelly.txt` → `[censurada]`
+- `root.txt` → `[censurada]`

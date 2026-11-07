@@ -100,7 +100,7 @@ exec cat /home/*/user.txt
 ```
 
 ```
-USER FLAG -> edc696533fba4968bdd74a02eeb342dd
+USER FLAG -> [censurada]
 ```
 
 Para trabajar más cómodo, lanzamos una *reverse shell* por el mismo método y escuchamos
@@ -148,7 +148,7 @@ curl 127.0.0.1:631/admin/log/error_log?
 ```
 
 ```
-ROOT FLAG -> f6f81cae223f42166282be380dd5cf7d
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

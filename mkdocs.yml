@@ -1,5 +1,5 @@
 site_name: Francisco Gutiérrez García
-site_description: Portfolio de seguridad ofensiva de Francisco Gutiérrez García (alias ph4n3s) — writeups de Hack The Box, certificaciones y herramientas
+site_description: Portfolio de seguridad ofensiva de Francisco Gutiérrez García (alias ph4n3s) — writeups de Hack The Box y preparación de certificaciones
 site_author: Francisco Gutiérrez García
 site_url: https://phanesopenyoureyes.github.io/hacking-journey/
 repo_url: https://github.com/phanesopenyoureyes/hacking-journey
@@ -71,18 +71,15 @@ extra_css:
 
 extra:
   social:
-    - icon: simple/hackthebox
-      link: https://app.hackthebox.com/users/4011018
-      name: Hack The Box
-    - icon: fontawesome/brands/github
-      link: https://github.com/phanesopenyoureyes
-      name: GitHub
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/francisco-gutierrez-garcia
       name: LinkedIn
-    - icon: fontawesome/brands/discord
-      link: https://discord.com/users/pacodametabaco
-      name: Discord
+    - icon: fontawesome/brands/github
+      link: https://github.com/phanesopenyoureyes
+      name: GitHub
+    - icon: simple/hackthebox
+      link: https://app.hackthebox.com/users/4011018
+      name: Hack The Box
 
 exclude_docs: |
   _auditoria.md

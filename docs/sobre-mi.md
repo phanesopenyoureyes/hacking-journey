@@ -8,8 +8,8 @@ Alias **ph4n3s** — mi identificador en Hack The Box y plataformas de seguridad
 Estudiante de ASIR en formación de seguridad ofensiva.
 </div>
 
-Este sitio recoge mis writeups de máquinas retiradas de Hack The Box, mis
-certificaciones y mis herramientas. Lo documento para aprender y para mostrar cómo
+Este sitio recoge mis writeups de máquinas retiradas de Hack The Box y mi
+preparación de certificaciones. Lo documento para aprender y para mostrar cómo
 trabajo y cómo explico lo que hago.
 
 Cada writeup sigue la misma plantilla —reconocimiento, enumeración, explotación,
@@ -17,7 +17,12 @@ escalada y una nota de mitigación— y pasa un validador antes de publicarse.
 
 ## Contacto
 
-- :simple-hackthebox: **Hack The Box:** [ph4n3s](https://app.hackthebox.com/users/4011018)
-- :fontawesome-brands-github: **GitHub:** [@phanesopenyoureyes](https://github.com/phanesopenyoureyes)
-- :fontawesome-brands-discord: **Discord:** `pacodametabaco` — [añádeme](https://discord.com/users/pacodametabaco)
 - :fontawesome-brands-linkedin: **LinkedIn:** [Francisco Gutiérrez García](https://www.linkedin.com/in/francisco-gutierrez-garcia)
+- :fontawesome-brands-github: **GitHub:** [@phanesopenyoureyes](https://github.com/phanesopenyoureyes)
+- :simple-hackthebox: **Hack The Box:** [ph4n3s](https://app.hackthebox.com/users/4011018)
+- :material-email: **Email:** `TODO: añadir email profesional`
+
+## Aviso
+
+Todo el contenido tiene **fines exclusivamente educativos**. Solo documento máquinas
+**retiradas** de Hack The Box, resueltas en entornos de laboratorio autorizados.

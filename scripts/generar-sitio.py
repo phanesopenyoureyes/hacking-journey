@@ -21,10 +21,28 @@ SO = {"linux": "Linux", "windows": "Windows"}
 OS_ICONO = {"linux": ":material-linux:", "windows": ":material-microsoft-windows:"}
 DIFICULTADES = [("facil", "Fácil"), ("media", "Media"), ("dificil", "Difícil"), ("insane", "Insane")]
 
+# Writeups destacados de la portada (dificultad, slug, nombre, por qué).
+DESTACADOS = [
+    ("facil", "validation", "Validation",
+     "Inyección SQL explotada a mano con Burp Suite; documenta los atascos reales y "
+     "distingue bien los tipos de inyección."),
+    ("facil", "optimum", "Optimum",
+     "RCE sobre HttpFileServer y escalada por un exploit de kernel (MS16-032), con un "
+     "intento fallido y la alternativa que sí funcionó."),
+    ("facil", "buff", "Buff",
+     "Pivoting con chisel y un buffer overflow casero contra un servicio que solo "
+     "escuchaba en localhost."),
+]
+
 
 def lista(campo):
     """Convierte un valor de front-matter tipo `[a, b, c]` en lista de strings."""
     return [t.strip() for t in str(campo or "").strip().strip("[]").split(",") if t.strip()]
+
+
+def cuenta(n, singular, plural):
+    """Devuelve 'N palabra' concordando singular/plural (1 certificación / 2 certificaciones)."""
+    return f"{n} {singular if n == 1 else plural}"
 
 
 def ficha_maquina(d, dif_nombre):
@@ -172,9 +190,16 @@ def seccion_maquinas():
     return total
 
 
-def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, vacio=None):
-    """Genera una sección tipo lista (certificaciones, herramientas, preparación)."""
+def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, vacio=None,
+                   ocultar_si_vacia=False):
+    """Genera una sección tipo lista (certificaciones, herramientas, preparación).
+
+    Con `ocultar_si_vacia=True`, si no hay contenido publicado no se genera nada:
+    la sección no aparece en el nav ni en la portada (no deja páginas vacías).
+    """
     items = publicados(f"{carpeta}/*/README.md")
+    if not items and ocultar_si_vacia:
+        return 0
     base = f"docs/{carpeta}"
     os.makedirs(base, exist_ok=True)
     for d in items:
@@ -208,6 +233,7 @@ def main():
          ("Entidad", lambda d: d.get("entidad", "")),
          ("Fecha", lambda d: d.get("fecha", ""))],
         "🎓",
+        ocultar_si_vacia=True,
     )
     n_herr = seccion_simple(
         "herramientas", "Herramientas", "herramienta",
@@ -215,6 +241,7 @@ def main():
          ("Tipo", lambda d: d.get("tipo", "")),
          ("Fecha", lambda d: d.get("fecha", ""))],
         "🛠️",
+        ocultar_si_vacia=True,
     )
     n_prep = seccion_simple(
         "preparacion", "Preparación para certificaciones", "preparación",
@@ -222,32 +249,76 @@ def main():
          ("Entidad", lambda d: d.get("entidad", ""))],
         "📚",
         intro="Guías y recursos para preparar certificaciones de seguridad ofensiva ({n}).",
-        vacio="Aún no hay guías de preparación publicadas. Se añadirán aquí según prepare cada certificación.",
+        ocultar_si_vacia=True,
+    )
+
+    # Nav superior: solo las secciones con contenido (oculta las vacías).
+    nav = ["  - index.md\n", "  - maquinas\n"]
+    if n_cert:
+        nav.append("  - certificaciones\n")
+    if n_prep:
+        nav.append("  - preparacion\n")
+    if n_herr:
+        nav.append("  - herramientas\n")
+    nav.append("  - Sobre mí: sobre-mi.md\n")
+    escribir("docs/.pages", "nav:\n" + "".join(nav))
+
+    # Tarjetas de la portada: solo las secciones con contenido, con plural correcto.
+    cards = [
+        f"- :material-server-network:{{ .lg .middle }} **[Máquinas](maquinas/facil/)**\n\n"
+        f"    ---\n\n    {cuenta(n_maq, 'máquina resuelta', 'máquinas resueltas')}, "
+        f"agrupadas por dificultad.\n"
+    ]
+    if n_cert:
+        cards.append(
+            f"- :material-certificate:{{ .lg .middle }} **[Certificaciones](certificaciones/)**\n\n"
+            f"    ---\n\n    {cuenta(n_cert, 'certificación publicada', 'certificaciones publicadas')}.\n"
+        )
+    if n_prep:
+        cards.append(
+            f"- :material-book-open-variant:{{ .lg .middle }} **[Preparación para certificaciones](preparacion/)**\n\n"
+            f"    ---\n\n    {cuenta(n_prep, 'guía de preparación', 'guías de preparación')} "
+            f"con recursos y temas clave.\n"
+        )
+    if n_herr:
+        cards.append(
+            f"- :material-tools:{{ .lg .middle }} **[Herramientas](herramientas/)**\n\n"
+            f"    ---\n\n    {cuenta(n_herr, 'herramienta propia publicada', 'herramientas propias publicadas')}.\n"
+        )
+    cards.append(
+        "- :material-account:{ .lg .middle } **[Sobre mí](sobre-mi/)**\n\n"
+        "    ---\n\n    Quién soy, mis perfiles y cómo contactar.\n"
+    )
+
+    destacados = "\n".join(
+        f"- **[{nombre}](maquinas/{dif}/{slug}/)** — {por_que}"
+        for dif, slug, nombre, por_que in DESTACADOS
     )
 
     index = (
         "# Francisco Gutiérrez García\n\n"
         "Seguridad ofensiva · alias **ph4n3s** en Hack The Box.\n{ .hero-sub }\n\n"
-        "Writeups de máquinas **retiradas** de Hack The Box, certificaciones y "
-        "herramientas, documentados paso a paso como parte de mi formación en "
-        "seguridad ofensiva. Cada writeup explica el *porqué* de cada paso y cierra "
-        "con una nota de mitigación.\n\n"
+        "Soy estudiante de 1º de **ASIR** en formación de seguridad ofensiva y busco "
+        "**prácticas o un primer empleo en ciberseguridad ofensiva**. Documento aquí, paso "
+        "a paso, las máquinas **retiradas** de Hack The Box que resuelvo: explico el "
+        "*porqué* de cada paso —no solo el comando— y cierro con una nota de mitigación.\n\n"
+        "**Estado actual:** preparando **CPTS** (objetivo 2027) y, después, **OSCP**.\n\n"
+        "> Todo el contenido tiene **fines exclusivamente educativos** y se limita a "
+        "máquinas **retiradas** de Hack The Box, resueltas en entornos de laboratorio "
+        "autorizados.\n\n"
         "Usa el buscador (arriba) para encontrar una técnica, un servicio o una máquina.\n\n"
         '<div class="grid cards" markdown>\n\n'
-        f"- :material-server-network:{{ .lg .middle }} **[Máquinas](maquinas/facil/)**\n\n"
-        f"    ---\n\n    {n_maq} máquinas resueltas, agrupadas por dificultad (Fácil, Media, Difícil, Insane).\n\n"
-        f"- :material-certificate:{{ .lg .middle }} **[Certificaciones](certificaciones/)**\n\n"
-        f"    ---\n\n    {n_cert} certificaciones publicadas.\n\n"
-        f"- :material-book-open-variant:{{ .lg .middle }} **[Preparación para certificaciones](preparacion/)**\n\n"
-        f"    ---\n\n    {n_prep} guías de preparación con recursos y temas clave.\n\n"
-        f"- :material-tools:{{ .lg .middle }} **[Herramientas](herramientas/)**\n\n"
-        f"    ---\n\n    {n_herr} herramientas propias publicadas.\n\n"
-        "- :material-account:{ .lg .middle } **[Sobre mí](sobre-mi/)**\n\n"
-        "    ---\n\n    Quién soy, mis perfiles y cómo contactar.\n\n"
-        "</div>\n"
+        + "\n".join(cards)
+        + "\n</div>\n\n"
+        "## Writeups destacados\n\n"
+        "Tres writeups que resumen cómo trabajo —enumeración, el *porqué* de cada paso y "
+        "la mitigación:\n\n"
+        + destacados
+        + "\n"
     )
     escribir("docs/index.md", index)
-    print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, {n_prep} preparaciones, {n_herr} herramientas")
+    print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, "
+          f"{n_prep} preparaciones, {n_herr} herramientas")
 
 
 if __name__ == "__main__":

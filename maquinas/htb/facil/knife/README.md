@@ -141,7 +141,7 @@ sudo knife exec -E "exec \"/bin/sh\""
 
 ![Escalada de privilegios con knife y acceso root](capturas/knife-04-privesc-knife.png)
 
-Tras ello navegamos a `/home/james` y hacemos `cat` a `user.txt`, obteniendo el siguiente output: `0b5d83ce1592f91e60061603b260b1f8`. Y luego a `/root` y hago `cat` a `root.txt`, que me da la flag: `c886b9a3411dc5c171acf5f86d12e2bb`.
+Tras ello navegamos a `/home/james` y hacemos `cat` a `user.txt`, obteniendo el siguiente output: `[censurada]`. Y luego a `/root` y hago `cat` a `root.txt`, que me da la flag: `[censurada]`.
 
 ![Shell como root navegando el filesystem](capturas/knife-05-root-shell.png)
 
@@ -204,5 +204,5 @@ No desplegar nunca versiones *dev* o no oficiales de PHP en producción: esta ll
 ![Knife - Pwned](capturas/knife-06-pwned.png)
 
 **Flags:**
-- `user.txt` → `0b5d83ce1592f91e60061603b260b1f8`
-- `root.txt` → `c886b9a3411dc5c171acf5f86d12e2bb`
+- `user.txt` → `[censurada]`
+- `root.txt` → `[censurada]`

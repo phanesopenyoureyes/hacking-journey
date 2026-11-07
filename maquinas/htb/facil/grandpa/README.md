@@ -118,13 +118,13 @@ Con esto recibo la conexión en el listener.
 Navego hasta `C:\Documents and Settings\Harry\Desktop` y hago `type` sobre `user.txt` para obtener la flag de usuario:
 
 ```
-bdff5ec67c3cff017f2bedc146a5d869
+[censurada]
 ```
 
 Repito el proceso navegando a `C:\Documents and Settings\Administrator\Desktop` y hago `type` sobre `root.txt` para obtener la flag de administrador:
 
 ```
-9359e905a2c35f861f6a57cecf28bb7b
+[censurada]
 ```
 
 ---

@@ -167,7 +167,7 @@ ssh nadine@10.129.227.77
 Ya dentro, en `C:\Users\Nadine\Desktop` está la primera flag:
 
 ```
-USER FLAG -> bb40b9cad63370789d6d5b133241e314
+USER FLAG -> [censurada]
 ```
 
 ## Escalada de privilegios
@@ -201,7 +201,7 @@ Tras la escalada accedemos con privilegios de administrador y en
 `C:\Users\Administrator\Desktop` está la flag de root:
 
 ```
-ROOT FLAG -> e2bff4b0721ae9586be6c93e23f8fd61
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

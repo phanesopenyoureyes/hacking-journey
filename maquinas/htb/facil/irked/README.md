@@ -184,7 +184,7 @@ cat /home/djmardov/user.txt
 ![Flag de usuario de djmardov](capturas/irked-user-flag.png)
 
 ```
-USER FLAG -> da3066042ec6e77064fc48aa08cf20f9
+USER FLAG -> [censurada]
 ```
 
 ### De djmardov a root (binario SUID)
@@ -226,7 +226,7 @@ cat /root/root.txt
 ```
 
 ```
-ROOT FLAG -> 6203fd30afde2cde822c36a1d2600c0e
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación
