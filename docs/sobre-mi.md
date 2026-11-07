@@ -20,7 +20,7 @@ escalada y una nota de mitigación— y pasa un validador antes de publicarse.
 - :fontawesome-brands-linkedin: **LinkedIn:** [Francisco Gutiérrez García](https://www.linkedin.com/in/francisco-gutierrez-garcia)
 - :fontawesome-brands-github: **GitHub:** [@phanesopenyoureyes](https://github.com/phanesopenyoureyes)
 - :simple-hackthebox: **Hack The Box:** [ph4n3s](https://app.hackthebox.com/users/4011018)
-- :material-email: **Email:** `TODO: añadir email profesional`
+- :material-email: **Email:** [fgg170708@proton.me](mailto:fgg170708@proton.me)
 
 ## Aviso
 

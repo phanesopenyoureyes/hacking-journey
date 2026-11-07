@@ -68,6 +68,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Keeper](maquinas/htb/facil/keeper/) | Linux | 2026-11-07 | `request-tracker`, `credenciales-por-defecto`, `keepass`, `cve`, `clave-ssh` |
 | [Delivery](maquinas/htb/facil/delivery/) | Linux | 2026-11-06 | `osticket`, `mattermost`, `fuga-de-informacion`, `reutilizacion-de-credenciales`, `crackeo-de-hash` |
 | [Broker](maquinas/htb/facil/broker/) | Linux | 2026-11-05 | `activemq`, `cve`, `rce`, `sudo-misconfig`, `gtfobins` |
 | [Sau](maquinas/htb/facil/sau/) | Linux | 2026-11-04 | `ssrf`, `cve`, `inyeccion-de-comandos`, `reverse-shell`, `sudo-misconfig`, `gtfobins` |
