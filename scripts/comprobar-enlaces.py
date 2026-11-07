@@ -17,7 +17,7 @@ IGN = (".agents/", "site/", "docs/", "node_modules/")
 def main():
     rotos = []
     for f in glob.glob("**/*.md", recursive=True):
-        if f.startswith(IGN):
+        if f.replace("\\", "/").startswith(IGN):
             continue
         base = os.path.dirname(f)
         en_bloque = False
