@@ -185,7 +185,7 @@ cat /home/noulis/user.txt
 ```
 
 ```
-USER FLAG -> 7f328e00dffa6cb86c5cade392835949
+USER FLAG -> [censurada]
 ```
 
 ## Escalada de privilegios
@@ -251,7 +251,7 @@ cd /root && cat root.txt
 ```
 
 ```
-ROOT FLAG -> 493f83493773f0ebd141a144e02e7706
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

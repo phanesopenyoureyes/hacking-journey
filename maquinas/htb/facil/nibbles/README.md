@@ -197,7 +197,7 @@ Obtenemos ejecución de comandos como el usuario `nibbler`.
 Navegamos a `/home/nibbler/user.txt`:
 
 ```
-USER FLAG -> 08cb3bb1439ad8e3b5f04ab3b1fb944d
+USER FLAG -> [censurada]
 ```
 
 En `/home/nibbler/personal/stuff/` hay un script con permisos abiertos a todo el mundo:
@@ -219,7 +219,7 @@ sudo /home/nibbler/personal/stuff/monitor.sh
 Como `monitor.sh` lo ejecuta root vía `sudo`, heredamos una shell con sus privilegios. Navegamos a `/root/root.txt`:
 
 ```
-ROOT FLAG -> d9521cd9b5bc0e62ba70208666214f66
+ROOT FLAG -> [censurada]
 ```
 
 ---
@@ -245,5 +245,5 @@ Mantener Nibbleblog actualizado para cerrar la subida de ficheros. Usar credenci
 ---
 
 **Flags:**
-- `nibbler/user.txt` → `08cb3bb1439ad8e3b5f04ab3b1fb944d`
-- `root.txt` → `d9521cd9b5bc0e62ba70208666214f66`
+- `nibbler/user.txt` → `[censurada]`
+- `root.txt` → `[censurada]`

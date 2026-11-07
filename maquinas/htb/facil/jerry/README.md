@@ -141,8 +141,8 @@ Navegamos a las flags:
 
 | | Hash |
 |-|------|
-| Usuario | `7004dbcef0f854e0fb401875f26ebd00` |
-| Administrador | `04a8b36e1545a455393d067e772fe90e` |
+| Usuario | `[censurada]` |
+| Administrador | `[censurada]` |
 
 ---
 

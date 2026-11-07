@@ -117,7 +117,7 @@ cat /home/chris/user.txt
 ```
 
 ```
-USER FLAG -> 46ced01e69aeeb320c60e3e3d82bd799
+USER FLAG -> [censurada]
 ```
 
 ## Escalada de privilegios
@@ -140,7 +140,7 @@ cd /root && cat root.txt
 ```
 
 ```
-ROOT FLAG -> c22bb0bb7da27a1da397567e43435478
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

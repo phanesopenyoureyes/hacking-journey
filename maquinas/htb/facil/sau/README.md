@@ -119,7 +119,7 @@ cat ~/user.txt
 ![Lectura de user.txt como puma](capturas/sau-user-flag.png)
 
 ```
-USER FLAG -> 108215e9496c3cf1975c41dad731b7b1
+USER FLAG -> [censurada]
 ```
 
 ## Escalada de privilegios
@@ -157,7 +157,7 @@ cd /root && cat root.txt
 ![Shell de root y lectura de root.txt](capturas/sau-root-flag.png)
 
 ```
-ROOT FLAG -> c01cb461868e15f05a935763a1df1dd2
+ROOT FLAG -> [censurada]
 ```
 
 ## Mitigación

@@ -107,7 +107,7 @@ El exploit dispara la ejecución remota en el servidor HFS y recibimos una shell
 Desde ahí, navegamos a `C:\Users\kostas\Desktop` y leemos la primera flag:
 
 ```
-USER FLAG -> 241941347303caa38c6c2f102e8078b0
+USER FLAG -> [censurada]
 ```
 
 ---
@@ -176,7 +176,7 @@ Con un listener abierto en el puerto indicado, el exploit abusa de un *handle* m
 Navegamos a `C:\Users\Administrator\Desktop` y leemos la flag final:
 
 ```
-ROOT FLAG -> 6764c494c49eaefddae6b398024f3344
+ROOT FLAG -> [censurada]
 ```
 
 ![Máquina Optimum resuelta en HackTheBox](capturas/optimum-05-pwned.png)
@@ -227,5 +227,5 @@ Actualizar HFS: la versión 2.3 tiene un fallo de RCE conocido. Mantener el sist
 ---
 
 **Flags:**
-- `kostas/user.txt` → `241941347303caa38c6c2f102e8078b0`
-- `root.txt` → `6764c494c49eaefddae6b398024f3344`
+- `kostas/user.txt` → `[censurada]`
+- `root.txt` → `[censurada]`

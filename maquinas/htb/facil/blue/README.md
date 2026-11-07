@@ -96,7 +96,7 @@ type user.txt
 ```
 
 ```
-d3a5c3**************************
+[censurada]
 ```
 
 **Flag de administrador:**
@@ -107,7 +107,7 @@ type root.txt
 ```
 
 ```
-55b92b**************************
+[censurada]
 ```
 
 ---

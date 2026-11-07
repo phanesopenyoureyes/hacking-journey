@@ -115,7 +115,7 @@ cat /home/makis/user.txt
 ```
 
 ```
-0d932afe9ed705ec71b7d4673e51706e
+[censurada]
 ```
 
 **Root flag:**
