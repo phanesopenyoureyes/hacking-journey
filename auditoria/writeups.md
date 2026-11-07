@@ -17,7 +17,7 @@ las reglas 2 y 3: los writeups deben reflejar **tu** proceso).
 | validation | Fácil | Autor | ✅ | narrativa | **El mejor.** Cuenta atascos reales, intentos fallidos (SSH), distingue in-band vs blind, reflexión metodológica. No sigue la plantilla estándar. | 5 |
 | optimum | Fácil | Autor | ❌ | numerada | Intento fallido documentado, alternativa con Metasploit, "concepto clave" sólido. | 5 |
 | nibbles | Fácil | Autor | ❌ | numerada | Incluye fuerza bruta e inspección manual: proceso real. | 4.5 |
-| buff | Fácil | Autor | ✅ | nombrada | *Pivoting* con chisel y BOF casero bien explicados; no muestra flags. | 4.5 |
+| buff | Fácil | Claude (de tus notas) | ✅ | nombrada | *Pivoting* con chisel y BOF casero bien explicados; no muestra flags. **E3: corregido** — no hay original tuyo en el historial y la escalada la completé yo «con el método conocido de la máquina». | 4.5 |
 | traverxec | Fácil | Autor | ❌ | numerada | Cadena completa (RCE → crack → clave SSH → GTFOBins). | 4.5 |
 | sau | Fácil | Claude (de tus notas) | ❌ | nombrada | SSRF+inyección encadenadas muy bien explicadas. Revisa que es tu proceso. | 4.5 |
 | irked | Fácil | Claude (de tus notas) | ❌ | nombrada | Rico y claro (backdoor manual, estego, path hijack). | 4.5 |
@@ -40,6 +40,12 @@ las reglas 2 y 3: los writeups deben reflejar **tu** proceso).
 | jerry | Fácil | — | — | — | `estado: pendiente`, contiene literal `PENDIENTE`. Fuera del sitio. | 2 (borrador) |
 
 ## Observaciones transversales
+
+> **Corrección en E3 (2026-11-07).** La columna «Autoría» de esta tabla se corrigió para
+> **buff**: figuraba como «Autor», pero la comprobación del historial de git en E3 no
+> encuentra ningún original suyo para esa máquina, y el commit que la creó (`9457753`)
+> declara que el final de la escalada lo completé yo. El resto de la tabla se mantiene.
+> Detalle en `auditoria/autenticidad.md`.
 
 - **Tres estilos de plantilla distintos** conviven (E4):
   - *Nombrada*: Resumen / Reconocimiento / Enumeración / Explotación / Escalada / Mitigación / Qué he aprendido (los ensamblados por Claude + buff).
