@@ -21,6 +21,19 @@ SO = {"linux": "Linux", "windows": "Windows"}
 OS_ICONO = {"linux": ":material-linux:", "windows": ":material-microsoft-windows:"}
 DIFICULTADES = [("facil", "Fácil"), ("media", "Media"), ("dificil", "Difícil"), ("insane", "Insane")]
 
+# Writeups destacados de la portada (dificultad, slug, nombre, por qué).
+DESTACADOS = [
+    ("facil", "validation", "Validation",
+     "Inyección SQL explotada a mano con Burp Suite; documenta los atascos reales y "
+     "distingue bien los tipos de inyección."),
+    ("facil", "optimum", "Optimum",
+     "RCE sobre HttpFileServer y escalada por un exploit de kernel (MS16-032), con un "
+     "intento fallido y la alternativa que sí funcionó."),
+    ("facil", "buff", "Buff",
+     "Pivoting con chisel y un buffer overflow casero contra un servicio que solo "
+     "escuchaba en localhost."),
+]
+
 
 def lista(campo):
     """Convierte un valor de front-matter tipo `[a, b, c]` en lista de strings."""
@@ -277,20 +290,31 @@ def main():
         "    ---\n\n    Quién soy, mis perfiles y cómo contactar.\n"
     )
 
+    destacados = "\n".join(
+        f"- **[{nombre}](maquinas/{dif}/{slug}/)** — {por_que}"
+        for dif, slug, nombre, por_que in DESTACADOS
+    )
+
     index = (
         "# Francisco Gutiérrez García\n\n"
         "Seguridad ofensiva · alias **ph4n3s** en Hack The Box.\n{ .hero-sub }\n\n"
-        "Writeups de máquinas **retiradas** de Hack The Box, certificaciones y "
-        "preparación, documentados paso a paso como parte de mi formación en "
-        "seguridad ofensiva. Cada writeup explica el *porqué* de cada paso y cierra "
-        "con una nota de mitigación.\n\n"
+        "Soy estudiante de 1º de **ASIR** en formación de seguridad ofensiva y busco "
+        "**prácticas o un primer empleo en ciberseguridad ofensiva**. Documento aquí, paso "
+        "a paso, las máquinas **retiradas** de Hack The Box que resuelvo: explico el "
+        "*porqué* de cada paso —no solo el comando— y cierro con una nota de mitigación.\n\n"
+        "**Estado actual:** preparando **CPTS** (objetivo 2027) y, después, **OSCP**.\n\n"
         "> Todo el contenido tiene **fines exclusivamente educativos** y se limita a "
         "máquinas **retiradas** de Hack The Box, resueltas en entornos de laboratorio "
         "autorizados.\n\n"
         "Usa el buscador (arriba) para encontrar una técnica, un servicio o una máquina.\n\n"
         '<div class="grid cards" markdown>\n\n'
         + "\n".join(cards)
-        + "\n</div>\n"
+        + "\n</div>\n\n"
+        "## Writeups destacados\n\n"
+        "Tres writeups que resumen cómo trabajo —enumeración, el *porqué* de cada paso y "
+        "la mitigación:\n\n"
+        + destacados
+        + "\n"
     )
     escribir("docs/index.md", index)
     print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, "
