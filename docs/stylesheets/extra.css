@@ -1,25 +1,28 @@
 /* Personalización visual del portfolio.
-   Paleta moderna índigo / violeta / cian, con claro y oscuro. */
+   Paleta sobria y profesional: azul marino + índigo monocromo, claro y oscuro. */
 
 :root {
-  --brand-1: #4f46e5;   /* índigo */
-  --brand-2: #7c3aed;   /* violeta */
-  --brand-3: #06b6d4;   /* cian */
-  --brand-4: #ec4899;   /* rosa */
+  --brand-1: #4f46e5;   /* índigo (acento principal) */
+  --brand-2: #6366f1;   /* índigo medio */
+  --brand-3: #818cf8;   /* índigo claro */
+  --brand-4: #475569;   /* pizarra (neutro) */
+  --nav-1: #0f172a;     /* azul marino (cabecera) */
+  --nav-2: #1e293b;     /* pizarra oscura (cabecera) */
   --md-primary-fg-color: var(--brand-1);
-  --md-accent-fg-color: var(--brand-2);
+  --md-accent-fg-color: var(--brand-1);
 }
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #312e81;
-  --md-accent-fg-color: #a78bfa;
+  --md-primary-fg-color: #1e293b;
+  --md-accent-fg-color: #a5b4fc;
   --md-typeset-a-color: #a5b4fc;
 }
 
-/* Cabecera y pestañas con degradado en vez de color plano */
+/* Cabecera y pestañas: azul marino sobrio (sin degradado de colores) */
 .md-header,
 .md-tabs {
-  background: linear-gradient(90deg, var(--brand-1) 0%, var(--brand-2) 55%, var(--brand-3) 100%);
+  background: linear-gradient(90deg, var(--nav-1) 0%, var(--nav-2) 100%);
 }
+.md-header { border-bottom: 1px solid rgba(255, 255, 255, .06); }
 
 /* Transiciones suaves */
 a, .md-nav__link, .md-button, .md-typeset .md-button,
