@@ -5,7 +5,7 @@ plataforma: htb
 so: windows
 dificultad: Easy
 estado: publicado
-tecnicas: [enumeracion-smb, ms08-067, ms17-010]
+tecnicas: [enumeracion-smb, ms08-067]
 herramientas: [nmap, metasploit]
 htb: "https://app.hackthebox.com/machines/Legacy"
 ---
@@ -16,7 +16,7 @@ htb: "https://app.hackthebox.com/machines/Legacy"
 
 ## Resumen
 
-Windows XP vulnerable a fallos clásicos de SMB (MS08-067 / MS17-010). La explotación concede directamente una shell con privilegios de `SYSTEM`.
+Windows XP vulnerable al fallo clásico de SMB **MS08-067**. La explotación concede directamente una shell con privilegios de `SYSTEM`.
 
 ## 1. Enumeración
 
@@ -126,7 +126,7 @@ type root.txt
 
 ## Mitigación
 
-Retirar Windows XP, sin soporte desde 2014. Aplicar los parches MS08-067 y MS17-010 y deshabilitar SMBv1. Aislar en la red cualquier sistema heredado que no pueda actualizarse.
+Retirar Windows XP, sin soporte desde 2014. Aplicar el parche MS08-067 y deshabilitar SMBv1. Aislar en la red cualquier sistema heredado que no pueda actualizarse.
 
 ## Qué he aprendido
 

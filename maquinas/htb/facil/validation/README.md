@@ -266,7 +266,21 @@ Y con eso, dentro.
 
 Usar consultas parametrizadas (*prepared statements*) para eliminar la inyección SQL. No reutilizar contraseñas entre servicios: la de la base de datos no debería servir para la cuenta de root del sistema. Aplicar privilegios mínimos a la cuenta de base de datos.
 
-## Qué he aprendido
+## Lo que me costó / Lo que aprendí
+
+**Lo que me costó.** Lo que más tiempo me gasté fue el principio: hasta que no entendí
+que el campo `country` era un `<select>` y por eso no podía escribir en él desde el
+navegador, no tenía una vía de entrada. Estuve un rato dando vueltas por el formulario
+en lugar de ir a Burp. Después del Burp vino el rodeo de leer el `config.php`: el navegador
+me devolvía la página en blanco porque intentaba interpretar las etiquetas `<?php ?>`, y
+tuve que pasarlo por `base64` para poder leerlo. Y en la escalada me equivoqué de
+herramienta: probé SSH con la contraseña que había encontrado y falló tres veces. No
+fallaba la contraseña, sino que `/etc/ssh/sshd_config` tenía `PermitRootLogin
+prohibit-password`, o sea que root no entra por contraseña sino con clave pública. Cuando
+lo entendí, ya no necesité SSH: tenía ejecución de comandos en la webshell y me bastó con
+`su` pasándole la contraseña por pipe.
+
+**Lo que aprendí.** De esto me llevo cuatro cosas, y una de ellas es de método:
 
 - **Nunca concatenar input del usuario en una query SQL.** Esto se arregla con prepared statements/consultas parametrizadas — así el motor trata lo que escribes siempre como dato, nunca como código, pase lo que pase.
 - **No reutilizar contraseñas entre sistemas distintos.** La contraseña de MySQL y la de root del sistema operativo eran la misma. Son dos niveles de acceso totalmente distintos (datos vs. control total del servidor) y nunca deberían depender del mismo secreto.

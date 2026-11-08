@@ -23,6 +23,12 @@ de cada paso —no solo el comando— y cierro con una nota de mitigación que d
 habría evitado el fallo. Es a la vez mi cuaderno de aprendizaje y una muestra de cómo trabajo
 y documento.
 
+> [!NOTE]
+> **Cómo están escritos estos writeups.** Las máquinas las he hecho enteras y los writeups
+> los he redactado yo. **Claude Code** me ayuda a **afinarlos** para que sean legibles y
+> didácticos, y **añade las notas de mitigación** del final de cada máquina, que son parte
+> importante del writeup y se mantienen.
+
 > **Estado actual:** preparando **CPTS** (objetivo 2027) y, después, **OSCP**.
 
 > [!TIP]
@@ -88,7 +94,7 @@ y documento.
 | [Knife](maquinas/htb/facil/knife/) | Linux | 2026-10-19 | `enumeracion-web`, `php-backdoor`, `sudo-misconfig`, `gtfobins` |
 | [Granny](maquinas/htb/facil/granny/) | Windows | 2026-10-18 | `iis`, `webdav`, `buffer-overflow`, `token-impersonation` |
 | [Blue](maquinas/htb/facil/blue/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms17-010`, `eternalblue` |
-| [Legacy](maquinas/htb/facil/legacy/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms08-067`, `ms17-010` |
+| [Legacy](maquinas/htb/facil/legacy/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms08-067` |
 | [Lame](maquinas/htb/facil/lame/) | Linux | 2026-10-15 | `enumeracion-smb`, `samba`, `rce` |
 | [Validation](maquinas/htb/facil/validation/) | Linux | 2026-10-12 | `inyeccion-sql`, `webshell`, `reutilizacion-de-credenciales` |
 

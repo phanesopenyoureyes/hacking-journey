@@ -38,6 +38,8 @@ Del usuario inicial a control total. Si el acceso ya es de administrador, se ind
 
 Cómo se habría evitado el fallo: parche, configuración o buena práctica.
 
-## Qué he aprendido
+## Lo que me costó / Lo que aprendí
 
-Dos o tres líneas honestas, incluido lo que costó.
+En primera persona y con tus palabras: qué probaste primero, qué falló, dónde te
+atasaste, qué te costó tiempo y qué te llevas de la máquina. Sin relleno genérico: si
+algo no lo hiciste tú, no lo escribas.

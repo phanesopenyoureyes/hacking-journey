@@ -195,7 +195,26 @@ ROOT FLAG -> [censurada]
   «*PleaseSubscribe!*» convierte el crackeo en segundos con una regla sencilla. Usar contraseñas
   largas y aleatorias.
 
-## Qué he aprendido
+## Lo que me costó / Lo que aprendí
+
+**Lo que me costó.** Aquí no había ninguna vulnerabilidad que buscar: lo que costó fue **ver el
+encadenamiento**. Al principio parecía una web con dos servicios sueltos (un `osTicket` en el
+80 y un Mattermost en el 8065) sin relación entre ellos, y la vía «normal» —registrarme en
+Mattermost con mi correo y confirmar la cuenta— no servía, porque exigía un correo
+`@delivery.htb`. El truco está en que **el correo de verificación de Mattermost llega dentro
+del propio ticket de osTicket**: al abrir un ticket, osTicket te da una dirección
+`@delivery.htb` propia, y al registrarte con ella el mensaje de verificación aparece en ese
+ticket, que es un buzón que se puede leer sin credenciales. Eso es lo que engancha las dos
+aplicaciones.
+
+La escalada fue el mismo tipo de salto: no había exploit, sino **reutilización de
+contraseñas**. Las credenciales de MySQL estaban en claro en el `config.json` de Mattermost, y
+el hash de `root` (bcrypt) cayó en segundos con la pista que el propio `root` había dejado en
+el chat (`PleaseSubscribe!`): en vez de un diccionario, la palabra como base y una **regla** de
+`hashcat` (`-r best64.rule`) que prueba sus variantes. Ir a por un diccionario grande habría
+sido la vía lenta.
+
+**Lo que aprendí.** De esto me llevo tres cosas:
 
 - Encadenar dos servicios (osTicket ↔ Mattermost) puede saltarse una verificación por correo: el
   fallo no está en una CVE, sino en **cómo encajan** las aplicaciones.

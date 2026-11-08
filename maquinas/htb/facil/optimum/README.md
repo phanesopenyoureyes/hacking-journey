@@ -212,7 +212,22 @@ El resultado es el mismo: una sesión final como `NT AUTHORITY\SYSTEM`.
 
 Actualizar HFS: la versión 2.3 tiene un fallo de RCE conocido. Mantener el sistema parcheado para cerrar la escalada de kernel. No exponer servicios de terceros sin mantenimiento directamente a la red.
 
-## Qué he aprendido
+## Lo que me costó / Lo que aprendí
+
+**Lo que me costó.** Lo primero que se me complicó fue tonto y me costó un rato: el exploit
+de `exploitdb` vive en `/usr/share/exploitdb/`, que es de solo lectura para un usuario
+normal, y me obstiné en editarlo con `sed` sin `sudo` hasta que entendí que el problema
+era de permisos y no del exploit. Después, `nmap --script vuln` no dio nada útil (solo
+posibles CSRF en los formularios), lo cual consumió tiempo para nada. Y el punto donde
+más atascado estuve fue la escalada: probé con un binario ya compilado, `41020.exe`, y el
+servidor Python devolvió un `404 File not found` al pedirlo, así que ese camino se
+descartó. Estuve bastante rato dando vueltas con un exploit que no iba a funcionar.
+
+**Lo que aprendí.** La idea que me llevo de la máquina es esta:
+
+**Concepto clave aprendido:** cuando un exploit compilado falla (por problemas de red, antivirus o simple incompatibilidad), merece la pena buscar una implementación alternativa de la misma CVE en otro lenguaje o formato — aquí el salto de un `.exe` que no se llegó a descargar a un script de PowerShell cargado en memoria fue lo que desbloqueó la escalada.
+
+Y en concreto, de cómo encajó todo:
 
 **Qué era la máquina:** un servidor de ficheros HFS 2.3 (Rejetto) con una RCE conocida, sobre un Windows Server 2012 R2 sin el parche de una vulnerabilidad de escalada de privilegios local.
 
@@ -221,8 +236,6 @@ Actualizar HFS: la versión 2.3 tiene un fallo de RCE conocido. Mantener el sist
 **Explotación:** se ajusta el exploit público (`49584.py`) con nuestra IP/puerto y se ejecuta directamente contra el servicio → shell como `kostas`.
 
 **Escalada de privilegios:** `systeminfo` revela la falta del parche KB3014442 → vulnerable a MS16-032 (CVE-2016-0099) → tras un primer intento fallido con un binario precompilado, se usa el PoC en PowerShell `Invoke-MS16032.ps1` (localizado en los módulos de PowerShell Empire), cargado en memoria vía `IEX` → shell como `NT AUTHORITY\SYSTEM`.
-
-**Concepto clave aprendido:** cuando un exploit compilado falla (por problemas de red, antivirus o simple incompatibilidad), merece la pena buscar una implementación alternativa de la misma CVE en otro lenguaje o formato — aquí el salto de un `.exe` que no se llegó a descargar a un script de PowerShell cargado en memoria fue lo que desbloqueó la escalada.
 
 ---
 

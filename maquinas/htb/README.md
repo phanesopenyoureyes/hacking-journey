@@ -36,7 +36,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 | [Knife](facil/knife/) | Linux | 2026-10-19 | `enumeracion-web`, `php-backdoor`, `sudo-misconfig`, `gtfobins` |
 | [Granny](facil/granny/) | Windows | 2026-10-18 | `iis`, `webdav`, `buffer-overflow`, `token-impersonation` |
 | [Blue](facil/blue/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms17-010`, `eternalblue` |
-| [Legacy](facil/legacy/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms08-067`, `ms17-010` |
+| [Legacy](facil/legacy/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms08-067` |
 | [Lame](facil/lame/) | Linux | 2026-10-15 | `enumeracion-smb`, `samba`, `rce` |
 | [Validation](facil/validation/) | Linux | 2026-10-12 | `inyeccion-sql`, `webshell`, `reutilizacion-de-credenciales` |
 

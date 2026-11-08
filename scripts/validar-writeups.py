@@ -15,11 +15,12 @@ ESTADOS = {"publicado", "privado", "pendiente"}
 DIFICULTADES = {"facil", "media", "dificil", "insane"}
 
 # tipo -> (patrón glob, campos de front-matter, secciones H2 obligatorias)
+# Una sección puede ser un patrón o una tupla de títulos alternativos válidos.
 TIPOS = {
     "maquina": (
         "maquinas/htb/*/*/README.md",
         ["titulo", "fecha", "plataforma", "so", "dificultad", "estado", "tecnicas", "herramientas"],
-        ["resumen", "mitigacion", "que he aprendido"],
+        ["resumen", "mitigacion", ("que he aprendido", "lo que me costo")],
     ),
     "certificacion": (
         "certificaciones/*/README.md",
@@ -85,6 +86,11 @@ def seccion_pendiente(cuerpo, titulo):
     return False
 
 
+def alternativas(seccion):
+    """Una sección obligatoria es un título o una tupla de títulos alternativos."""
+    return seccion if isinstance(seccion, tuple) else (seccion,)
+
+
 def main():
     errores = []
     total = 0
@@ -106,16 +112,18 @@ def main():
             if "fecha" in fm and not re.match(r"\d{4}-\d{2}-\d{2}", fm["fecha"]):
                 errores.append(f"{f}: fecha '{fm['fecha']}' no está en formato AAAA-MM-DD")
             if tipo == "maquina":
-                dif = f.split("/")[2]
+                dif = re.split(r"[\\/]", f)[2]
                 if dif not in DIFICULTADES:
                     errores.append(f"{f}: dificultad de carpeta '{dif}' no válida (facil|media|dificil|insane)")
             secs = h2(cuerpo)
             for s in secciones:
-                if not any(s in h for h in secs):
+                alts = alternativas(s)
+                if not any(any(a in h for h in secs) for a in alts):
                     errores.append(f"{f}: falta la sección obligatoria '## {s}'")
             if estado == "publicado":
                 for s in secciones:
-                    if seccion_pendiente(cuerpo, s):
+                    alts = alternativas(s)
+                    if any(seccion_pendiente(cuerpo, a) for a in alts):
                         errores.append(f"{f}: la sección '{s}' está PENDIENTE pero es 'publicado'")
     if errores:
         print(f"Validación FALLIDA — {len(errores)} problema(s):\n")

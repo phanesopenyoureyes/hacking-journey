@@ -51,7 +51,8 @@ def bloque(base):
         partes.append(f"### {nombre}\n")
         filas = ["| Máquina | SO | Fecha | Técnicas |", "| --- | --- | --- | --- |"]
         for d in items:
-            rel = os.path.relpath(d["_dir"], base)
+            # En Markdown los enlaces usan '/', también en Windows.
+            rel = os.path.relpath(d["_dir"], base).replace("\\", "/")
             tec = ", ".join(f"`{t.strip()}`" for t in d.get("tecnicas", "").strip("[]").split(",") if t.strip())
             filas.append(f"| [{d['titulo']}]({rel}/) | {SO.get(d['so'], d['so'])} | {d['fecha']} | {tec} |")
         partes.append("\n".join(filas) + "\n")
@@ -68,7 +69,9 @@ def main():
             continue
         base = os.path.dirname(f) or "."
         nuevo = f"{INI}\n\n{bloque(base)}\n{FIN}"
-        txt2 = re.sub(re.escape(INI) + r".*?" + re.escape(FIN), nuevo, txt, flags=re.S)
+        # La función (lambda) evita que re.sub interprete los backslashes de las
+        # rutas de Windows como escapes de reemplazo.
+        txt2 = re.sub(re.escape(INI) + r".*?" + re.escape(FIN), lambda _: nuevo, txt, flags=re.S)
         if txt2 != txt:
             open(f, "w", encoding="utf-8").write(txt2)
             tocados += 1
