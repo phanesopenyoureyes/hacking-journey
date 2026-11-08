@@ -23,6 +23,12 @@ de cada paso —no solo el comando— y cierro con una nota de mitigación que d
 habría evitado el fallo. Es a la vez mi cuaderno de aprendizaje y una muestra de cómo trabajo
 y documento.
 
+> [!NOTE]
+> **Cómo están escritos estos writeups.** El trabajo técnico —reconocimiento, explotación,
+> escalada y notas de mitigación— es mío. La redacción y la organización de los textos se
+> hacen con apoyo de **Claude Code**, que también me ayuda a revisar el repositorio y a
+> mantener el sitio actualizado.
+
 > **Estado actual:** preparando **CPTS** (objetivo 2027) y, después, **OSCP**.
 
 > [!TIP]
