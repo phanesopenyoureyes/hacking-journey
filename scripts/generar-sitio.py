@@ -354,11 +354,9 @@ def main():
         "mitigación que habría evitado el fallo.\n\n"
         '<div class="hero__stats">\n'
         f'<div class="stat"><span class="stat__num">{n_maq}</span>'
-        '<span class="stat__lbl">máquinas resueltas</span></div>\n'
-        f'<div class="stat"><span class="stat__num">{n_tec}</span>'
-        '<span class="stat__lbl">técnicas aplicadas</span></div>\n'
-        f'<div class="stat"><span class="stat__num">{n_cert}</span>'
-        '<span class="stat__lbl">certificación · eJPT</span></div>\n'
+        '<span class="stat__lbl">máquinas resueltas y documentadas</span></div>\n'
+        '<div class="stat"><span class="stat__num">eJPT</span>'
+        '<span class="stat__lbl">certificación obtenida</span></div>\n'
         '<div class="stat"><span class="stat__num">CPTS</span>'
         '<span class="stat__lbl">en preparación · 2027</span></div>\n'
         "</div>\n\n"
@@ -367,8 +365,8 @@ def main():
         "[GitHub](https://github.com/phanesopenyoureyes){ .md-button }\n\n"
         "</div>\n\n"
         # ---------- LO QUE DOMINO ----------
-        "## Lo que domino\n\n"
-        "Las competencias que trabajo en cada máquina, del reconocimiento a la escalada:\n\n"
+        "## En qué me enfoco\n\n"
+        "Lo que practico en cada máquina, del reconocimiento a la escalada:\n\n"
         '<div class="grid cards" markdown>\n\n'
         + cap_cards
         + "\n</div>\n\n"
@@ -379,8 +377,9 @@ def main():
         + metodo
         + "</div>\n\n"
         # ---------- TÉCNICAS ----------
-        "## Técnicas que he aplicado\n\n"
-        f"{n_tec} técnicas distintas a lo largo de {n_maq} máquinas. Una muestra:\n\n"
+        "## Técnicas que he practicado\n\n"
+        f"Las {n_tec} técnicas que aparecen en los writeups de las {n_maq} máquinas. "
+        "Una muestra:\n\n"
         '<div class="tec-cloud">'
         + nube
         + "</div>\n\n"
