@@ -355,6 +355,54 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
 /* Info del perfil (Sobre mí) */
 .md-typeset .perfil__info { line-height: 1.5; }
 
+/* ===== Cabecera de sección (Certificaciones, Preparación, Máquinas·…) ===== */
+.md-typeset .sec-head {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin: .2rem 0 1.8rem;
+  padding: 1.5rem 1.6rem;
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(900px 300px at 0% -20%, rgba(79, 70, 229, .12), transparent 60%),
+    linear-gradient(135deg, rgba(15, 23, 42, .04), rgba(79, 70, 229, .05));
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+[data-md-color-scheme="slate"] .md-typeset .sec-head {
+  background:
+    radial-gradient(900px 300px at 0% -20%, rgba(129, 140, 248, .16), transparent 60%),
+    linear-gradient(135deg, rgba(255, 255, 255, .02), rgba(129, 140, 248, .06));
+}
+.md-typeset .sec-head__badge {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: .9rem;
+  font-size: 1.9rem;
+  background: color-mix(in srgb, var(--brand-1) 12%, var(--md-default-bg-color));
+  border: 1px solid var(--md-default-fg-color--lightest);
+  box-shadow: 0 .3rem .8rem rgba(79, 70, 229, .14);
+}
+.md-typeset .sec-head__text { min-width: 0; }
+.md-typeset .sec-head__title {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+.md-typeset .sec-head__sub {
+  margin: .3rem 0 0;
+  color: var(--md-default-fg-color--light);
+}
+@media (max-width: 480px) {
+  .md-typeset .sec-head { padding: 1.2rem; gap: .9rem; }
+  .md-typeset .sec-head__title { font-size: 1.55rem; }
+  .md-typeset .sec-head__badge { width: 3rem; height: 3rem; font-size: 1.6rem; }
+}
+
 /* ===== Tarjetas de certificaciones / preparación ===== */
 .md-typeset .cert-grid {
   display: grid;
@@ -364,11 +412,10 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
 }
 .md-typeset .cert-card {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .6rem 1rem;
-  padding: 1.1rem 1.2rem;
-  border-radius: .9rem;
+  flex-direction: column;
+  gap: .55rem;
+  padding: 1.2rem 1.3rem 1.3rem;
+  border-radius: 1rem;
   text-decoration: none;
   color: inherit;
   border: 1px solid var(--md-default-fg-color--lightest);
@@ -384,6 +431,13 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   box-shadow: 0 .7rem 1.6rem rgba(79, 70, 229, .18);
   border-color: var(--md-accent-fg-color);
 }
+.md-typeset .cert-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  margin-bottom: .2rem;
+}
 .md-typeset .cert-card__badge {
   flex: 0 0 auto;
   display: grid;
@@ -395,17 +449,10 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   background: color-mix(in srgb, var(--brand-1) 12%, var(--md-default-bg-color));
   border: 1px solid var(--md-default-fg-color--lightest);
 }
-.md-typeset .cert-card__body {
-  flex: 1 1 180px;
-  min-width: 170px;
-  display: flex;
-  flex-direction: column;
-  gap: .2rem;
-}
 .md-typeset .cert-card__tit {
   display: block;
   font-weight: 700;
-  font-size: .98rem;
+  font-size: 1.05rem;
   line-height: 1.3;
   color: var(--md-default-fg-color);
 }
@@ -418,13 +465,27 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
 .md-typeset .cert-card:hover .cert-card__arrow { transform: translateX(3px); }
 [data-md-color-scheme="slate"] .md-typeset .cert-card__arrow { color: #a5b4fc; }
 .md-typeset .cert-card__meta {
-  font-size: .8rem;
+  font-size: .82rem;
   color: var(--md-default-fg-color--light);
 }
+.md-typeset .cert-card__temas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .3rem;
+}
+.md-typeset .cert-card__tema {
+  padding: .12rem .5rem;
+  border-radius: .4rem;
+  font-size: .68rem;
+  font-family: var(--md-code-font-family, monospace);
+  background: rgba(124, 58, 237, .1);
+  color: var(--brand-2);
+  border: 1px solid rgba(124, 58, 237, .22);
+}
+[data-md-color-scheme="slate"] .md-typeset .cert-card__tema { color: #c4b5fd; }
 .md-typeset .cert-card__estado {
   flex: 0 0 auto;
-  margin-left: auto;
-  align-self: center;
   padding: .2rem .6rem;
   border-radius: 2rem;
   font-size: .7rem;

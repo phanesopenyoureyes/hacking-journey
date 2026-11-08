@@ -46,6 +46,23 @@ def cuenta(n, singular, plural):
     return f"{n} {singular if n == 1 else plural}"
 
 
+def _negritas(txt):
+    """Convierte **texto** en <strong> (para usar en bloques HTML sin Markdown)."""
+    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", txt)
+
+
+def sec_head(badge, titulo, intro):
+    """Cabecera de sección: badge grande + título + subtítulo (HTML, sin Markdown)."""
+    return (
+        '<div class="sec-head">'
+        f'<span class="sec-head__badge">{badge}</span>'
+        '<div class="sec-head__text">'
+        f'<h1 class="sec-head__title">{titulo}</h1>'
+        f'<p class="sec-head__sub">{_negritas(intro)}</p>'
+        '</div></div>'
+    )
+
+
 def ficha_maquina(d, dif_nombre):
     """Cabecera interactiva (icono + metadatos + técnicas) de una máquina."""
     slug, titulo = d["_slug"], d["titulo"]
@@ -172,15 +189,23 @@ def seccion_maquinas():
             destino = f"{destdir}/{d['_slug']}"
             shutil.copytree(d["_src"], destino)
             reescribir_con_ficha(f"{destino}/README.md", d, nombre)
+        cab = (f'---\ntitle: "Máquinas · {nombre}"\nhide:\n  - toc\n---\n\n')
         if items:
             cuerpo = (
-                f"# Máquinas · {nombre}\n\n"
-                f"Máquinas de dificultad **{nombre}** resueltas ({len(items)}).\n\n"
+                cab
+                + sec_head("🖥️", f"Máquinas · {nombre}",
+                           f"Máquinas de dificultad **{nombre}** resueltas ({len(items)}).")
+                + "\n\n"
                 + galeria_maquinas(items, "")
                 + "\n"
             )
         else:
-            cuerpo = f"# Máquinas · {nombre}\n\nAún no hay máquinas de dificultad **{nombre}** publicadas.\n"
+            cuerpo = (
+                cab
+                + sec_head("🖥️", f"Máquinas · {nombre}",
+                           f"Aún no hay máquinas de dificultad **{nombre}** publicadas.")
+                + "\n"
+            )
         escribir(f"{destdir}/index.md", cuerpo)
         # orden dentro de la dificultad: la portada primero, luego por fecha
         pages = f"title: {nombre}\nnav:\n  - index.md\n" + "".join(f"  - {d['_slug']}\n" for d in items)
@@ -196,14 +221,19 @@ def tarjetas_certs(items, badge, estado, clase):
     cards = []
     for d in items:
         meta = " · ".join(x for x in [d.get("entidad", ""), d.get("fecha", "")] if x)
+        temas = lista(d.get("temas"))
+        chips = ("".join(f'<span class="cert-card__tema">{t}</span>' for t in temas))
+        temas_html = f'<span class="cert-card__temas">{chips}</span>' if temas else ""
         cards.append(
             f'<a class="cert-card" href="{d["_slug"]}/README.md">'
+            f'<span class="cert-card__top">'
             f'<span class="cert-card__badge">{badge}</span>'
-            f'<span class="cert-card__body">'
+            f'<span class="cert-card__estado cert-card__estado--{clase}">{estado}</span>'
+            f'</span>'
             f'<span class="cert-card__tit">{d["titulo"]}'
             f'<span class="cert-card__arrow" aria-hidden="true">→</span></span>'
-            f'<span class="cert-card__meta">{meta}</span></span>'
-            f'<span class="cert-card__estado cert-card__estado--{clase}">{estado}</span>'
+            f'<span class="cert-card__meta">{meta}</span>'
+            f'{temas_html}'
             f'</a>'
         )
     return '<div class="cert-grid">' + "".join(cards) + "</div>"
@@ -235,10 +265,12 @@ def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, va
                 celdas = [c[1](d) for c in columnas]
                 filas.append("| " + " | ".join(celdas) + " |")
             contenido = "\n".join(filas)
-        cuerpo = f"# {emoji} {titulo}\n\n{intro_txt}\n\n{contenido}\n"
+        cuerpo = (f'---\ntitle: "{titulo}"\nhide:\n  - toc\n---\n\n'
+                  + sec_head(emoji, titulo, intro_txt) + "\n\n" + contenido + "\n")
     else:
         vacio_txt = vacio or f"Aún no hay {titulo.lower()} publicadas. Se añadirán aquí según las vaya documentando."
-        cuerpo = f"# {emoji} {titulo}\n\n{vacio_txt}\n"
+        cuerpo = (f'---\ntitle: "{titulo}"\nhide:\n  - toc\n---\n\n'
+                  + sec_head(emoji, titulo, vacio_txt) + "\n")
     escribir(f"{base}/index.md", cuerpo)
     pages = f"title: {titulo}\nnav:\n  - index.md\n" + "".join(f"  - {d['_slug']}\n" for d in items)
     escribir(f"{base}/.pages", pages)
