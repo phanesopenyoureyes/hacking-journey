@@ -166,6 +166,31 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   color: var(--md-default-fg-color--light);
 }
 
+/* Desglose escaneable (SO y dificultad) */
+.md-typeset .hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  margin: 0 0 1.4rem;
+}
+.md-typeset .hero__pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .3rem;
+  padding: .28rem .7rem;
+  border-radius: 2rem;
+  font-size: .76rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color--light);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+.md-typeset .hero__pill-n {
+  font-weight: 800;
+  color: var(--brand-1);
+}
+[data-md-color-scheme="slate"] .md-typeset .hero__pill-n { color: #a5b4fc; }
+
 /* Botones de llamada a la acción del hero */
 .md-typeset .hero .md-button {
   margin: .2rem .5rem .2rem 0;
@@ -178,17 +203,17 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
 }
 [data-md-color-scheme="slate"] .md-typeset .hero__tagline { color: #a5b4fc; }
 [data-md-color-scheme="slate"] .md-typeset .stat__num { color: #a5b4fc; }
-/* Botones secundarios (contorno) legibles en modo oscuro */
-[data-md-color-scheme="slate"] .md-typeset .hero .md-button:not(.md-button--primary) {
+/* Botones secundarios (contorno) legibles en modo oscuro (hero, contacto…) */
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary) {
   color: #a5b4fc;
   border-color: #a5b4fc;
 }
-[data-md-color-scheme="slate"] .md-typeset .hero .md-button:not(.md-button--primary):hover {
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary):hover {
   background-color: #a5b4fc;
   color: var(--nav-1);
 }
 /* Botón primario con el índigo claro para buen contraste en oscuro */
-[data-md-color-scheme="slate"] .md-typeset .hero .md-button--primary {
+[data-md-color-scheme="slate"] .md-typeset .md-button--primary {
   background-color: #4f46e5;
   border-color: #4f46e5;
   color: #fff;
@@ -326,6 +351,95 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   color: var(--md-default-fg-color--light);
 }
 [data-md-color-scheme="slate"] .md-typeset .dest-card__arrow { color: #a5b4fc; }
+
+/* Info del perfil (Sobre mí) */
+.md-typeset .perfil__info { line-height: 1.5; }
+
+/* ===== Tarjetas de certificaciones / preparación ===== */
+.md-typeset .cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0;
+}
+.md-typeset .cert-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem 1rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: .9rem;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--brand-1) 4%, var(--md-default-bg-color)),
+      var(--md-default-bg-color));
+  box-shadow: 0 .1rem .4rem rgba(15, 23, 42, .05);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.md-typeset .cert-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 .7rem 1.6rem rgba(79, 70, 229, .18);
+  border-color: var(--md-accent-fg-color);
+}
+.md-typeset .cert-card__badge {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: .7rem;
+  font-size: 1.5rem;
+  background: color-mix(in srgb, var(--brand-1) 12%, var(--md-default-bg-color));
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+.md-typeset .cert-card__body {
+  flex: 1 1 180px;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.md-typeset .cert-card__tit {
+  display: block;
+  font-weight: 700;
+  font-size: .98rem;
+  line-height: 1.3;
+  color: var(--md-default-fg-color);
+}
+.md-typeset .cert-card__arrow {
+  margin-left: .35rem;
+  color: var(--brand-1);
+  transition: transform .2s ease;
+  display: inline-block;
+}
+.md-typeset .cert-card:hover .cert-card__arrow { transform: translateX(3px); }
+[data-md-color-scheme="slate"] .md-typeset .cert-card__arrow { color: #a5b4fc; }
+.md-typeset .cert-card__meta {
+  font-size: .8rem;
+  color: var(--md-default-fg-color--light);
+}
+.md-typeset .cert-card__estado {
+  flex: 0 0 auto;
+  margin-left: auto;
+  align-self: center;
+  padding: .2rem .6rem;
+  border-radius: 2rem;
+  font-size: .7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.md-typeset .cert-card__estado--ok {
+  background: rgba(16, 185, 129, .14); color: #047857; border-color: rgba(16, 185, 129, .4);
+}
+.md-typeset .cert-card__estado--prep {
+  background: rgba(234, 179, 8, .16); color: #a16207; border-color: rgba(234, 179, 8, .45);
+}
+[data-md-color-scheme="slate"] .md-typeset .cert-card__estado--ok { color: #6ee7b7; }
+[data-md-color-scheme="slate"] .md-typeset .cert-card__estado--prep { color: #fde047; }
 
 /* Imagen de certificado: grande, centrada y clicable */
 .md-typeset .cert-img {
