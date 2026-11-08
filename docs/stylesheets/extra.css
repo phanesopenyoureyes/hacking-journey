@@ -107,6 +107,10 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
 }
 
 /* ===== Portada: bloque hero ===== */
+/* La portada oculta la navegación lateral: ensanchamos el contenido para
+   que ocupe mejor el ancho y no queden los laterales vacíos. */
+.md-main:has(.hero) .md-grid { max-width: 68rem; }
+
 .md-typeset .hero {
   margin: .4rem 0 2.2rem;
   padding: 2.2rem 2rem 2rem;
