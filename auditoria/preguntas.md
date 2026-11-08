@@ -132,6 +132,10 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
     writeup más visible de la portada es el menos tuyo. Y la terna que propuse en la
     pregunta 9 era precisamente `validation` + `optimum` + `sau`/`delivery`.
 
+    **✅ Respondida (2026-11-08).** La portada queda con **`validation`, `optimum` y
+    `delivery`**. `buff` **sigue publicado tal cual** (decisión tuya) pero **sale de la
+    portada**. Aplicado en `scripts/generar-sitio.py`, lista `DESTACADOS`.
+
 14. **Los seis con más problemas técnicos.** En `auditoria/autenticidad.md` §4 tienes la
     lista con línea exacta. Son errores comprobables, no de estilo:
     `cronos:236` (payload PHP), `servmon:141` (ruta macOS en máquina Windows),
@@ -142,6 +146,12 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
       servmon, pilgrimage, sau, legacy) y te deje los dos que sí dependen de tus notas
       (cronos, buff) para que los rehagas?
     - ¿O prefieres revisarlos tú todos y que solo prepare las correcciones propuestas?
+
+    **✅ Respondida (2026-11-08).** **Ninguno todavía**: primero revisas tú el PR #31
+    completo y, a partir de ahí, decides cuáles arreglo. Los seis defectos siguen
+    documentados en `autenticidad.md` §4, con su línea exacta, y **no he tocado ningún
+    writeup**. Nota: `buff` conserva por tanto sus tres CVEs mal atribuidas (§4.4) y
+    `cronos` conserva un payload que tal como está no funcionaría (§4.1).
 
 15. **Los writeups sin una sola marca de primera persona.** Son 16 de 24. El que más me
     preocupa no es el estilo, es `buff` (0 marcas, 100% impersonal, y está en la portada).
@@ -155,6 +165,10 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
     para redactar y organizar, y que el trabajo técnico es tuyo? Mi opinión: **sí**, es
     mejor que lo diga yo a que lo pille un técnico leyendo el repo. Pero es tu decisión y no
     la tomo por mi cuenta.
+
+    **✅ Respondida (2026-11-08).** **Sí, pero solo en el README del repositorio**, no en
+    la web: quien lea el repo la ve; quien solo navega por el sitio, no. Texto aplicado en
+    `README.md`.
 
 ## Higiene del repo (cualquier momento)
 

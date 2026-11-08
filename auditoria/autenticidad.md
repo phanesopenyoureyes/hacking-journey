@@ -143,9 +143,9 @@ Los he verificado yo mismo en los ficheros actuales. No son opiniones de estilo.
 
 Ordenados por impacto en el lector ( primero los que están **destacados en la portada**):
 
-1. **buff** — está **destacado en la portada** y su escalada se completó «con el método
-   conocido de la máquina». Además tiene tres CVEs mal atribuidos (§4.4). Es el writeup
-   con más visibilidad y el que más expone.
+1. **buff** — su escalada se completó «con el método conocido de la máquina». Además
+   tiene tres CVEs mal atribuidos (§4.4). **Desde el 2026-11-08 ya no está en la
+   portada** (ver §9), pero **sigue publicado** por decisión tuya.
 2. **cronos** — escalada no ejecutada por ti (declarado en su commit) y el payload tal
    como está **no funcionaría** (§4.1). Es la única de dificultad Media: la que más
    demuestra nivel.
@@ -157,8 +157,9 @@ Ordenados por impacto en el lector ( primero los que están **destacados en la p
    «desde el zip» sin sus iniciales.
 
 Y a igualdad de problemas, los **destacados de la portada** mandan: quien mira cinco
-minutos ve primero `validation`, `optimum` y `buff`. De esos tres, **dos son sólidos y
-uno (buff) es el que hay que rehacer.**
+minutos ve primero `validation`, `optimum` y `delivery`. Los dos primeros son sólidos y
+verificados contra tu original; el tercero (`delivery`) es de los que redacté yo, pero
+**tiene tus capturas y tus notas**, a diferencia de `buff`.
 
 ---
 
@@ -187,10 +188,9 @@ Los dejo señalados en vez de rellenarlos:
 - **Si los writeups del bloque B son correctos técnicamente de principio a fin.** En
   general encajan con el método público de cada máquina, pero eso no demuestra que sea el
   camino que recorriste.
-- **La terna de destacados.** La portada destaca `validation`, `optimum`, `buff`
-  (`scripts/generar-sitio.py`, lista `DESTACADOS`). El informe de E0 proponía
-  `validation`, `optimum` y `sau`/`delivery`. Con buff en portada, **la pregunta se
-  vuelve urgente**: es el writeup con el final inventado.
+- ~~**La terna de destacados.**~~ **Resuelto el 2026-11-08**: la portada destaca
+  `validation`, `optimum` y `delivery` (`scripts/generar-sitio.py`, lista `DESTACADOS`).
+  `buff` sale de la portada y **sigue publicado**.
 
 ---
 
@@ -221,14 +221,38 @@ Nada de esto reescribe writeups: solo prepara el terreno y añade la sección pe
    rutas en Windows (el validador reventaba con `IndexError` al leer
    `maquinas\htb\...` y el comprobador de enlaces daba un falso positivo). Sin este arreglo
    no se puede validar nada en local.
+6. **`scripts/generar-sitio.py`** — la portada destaca ahora `validation`, `optimum` y
+   `delivery` en lugar de `buff`.
+7. **`README.md`** — nota breve de transparencia: el trabajo técnico es tuyo; la redacción
+   y la organización de los textos se hacen con apoyo de Claude Code. **Solo en el
+   README**, no en el sitio web.
 
 **Lo que NO he hecho, a propósito:**
 
 - **No he tocado buff.** Su escalada necesita tus notas, no las mías. Si la rehaces tú,
   el texto queda con tu voz y el problema desaparece; si no, se queda como está y lo
-  decides en la pregunta 13.
+  decides en la pregunta 13. → **Decidido (2026-11-08): se queda como está** y sale de la
+  portada (ver §9).
 - **No he reescrito los nueve writeups del bloque B.** Sus correcciones técnicas son
   concretas y las tienes en §4; las aplico cuando me digas cuáles quieres arreglar.
 - **No he inventado ninguna experiencia.** Las secciones nuevas de validation y optimum
   solo contienen cosas que están escritas en tu original o en tu writeup actual, con tu
   manera de escribir.
+
+---
+
+## 9. Decisiones del autor (2026-11-08)
+
+Resueltas tras la entrega de este informe:
+
+| Decisión | Lo que decidiste | Qué hice |
+| --- | --- | --- |
+| Terna de destacados | `validation` + `optimum` + **`delivery`** | Cambié la lista `DESTACADOS` de `scripts/generar-sitio.py`. `buff` sale de la portada. |
+| `buff` | **Dejarlo como está**: sigue publicado | No lo he tocado. Conserva sus tres CVEs mal atribuidas (§4.4) hasta que decidas lo contrario. |
+| Los seis defectos | **Ninguno todavía**: primero revisas el PR #31 | No he modificado ningún writeup. Los seis siguen documentados en §4 con su línea exacta. |
+| Nota de transparencia | **Sí, pero solo en el README del repositorio**, no en la web | Añadida en `README.md`. El sitio web no la muestra. |
+
+**Lo que sigue pendiente de tu parte y bloquea el cierre de E3:** tus respuestas a las
+cuatro preguntas de `buff`, el payload real de `cronos` (pregunta 11) y tus notas
+originales del bloque B (pregunta 12). Sin eso, `buff` y `cronos` se quedan como están y
+no puedo añadirles la sección «Lo que me costó / Lo que aprendí» sin inventar contenido.
