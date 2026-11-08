@@ -9,13 +9,13 @@ Seguridad ofensiva · alias **ph4n3s** en Hack The Box.
 </div>
 </div>
 
-Este sitio recoge mis writeups de máquinas **retiradas** de Hack The Box y mi
-preparación de certificaciones. Lo documento para aprender y para mostrar cómo
-trabajo y cómo explico lo que hago: en cada máquina razono el *porqué* de cada
-paso y cierro con una nota de mitigación.
+Este sitio reúne mis writeups de máquinas **retiradas** de Hack The Box y mi
+preparación de certificaciones. En cada máquina explico el *porqué* de cada paso
+—no solo el comando— y cierro con la nota de mitigación que habría evitado el
+fallo: documento criterio y método, no solo el resultado.
 
-Cada writeup sigue la misma plantilla —reconocimiento, enumeración, explotación,
-escalada y mitigación— y pasa un validador antes de publicarse.
+Cada writeup sigue la misma estructura —reconocimiento, enumeración, explotación,
+escalada y mitigación— y pasa un validador automático antes de publicarse.
 
 ## Contacto
 

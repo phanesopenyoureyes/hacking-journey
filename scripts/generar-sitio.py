@@ -13,6 +13,7 @@ menú) y la portada docs/index.md. Todo docs/ generado está en .gitignore y se
 reconstruye en cada build, también en CI.
 """
 import glob
+import hashlib
 import os
 import re
 import shutil
@@ -363,14 +364,12 @@ def main():
     top_tecs = [t for t, _ in tec_count.most_common(24)]
     nube = "".join(f'<span class="tec">{t}</span>' for t in top_tecs)
 
-    # Desglose real y escaneable (SO y dificultad) para el hero.
+    # Desglose de plataformas para el hero (muestra alcance Linux/Windows).
     pills = []
     if n_linux:
         pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{n_linux}</span> Linux</span>')
     if n_win:
         pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{n_win}</span> Windows</span>')
-    for _nombre, _n in dif_counts:
-        pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{_n}</span> {_nombre}</span>')
     hero_meta = '<div class="hero__meta">' + "".join(pills) + "</div>" if pills else ""
 
     # Writeups destacados como tarjetas con icono.
@@ -431,13 +430,13 @@ def main():
         '<div class="stat"><span class="stat__num">eJPT</span>'
         '<span class="stat__lbl">certificación obtenida</span></div>\n'
         '<div class="stat"><span class="stat__num">CPTS</span>'
-        '<span class="stat__lbl">en preparación · 2027</span></div>\n'
+        '<span class="stat__lbl">certificación en preparación</span></div>\n'
         "</div>\n\n"
         + hero_meta + "\n\n"
-        "[Ver máquinas](maquinas/facil/){ .md-button .md-button--primary }\n"
-        "[Hack The Box](https://app.hackthebox.com/users/4011018){ .md-button }\n"
-        "[LinkedIn](https://www.linkedin.com/in/francisco-gutierrez-garcia){ .md-button }\n"
-        "[GitHub](https://github.com/phanesopenyoureyes){ .md-button }\n\n"
+        "[:material-server-network: Ver máquinas](maquinas/facil/){ .md-button .md-button--primary }\n"
+        "[:simple-hackthebox: Hack The Box](https://app.hackthebox.com/users/4011018){ .md-button }\n"
+        "[:fontawesome-brands-linkedin: LinkedIn](https://www.linkedin.com/in/francisco-gutierrez-garcia){ .md-button }\n"
+        "[:fontawesome-brands-github: GitHub](https://github.com/phanesopenyoureyes){ .md-button }\n\n"
         "</div>\n\n"
         # ---------- LO QUE DOMINO ----------
         "## En qué me enfoco\n\n"
@@ -474,8 +473,26 @@ def main():
         "autorizados.\n"
     )
     escribir("docs/index.md", index)
+    cache_bust_css()
     print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, "
           f"{n_prep} preparaciones, {n_herr} herramientas")
+
+
+def cache_bust_css():
+    """Añade ?v=<hash> a extra.css en mkdocs.yml para forzar recarga al cambiar.
+
+    Evita que los navegadores sirvan una hoja de estilos antigua con HTML nuevo
+    (lo que deja las tarjetas y botones sin estilo). El hash depende del
+    contenido del CSS, así que solo cambia cuando cambia el CSS.
+    """
+    css = "docs/stylesheets/extra.css"
+    if not (os.path.exists(css) and os.path.exists("mkdocs.yml")):
+        return
+    h = hashlib.md5(open(css, "rb").read()).hexdigest()[:10]
+    mk = open("mkdocs.yml", encoding="utf-8").read()
+    nuevo = re.sub(r"(stylesheets/extra\.css)(\?v=[A-Za-z0-9]+)?", rf"\1?v={h}", mk)
+    if nuevo != mk:
+        open("mkdocs.yml", "w", encoding="utf-8").write(nuevo)
 
 
 if __name__ == "__main__":
