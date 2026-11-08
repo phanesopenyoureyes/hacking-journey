@@ -200,6 +200,133 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   .md-typeset .stat { flex: 1 1 100%; }
 }
 
+/* Línea de terminal del hero */
+.md-typeset .hero__term {
+  margin: 0 0 .4rem;
+  font-family: var(--md-code-font-family, monospace);
+  font-size: .82rem;
+  color: var(--md-default-fg-color--light);
+}
+.md-typeset .hero__term-ps {
+  color: #83cf00;
+  font-weight: 700;
+}
+[data-md-color-scheme="slate"] .md-typeset .hero__term-ps { color: #9fef00; }
+
+/* ===== Metodología (pasos) ===== */
+.md-typeset .metodo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: .6rem;
+  margin: 1rem 0 1.4rem;
+}
+.md-typeset .metodo__step {
+  flex: 1 1 140px;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .7rem .9rem;
+  border-radius: .7rem;
+  font-weight: 600;
+  font-size: .86rem;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--brand-1) 5%, var(--md-default-bg-color)),
+      var(--md-default-bg-color));
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+.md-typeset .metodo__n {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 50%;
+  font-size: .78rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-3));
+}
+/* El último paso (mitigación) se resalta en verde HTB */
+.md-typeset .metodo__step:last-child {
+  border-color: rgba(159, 239, 0, .5);
+  background: linear-gradient(180deg, rgba(159, 239, 0, .12), var(--md-default-bg-color));
+}
+.md-typeset .metodo__step:last-child .metodo__n {
+  background: linear-gradient(135deg, #83cf00, #9fef00);
+  color: #0b1f00;
+}
+
+/* ===== Nube de técnicas ===== */
+.md-typeset .tec-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin: 1rem 0 1.4rem;
+}
+.md-typeset .tec-cloud .tec {
+  margin: 0;
+  font-size: .74rem;
+  padding: .22rem .6rem;
+}
+
+/* ===== Writeups destacados (tarjetas) ===== */
+.md-typeset .dest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 1.4rem;
+}
+.md-typeset .dest-card {
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+  padding: 1rem 1.1rem;
+  border-radius: .9rem;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--brand-1) 4%, var(--md-default-bg-color)),
+      var(--md-default-bg-color));
+  box-shadow: 0 .1rem .4rem rgba(15, 23, 42, .05);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.md-typeset .dest-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 .7rem 1.6rem rgba(79, 70, 229, .18);
+  border-color: var(--md-accent-fg-color);
+}
+.md-typeset .dest-card__ico {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  filter: drop-shadow(0 .2rem .5rem rgba(0, 0, 0, .3));
+}
+.md-typeset .dest-card__body { display: flex; flex-direction: column; gap: .3rem; }
+.md-typeset .dest-card__nombre {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--md-default-fg-color);
+}
+.md-typeset .dest-card__arrow {
+  color: var(--brand-1);
+  transition: transform .2s ease;
+}
+.md-typeset .dest-card:hover .dest-card__arrow { transform: translateX(3px); }
+.md-typeset .dest-card__txt {
+  font-size: .82rem;
+  line-height: 1.45;
+  color: var(--md-default-fg-color--light);
+}
+[data-md-color-scheme="slate"] .md-typeset .dest-card__arrow { color: #a5b4fc; }
+
 /* Imagen de certificado: grande, centrada y clicable */
 .md-typeset .cert-img {
   display: block;
