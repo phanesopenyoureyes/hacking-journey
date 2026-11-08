@@ -85,6 +85,7 @@ y documento.
 | [Irked](maquinas/htb/facil/irked/) | Linux | 2026-10-30 | `enumeracion-web`, `unrealircd-backdoor`, `esteganografia`, `suid`, `path-hijacking` |
 | [Buff](maquinas/htb/facil/buff/) | Windows | 2026-10-28 | `enumeracion-web`, `file-upload`, `rce`, `pivoting`, `chisel`, `buffer-overflow` |
 | [ServMon](maquinas/htb/facil/servmon/) | Windows | 2026-10-27 | `ftp-anonimo`, `directory-traversal`, `nvms-1000`, `reutilizacion-de-credenciales`, `nsclient-abuse` |
+| [Cap](maquinas/htb/facil/cap/) | Linux | 2026-10-26 | `idor`, `analisis-de-pcap`, `reutilizacion-de-credenciales`, `linux-capabilities` |
 | [Traverxec](maquinas/htb/facil/traverxec/) | Linux | 2026-10-25 | `enumeracion-web`, `rce`, `crackeo-de-hash`, `sudo-misconfig`, `gtfobins` |
 | [Optimum](maquinas/htb/facil/optimum/) | Windows | 2026-10-24 | `http-file-server`, `rce`, `kernel-exploit` |
 | [Devel](maquinas/htb/facil/devel/) | Windows | 2026-10-23 | `ftp-anonimo`, `carga-de-archivos`, `iis`, `kernel-exploit` |
