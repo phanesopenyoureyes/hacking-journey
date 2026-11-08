@@ -16,8 +16,8 @@ ph4n3s@htb:~$ cat hacking-journey
 
 ---
 
-Soy **Francisco Gutiérrez García**, estudiante de 1º de **ASIR** en formación de seguridad
-ofensiva. Busco **prácticas o un primer empleo en ciberseguridad ofensiva**. Este repositorio
+Soy **Francisco Gutiérrez García** (alias **ph4n3s**), dedicado a la **seguridad
+ofensiva**. Este repositorio
 documenta mi progreso resolviendo máquinas de Hack The Box: para cada una explico el *porqué*
 de cada paso —no solo el comando— y cierro con una nota de mitigación que describe cómo se
 habría evitado el fallo. Es a la vez mi cuaderno de aprendizaje y una muestra de cómo trabajo

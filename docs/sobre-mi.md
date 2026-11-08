@@ -5,7 +5,7 @@
 
 **Francisco Gutiérrez García**<br>
 Alias **ph4n3s** — mi identificador en Hack The Box y plataformas de seguridad.<br>
-Estudiante de ASIR en formación de seguridad ofensiva.
+Seguridad ofensiva.
 </div>
 
 Este sitio recoge mis writeups de máquinas retiradas de Hack The Box y mi

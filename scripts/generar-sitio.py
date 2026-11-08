@@ -301,10 +301,9 @@ def main():
         "# Francisco Gutiérrez García\n\n"
         '<p class="hero__tagline">Seguridad ofensiva · alias <strong>ph4n3s</strong> '
         'en Hack The Box</p>\n\n'
-        "Estudiante de 1º de **ASIR** en formación de seguridad ofensiva. Busco "
-        "**prácticas o un primer empleo en ciberseguridad ofensiva**. Documento las "
-        "máquinas **retiradas** de Hack The Box que resuelvo, explicando el *porqué* de "
-        "cada paso y cerrando con su mitigación.\n\n"
+        "Portfolio de **seguridad ofensiva**. Documento las máquinas **retiradas** de "
+        "Hack The Box que resuelvo, explicando el *porqué* de cada paso —no solo el "
+        "comando— y cerrando cada una con su nota de mitigación.\n\n"
         '<div class="hero__stats">\n'
         f'<div class="stat"><span class="stat__num">{n_maq}</span>'
         '<span class="stat__lbl">máquinas resueltas</span></div>\n'
