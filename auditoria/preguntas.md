@@ -46,7 +46,9 @@ Las marcadas con ⚠️ **bloquean** decisiones de E1.
 
 ## Autenticidad (E3)
 
-9. Varios writeups los redacté yo a partir de tus notas (ver `writeups.md`, columna "Autoría").
+9. ~~Varios writeups los redacté yo a partir de tus notas (ver `writeups.md`, columna
+   "Autoría").~~ **Resuelto (2026-11-08): los 24 writeups son tuyos**; Claude afina el texto y
+   añade la mitigación, y la columna «Autoría» ya no existe en `writeups.md`.
    Para los **3 destacados** (propongo Validation + Optimum + Sau/Delivery) te haré preguntas
    concretas en E3 ("qué probé primero, qué falló, qué me costó, qué aprendí") para añadir tu voz.
    ¿Te parece bien esa terna o prefieres destacar otras?

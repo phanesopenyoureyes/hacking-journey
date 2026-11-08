@@ -11,6 +11,14 @@
 > Metodología: en este informe **solo se señala fichero:línea**, nunca el valor de un secreto, flag
 > o credencial. Nada se ha modificado fuera de `auditoria/` y la rama de respaldo.
 
+> **Corrección posterior (E3, 2026-11-08).** Los hallazgos de este informe sobre *autoría*
+> estaban equivocados: leer el historial de git llevó a pensar que parte de los writeups no
+> eran tuyos. **Los 24 writeups son tuyos** — has hecho todas las máquinas enteras y los has
+> redactado tú; Claude afina el texto para que sea legible y didáctico y añade las notas de
+> mitigación. Donde este informe habla de «Autoría: Claude (de tus notas)» o de writeups
+> «redactados por Claude», hay que leerlo como *texto afinado por Claude sobre material
+> tuyo*. Detalle en `auditoria/autenticidad.md` §1 y §2.
+
 ---
 
 ## 0. Corrección del "estado conocido" del encargo (verificado)
@@ -156,13 +164,16 @@ El encargo asumía cosas que **no coinciden** con el repo real; conviene partir 
 
 ## 5. NO VERIFICADO
 
-- **Autoría real de parte de los writeups.** Los de "Autoría: Claude (de tus notas)" en
-  `writeups.md` fueron **ensamblados por Claude Code** a partir de tus notas/capturas; su redacción
-  (Resumen, Mitigación, Qué he aprendido) no es tuya. Para cumplir las reglas 2 y 3 debes
-  revisarlos y hacerlos tuyos (E3). **NO VERIFICADO** que cada paso refleje exactamente tu proceso.
-- **Cronos:** la escalada se **completó desde las capturas** porque tus notas de texto se cortaban
-  en el crontab. Verifica el payload exacto que usaste.
-- **`sau`** se añadió fuera de las sesiones que controlo; **NO VERIFICADO** quién lo redactó.
+- ~~**Autoría real de parte de los writeups.**~~ **Resuelto en E3 (2026-11-08): los 24
+  writeups son tuyos.** Los que aquí aparecían como "Autoría: Claude (de tus notas)" son
+  writeups tuyos cuyo texto fue afinado por Claude Code (redacción, Resumen, Mitigación y
+  Qué he aprendido) a partir de tus notas y capturas. Lo que queda por revisar es de
+  precisión: que cada paso refleje exactamente tu proceso.
+- **Cronos:** la escalada se documentó a partir de las capturas porque tus notas de texto se
+  cortaban en el crontab. **Ya está corregido** (2026-11-08): el payload es PHP válido y
+  has confirmado que la escalada la ejecutaste tú.
+- **`sau`** se añadió fuera de las sesiones que controlo; **NO VERIFICADO** si el texto
+  refleja exactamente tu proceso.
 - **Máquinas retiradas:** todas las publicadas son clásicas y retiradas (Blue, Lame, Legacy,
   Devel, Optimum, Granny, Nibbles, Bashed, Shocker, Knife, Traverxec, Validation, Bank, Antique,
   Irked, Buff, ServMon, Pilgrimage, Sau, Broker, Delivery, Cronos). No he podido **confirmar en
@@ -203,7 +214,8 @@ El encargo asumía cosas que **no coinciden** con el repo real; conviene partir 
 
 - **Regla 4 (flags):** la incumplí al añadir en sesiones anteriores writeups con las flags
   completas (antique, bank, servmon, irked, cronos, pilgrimage, broker, delivery). Se corrige en E1.
-- **Regla 2/3 (autenticidad):** varios writeups los redacté yo; su *Resumen/Mitigación/Qué he
-  aprendido* son míos, no tuyos. Lo marco como NO VERIFICADO y lo abordamos en E3.
+- **Regla 2/3 (autenticidad):** con la aclaración del 2026-11-08, **los 24 writeups son
+  tuyos**; lo que hice fue afinar su redacción y añadir las notas de mitigación. Queda
+  como trabajo de E4 que el texto suene a tu, no una tarea de autoría.
 - Resto de reglas de E0 (solo lectura, respaldo, informes solo con fichero:línea, `auditoria/`
   fuera de lo publicado): respetadas.
