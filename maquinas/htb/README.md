@@ -27,6 +27,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 | [Irked](facil/irked/) | Linux | 2026-10-30 | `enumeracion-web`, `unrealircd-backdoor`, `esteganografia`, `suid`, `path-hijacking` |
 | [Buff](facil/buff/) | Windows | 2026-10-28 | `enumeracion-web`, `file-upload`, `rce`, `pivoting`, `chisel`, `buffer-overflow` |
 | [ServMon](facil/servmon/) | Windows | 2026-10-27 | `ftp-anonimo`, `directory-traversal`, `nvms-1000`, `reutilizacion-de-credenciales`, `nsclient-abuse` |
+| [Cap](facil/cap/) | Linux | 2026-10-26 | `idor`, `analisis-de-pcap`, `reutilizacion-de-credenciales`, `linux-capabilities` |
 | [Traverxec](facil/traverxec/) | Linux | 2026-10-25 | `enumeracion-web`, `rce`, `crackeo-de-hash`, `sudo-misconfig`, `gtfobins` |
 | [Optimum](facil/optimum/) | Windows | 2026-10-24 | `http-file-server`, `rce`, `kernel-exploit` |
 | [Devel](facil/devel/) | Windows | 2026-10-23 | `ftp-anonimo`, `carga-de-archivos`, `iis`, `kernel-exploit` |
