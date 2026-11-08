@@ -24,10 +24,10 @@ habría evitado el fallo. Es a la vez mi cuaderno de aprendizaje y una muestra d
 y documento.
 
 > [!NOTE]
-> **Cómo están escritos estos writeups.** El trabajo técnico —reconocimiento, explotación,
-> escalada y notas de mitigación— es mío. La redacción y la organización de los textos se
-> hacen con apoyo de **Claude Code**, que también me ayuda a revisar el repositorio y a
-> mantener el sitio actualizado.
+> **Cómo están escritos estos writeups.** Las máquinas las he hecho enteras y los writeups
+> los he redactado yo. **Claude Code** me ayuda a **afinarlos** para que sean legibles y
+> didácticos, y **añade las notas de mitigación** del final de cada máquina, que son parte
+> importante del writeup y se mantienen.
 
 > **Estado actual:** preparando **CPTS** (objetivo 2027) y, después, **OSCP**.
 
