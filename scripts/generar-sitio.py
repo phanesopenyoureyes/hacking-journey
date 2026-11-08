@@ -296,17 +296,30 @@ def main():
     )
 
     index = (
+        "---\nhide:\n  - toc\n---\n\n"
+        '<div class="hero" markdown>\n\n'
         "# Francisco Gutiérrez García\n\n"
-        "Seguridad ofensiva · alias **ph4n3s** en Hack The Box.\n{ .hero-sub }\n\n"
-        "Soy estudiante de 1º de **ASIR** en formación de seguridad ofensiva y busco "
-        "**prácticas o un primer empleo en ciberseguridad ofensiva**. Documento aquí, paso "
-        "a paso, las máquinas **retiradas** de Hack The Box que resuelvo: explico el "
-        "*porqué* de cada paso —no solo el comando— y cierro con una nota de mitigación.\n\n"
-        "**Estado actual:** preparando **CPTS** (objetivo 2027) y, después, **OSCP**.\n\n"
+        '<p class="hero__tagline">Seguridad ofensiva · alias <strong>ph4n3s</strong> '
+        'en Hack The Box</p>\n\n'
+        "Estudiante de 1º de **ASIR** en formación de seguridad ofensiva. Busco "
+        "**prácticas o un primer empleo en ciberseguridad ofensiva**. Documento las "
+        "máquinas **retiradas** de Hack The Box que resuelvo, explicando el *porqué* de "
+        "cada paso y cerrando con su mitigación.\n\n"
+        '<div class="hero__stats">\n'
+        f'<div class="stat"><span class="stat__num">{n_maq}</span>'
+        '<span class="stat__lbl">máquinas resueltas</span></div>\n'
+        f'<div class="stat"><span class="stat__num">{n_cert}</span>'
+        '<span class="stat__lbl">certificación · eJPT</span></div>\n'
+        '<div class="stat"><span class="stat__num">CPTS</span>'
+        '<span class="stat__lbl">en preparación · 2027</span></div>\n'
+        "</div>\n\n"
+        "[Ver máquinas](maquinas/facil/){ .md-button .md-button--primary }\n"
+        "[LinkedIn](https://www.linkedin.com/in/francisco-gutierrez-garcia){ .md-button }\n"
+        "[GitHub](https://github.com/phanesopenyoureyes){ .md-button }\n\n"
+        "</div>\n\n"
         "> Todo el contenido tiene **fines exclusivamente educativos** y se limita a "
         "máquinas **retiradas** de Hack The Box, resueltas en entornos de laboratorio "
         "autorizados.\n\n"
-        "Usa el buscador (arriba) para encontrar una técnica, un servicio o una máquina.\n\n"
         '<div class="grid cards" markdown>\n\n'
         + "\n".join(cards)
         + "\n</div>\n\n"
