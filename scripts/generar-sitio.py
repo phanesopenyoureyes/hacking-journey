@@ -29,9 +29,9 @@ DESTACADOS = [
     ("facil", "optimum", "Optimum",
      "RCE sobre HttpFileServer y escalada por un exploit de kernel (MS16-032), con un "
      "intento fallido y la alternativa que sí funcionó."),
-    ("facil", "buff", "Buff",
-     "Pivoting con chisel y un buffer overflow casero contra un servicio que solo "
-     "escuchaba en localhost."),
+    ("facil", "delivery", "Delivery",
+     "Encadena una fuga de información en osTicket con la reutilización de contraseñas "
+     "y termina con un hash de MySQL crackeado con hashcat."),
 ]
 
 
