@@ -296,7 +296,7 @@ def main():
     )
 
     index = (
-        "---\nhide:\n  - toc\n---\n\n"
+        "---\nhide:\n  - navigation\n  - toc\n---\n\n"
         '<div class="hero" markdown>\n\n'
         "# Francisco Gutiérrez García\n\n"
         '<p class="hero__tagline">Seguridad ofensiva · alias <strong>ph4n3s</strong> '
