@@ -106,6 +106,96 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   color: var(--md-default-fg-color--light);
 }
 
+/* ===== Portada: bloque hero ===== */
+.md-typeset .hero {
+  margin: .4rem 0 2.2rem;
+  padding: 2.2rem 2rem 2rem;
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(1200px 400px at 0% -10%, rgba(79, 70, 229, .12), transparent 60%),
+    linear-gradient(135deg, rgba(15, 23, 42, .04), rgba(79, 70, 229, .05));
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+.md-typeset .hero > h1 {
+  margin: 0 0 .3rem;
+  font-size: 2.6rem;
+  line-height: 1.08;
+}
+.md-typeset .hero > h1 .headerlink { display: none; }
+.md-typeset .hero__tagline {
+  margin: 0 0 1.1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--brand-1);
+}
+.md-typeset .hero > p { max-width: 54ch; }
+
+/* Fila de estadísticas */
+.md-typeset .hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0 1.6rem;
+}
+.md-typeset .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 120px;
+  padding: .85rem 1.2rem;
+  border-radius: .8rem;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  box-shadow: 0 .2rem .7rem rgba(0, 0, 0, .06);
+}
+.md-typeset .stat__num {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--brand-1);
+}
+.md-typeset .stat__lbl {
+  margin-top: .35rem;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Botones de llamada a la acción del hero */
+.md-typeset .hero .md-button {
+  margin: .2rem .5rem .2rem 0;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .hero {
+  background:
+    radial-gradient(1200px 400px at 0% -10%, rgba(129, 140, 248, .16), transparent 60%),
+    linear-gradient(135deg, rgba(255, 255, 255, .02), rgba(129, 140, 248, .06));
+}
+[data-md-color-scheme="slate"] .md-typeset .hero__tagline { color: #a5b4fc; }
+[data-md-color-scheme="slate"] .md-typeset .stat__num { color: #a5b4fc; }
+/* Botones secundarios (contorno) legibles en modo oscuro */
+[data-md-color-scheme="slate"] .md-typeset .hero .md-button:not(.md-button--primary) {
+  color: #a5b4fc;
+  border-color: #a5b4fc;
+}
+[data-md-color-scheme="slate"] .md-typeset .hero .md-button:not(.md-button--primary):hover {
+  background-color: #a5b4fc;
+  color: var(--nav-1);
+}
+/* Botón primario con el índigo claro para buen contraste en oscuro */
+[data-md-color-scheme="slate"] .md-typeset .hero .md-button--primary {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .md-typeset .hero { padding: 1.6rem 1.2rem; }
+  .md-typeset .hero > h1 { font-size: 2rem; }
+  .md-typeset .stat { flex: 1 1 100%; }
+}
+
 /* Imagen de certificado: grande, centrada y clicable */
 .md-typeset .cert-img {
   display: block;
