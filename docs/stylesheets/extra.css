@@ -370,29 +370,46 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   margin: 1.2rem 0;
 }
 .md-typeset .maq-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: .5rem;
-  padding: 1.1rem .7rem .9rem;
-  border-radius: .9rem;
+  gap: .55rem;
+  padding: 1.3rem .8rem 1rem;
+  border-radius: 1rem;
   text-decoration: none;
   color: inherit;
   border: 1px solid var(--md-default-fg-color--lightest);
-  background: var(--md-default-bg-color);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--brand-1) 4%, var(--md-default-bg-color)),
+      var(--md-default-bg-color));
+  box-shadow: 0 .1rem .4rem rgba(15, 23, 42, .05);
+  overflow: hidden;
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+/* Acento superior sutil que aparece al pasar el ratón */
+.md-typeset .maq-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-1), var(--brand-3));
+  opacity: 0;
+  transition: opacity .2s ease;
 }
 .md-typeset .maq-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 .7rem 1.6rem rgba(79, 70, 229, .22);
+  box-shadow: 0 .8rem 1.8rem rgba(79, 70, 229, .2);
   border-color: var(--md-accent-fg-color);
 }
+.md-typeset .maq-card:hover::before { opacity: 1; }
 .md-typeset .maq-card__ico {
-  width: 92px;
-  height: 92px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .25);
+  filter: drop-shadow(0 .3rem .7rem rgba(0, 0, 0, .3));
 }
 .md-typeset .maq-card__nombre { font-weight: 700; font-size: .95rem; }
 .md-typeset .maq-card__meta {
