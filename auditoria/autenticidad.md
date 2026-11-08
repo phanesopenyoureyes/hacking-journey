@@ -96,22 +96,36 @@ texto en el repo, no el trabajo.
 
 ## 3. Medición de voz (dato objetivo)
 
-Primera persona por writeup (`grep` sobre `yo|mis|me|conmigo|probé|intenté|me quedé|me
-costó|me atasqué|mi`; 32 coincidencias en 8 ficheros):
+Primera persona por writeup. Medición reproducible, con límites de palabra para que no
+cuenten cosas como «mismo» o «minuto»:
+
+```
+grep -o -E '\b(y[oó]|mis|me|mi)\b|probé|intenté|quedé|costó|atasqué|conmigo' maquinas/htb/*/*/README.md
+```
+
+**61 coincidencias en 10 de los 24 ficheros:**
 
 | Writeup | Marcas | Lectura |
 | --- | --- | --- |
-| **validation** | **17** | Escribe en primera persona y documenta el atasco: «aquí me atasqué bastante», «me quedé un rato sin entender», «no quería usarlo sin entenderlo». |
-| **optimum** | **5** | Voz propia en la sección añadida en este PR. |
-| grandpa | 3 | Alguna voz |
-| knife | 2 | Alguna voz |
+| **validation** | **27** | Escribe en primera persona y documenta el atasco: «aquí me atasqué bastante», «me quedé un rato sin entender», «no quería usarlo sin entenderlo». |
+| **optimum** | **10** | Voz propia en la sección añadida en este PR. |
+| **delivery** | **7** | Sección añadida en este PR. Antes tenía 0. |
+| **buff** | **6** | Sección añadida en este PR. Antes tenía 0. |
+| grandpa | 4 | Alguna voz |
 | lame | 2 | «Primero me conecto a la VPN…», «El nmap también me confirma…» |
+| knife | 2 | Alguna voz |
 | blue | 1 | «El puerto 445 me llama la atención enseguida» |
 | irked | 1 | «En mi caso Metasploit no funcionó, así que analicé el exploit para hacerlo a mano» |
 | legacy | 1 | «Lo que me llevé: no asumir rutas de Windows moderno…» |
-| **los otros 16** | **0** | **Ni una sola marca.** Texto impersonal, en presente, sin decisiones ni callejones. |
+| **los otros 14** | **0** | **Ni una sola marca.** Texto impersonal, en presente, sin decisiones ni callejones. |
 
-Es decir: **16 de 24 writeups no contienen ninguna marca de primera persona.** El dato es
+> La primera medición (2026-11-07) usaba un patrón más estrecho y daba 32 marcas en 8
+> ficheros. Este es más fiel —no cuenta «mismo» ni «minuto», y sí cuenta «costó» o «quedé»
+> aunque no lleven «me»—, así que los números cambian. El dato relevante es el mismo: **la
+> voz se concentra en los writeups que escribiste tú desde el principio**, y en los que se
+> afinaron después no aparece salvo que se añada la sección a mano.
+
+Es decir: **14 de 24 writeups no contienen ninguna marca de primera persona.** El dato es
 objetivo, pero **no dice nada sobre quién hizo la máquina**: dice que el texto está
 redactado en impersonal y en presente, y por eso **no se oye tu voz**. Para el lector
 técnico que mira cinco minutos, un writeup en primera persona se lee como «esto lo
@@ -161,7 +175,7 @@ lector:
 5. **buff** — le quedan las tres CVEs mal atribuidas (§4.4). La escalada ya está
    confirmada como tuya; lo que falla es solo la atribución de las CVEs.
 
-Y por encima de todo, el tema de fondo: **16 writeups sin voz propia** (§3). No es un
+Y por encima de todo, el tema de fondo: **14 writeups sin voz propia** (§3). No es un
 defecto, pero es lo que más se nota cuando alguien lee cinco minutos.
 
 Y a igualdad de problemas, los **destacados de la portada** mandan: quien mira cinco
@@ -243,6 +257,11 @@ Nada de esto reescribe writeups: solo prepara el terreno y añade la sección pe
 9. **`auditoria/autenticidad.md`** y **`auditoria/writeups.md`** — reformulados con tu
    aclaración de autoría: los 24 writeups son tuyos y este informe ya no los clasifica
    por quién escribió el texto.
+10. **`maquinas/htb/facil/delivery/README.md`** y **`maquinas/htb/facil/buff/README.md`** —
+    añadida la sección `## Lo que me costó / Lo que aprendí`, escrita **solo con lo que
+    esos writeups ya documentan** (en Delivery, el encadenamiento osTicket↔Mattermost y la
+    regla de `hashcat` sobre la pista; en Buff, el pivoting con chisel y los *bad chars* de
+    la shellcode). No he añadido ningún paso nuevo. **Son borradores**: los corriges tú.
 
 **Lo que NO he hecho, a propósito:**
 
@@ -272,8 +291,9 @@ Resueltas tras la entrega de este informe:
 | Los seis defectos | **Ninguno todavía**: primero revisas el PR #31 | **Uno sí está corregido**: el payload de cronos (§4.1), porque al confirmar que la escalada es tuya el paso tiene que ser correcto. Los otros cinco siguen documentados en §4 y sin tocar. |
 | Nota de transparencia | **Sí, pero solo en el README del repositorio**, no en la web | Añadida en `README.md`. El sitio web no la muestra. |
 
-**Lo que sigue pendiente de tu parte:** las cuatro preguntas de `buff` (qué probaste
-primero, qué falló, qué te costó, qué aprendiste) para poder escribir su sección «Lo que
-me costó / Lo que aprendí», y tus notas originales del bloque B (pregunta 12) si quieres
-que compare el texto actual con tu versión original. El payload de `cronos` ya no bloquea:
-está corregido.
+**Lo que sigue pendiente de tu parte:** corregir los borradores de la sección «Lo que me
+costó / Lo que aprendí» de Validation, Optimum, Delivery y Buff, y responder las cuatro
+preguntas de `buff` (qué probaste primero, qué falló, qué te costó, qué aprendiste) para
+sustituir lo que he escrito por tus palabras. Si quieres que compare el texto actual con
+tu versión original, pásame tus notas del bloque B (pregunta 12). El payload de `cronos`
+ya no bloquea: está corregido.

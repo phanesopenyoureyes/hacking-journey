@@ -99,7 +99,17 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
    la misma CVE).
 4. ¿Usaste Metasploit para la escalada en el final, o solo lo dejas como alternativa?
 
-**Buff** (sin escribir — necesito tus respuestas; siguen pendientes)
+**Delivery** (sección escrita como borrador; falta tu revisión)
+
+1. ¿Qué probaste primero y falló? Yo tengo: registrarte en Mattermost con un correo propio
+   no llevaba a ninguna parte, porque exigía un correo `@delivery.htb`.
+2. ¿Qué fue lo que más te costó? Yo tengo: ver que el correo de verificación de Mattermost
+   llegaba **al propio ticket** de osTicket, y usar la pista `PleaseSubscribe!` como palabra
+   base con una regla de `hashcat` en vez de un diccionario entero.
+3. ¿Qué aprendiste? Yo tengo tus tres puntos del «Qué he aprendido» original, literales.
+4. ¿Crackeaste el hash con otra regla o con otro diccionario? Si fue otra cosa, pégamela.
+
+**Buff** (sección escrita como borrador; falta tu revisión)
 
 1. ¿Qué probaste primero? ¿Gym Management lo viste en el pie de página o lo encontraste de
    otra forma?
@@ -107,6 +117,10 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
    primero que no documenta ni un callejón.)
 3. ¿Qué te costó? (el pivoting con chisel, la shellcode, los *bad chars*…)
 4. ¿Qué aprendiste?
+
+He escrito la sección con lo que el propio writeup ya documenta (el pivoting con chisel, las
+tres piezas que hay que montar, los *bad chars* de la shellcode). Sustitúyela por tus
+palabras.
 
 
 
