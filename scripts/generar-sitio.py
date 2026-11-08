@@ -191,12 +191,31 @@ def seccion_maquinas():
     return total
 
 
+def tarjetas_certs(items, badge, estado, clase):
+    """Rejilla de tarjetas (certificaciones / preparación) en vez de una tabla."""
+    cards = []
+    for d in items:
+        meta = " · ".join(x for x in [d.get("entidad", ""), d.get("fecha", "")] if x)
+        cards.append(
+            f'<a class="cert-card" href="{d["_slug"]}/README.md">'
+            f'<span class="cert-card__badge">{badge}</span>'
+            f'<span class="cert-card__body">'
+            f'<span class="cert-card__tit">{d["titulo"]}'
+            f'<span class="cert-card__arrow" aria-hidden="true">→</span></span>'
+            f'<span class="cert-card__meta">{meta}</span></span>'
+            f'<span class="cert-card__estado cert-card__estado--{clase}">{estado}</span>'
+            f'</a>'
+        )
+    return '<div class="cert-grid">' + "".join(cards) + "</div>"
+
+
 def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, vacio=None,
-                   ocultar_si_vacia=False):
+                   ocultar_si_vacia=False, tarjeta=None):
     """Genera una sección tipo lista (certificaciones, herramientas, preparación).
 
     Con `ocultar_si_vacia=True`, si no hay contenido publicado no se genera nada:
     la sección no aparece en el nav ni en la portada (no deja páginas vacías).
+    Con `tarjeta={"badge","estado","clase"}` se renderiza como tarjetas; si no, tabla.
     """
     items = publicados(f"{carpeta}/*/README.md")
     if not items and ocultar_si_vacia:
@@ -207,12 +226,16 @@ def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, va
         shutil.copytree(d["_src"], f"{base}/{d['_slug']}")
     if items:
         intro_txt = intro.format(n=len(items)) if intro else f"Mis {titulo.lower()} ({len(items)})."
-        filas = ["| " + " | ".join(c[0] for c in columnas) + " |",
-                 "| " + " | ".join("---" for _ in columnas) + " |"]
-        for d in items:
-            celdas = [c[1](d) for c in columnas]
-            filas.append("| " + " | ".join(celdas) + " |")
-        cuerpo = f"# {emoji} {titulo}\n\n{intro_txt}\n\n" + "\n".join(filas) + "\n"
+        if tarjeta:
+            contenido = tarjetas_certs(items, tarjeta["badge"], tarjeta["estado"], tarjeta["clase"])
+        else:
+            filas = ["| " + " | ".join(c[0] for c in columnas) + " |",
+                     "| " + " | ".join("---" for _ in columnas) + " |"]
+            for d in items:
+                celdas = [c[1](d) for c in columnas]
+                filas.append("| " + " | ".join(celdas) + " |")
+            contenido = "\n".join(filas)
+        cuerpo = f"# {emoji} {titulo}\n\n{intro_txt}\n\n{contenido}\n"
     else:
         vacio_txt = vacio or f"Aún no hay {titulo.lower()} publicadas. Se añadirán aquí según las vaya documentando."
         cuerpo = f"# {emoji} {titulo}\n\n{vacio_txt}\n"
@@ -235,6 +258,7 @@ def main():
          ("Fecha", lambda d: d.get("fecha", ""))],
         "🎓",
         ocultar_si_vacia=True,
+        tarjeta={"badge": "🎓", "estado": "Obtenida", "clase": "ok"},
     )
     n_herr = seccion_simple(
         "herramientas", "Herramientas", "herramienta",
@@ -251,6 +275,7 @@ def main():
         "📚",
         intro="Guías y recursos para preparar certificaciones de seguridad ofensiva ({n}).",
         ocultar_si_vacia=True,
+        tarjeta={"badge": "📚", "estado": "En preparación", "clase": "prep"},
     )
 
     # Nav superior: solo las secciones con contenido (oculta las vacías).
@@ -293,12 +318,28 @@ def main():
 
     # --- Datos reales agregados para la portada ---
     maquinas_all = []
-    for _slug, _ in DIFICULTADES:
-        maquinas_all += publicados(f"maquinas/htb/{_slug}/*/README.md")
+    dif_counts = []
+    for _slug, _nombre in DIFICULTADES:
+        _its = publicados(f"maquinas/htb/{_slug}/*/README.md")
+        if _its:
+            dif_counts.append((_nombre, len(_its)))
+        maquinas_all += _its
+    n_linux = sum(1 for d in maquinas_all if d.get("so") == "linux")
+    n_win = sum(1 for d in maquinas_all if d.get("so") == "windows")
     tec_count = Counter(t for d in maquinas_all for t in lista(d.get("tecnicas")))
     n_tec = len(tec_count)
     top_tecs = [t for t, _ in tec_count.most_common(24)]
     nube = "".join(f'<span class="tec">{t}</span>' for t in top_tecs)
+
+    # Desglose real y escaneable (SO y dificultad) para el hero.
+    pills = []
+    if n_linux:
+        pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{n_linux}</span> Linux</span>')
+    if n_win:
+        pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{n_win}</span> Windows</span>')
+    for _nombre, _n in dif_counts:
+        pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{_n}</span> {_nombre}</span>')
+    hero_meta = '<div class="hero__meta">' + "".join(pills) + "</div>" if pills else ""
 
     # Writeups destacados como tarjetas con icono.
     destacados_cards = "".join(
@@ -360,7 +401,9 @@ def main():
         '<div class="stat"><span class="stat__num">CPTS</span>'
         '<span class="stat__lbl">en preparación · 2027</span></div>\n'
         "</div>\n\n"
+        + hero_meta + "\n\n"
         "[Ver máquinas](maquinas/facil/){ .md-button .md-button--primary }\n"
+        "[Hack The Box](https://app.hackthebox.com/users/4011018){ .md-button }\n"
         "[LinkedIn](https://www.linkedin.com/in/francisco-gutierrez-garcia){ .md-button }\n"
         "[GitHub](https://github.com/phanesopenyoureyes){ .md-button }\n\n"
         "</div>\n\n"
