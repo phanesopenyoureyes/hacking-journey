@@ -68,6 +68,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Postman](maquinas/htb/facil/postman/) | Linux | 2026-11-08 | `redis`, `inyeccion-clave-ssh`, `crackeo-de-hash`, `webmin`, `cve` |
 | [Keeper](maquinas/htb/facil/keeper/) | Linux | 2026-11-07 | `request-tracker`, `credenciales-por-defecto`, `keepass`, `cve`, `clave-ssh` |
 | [Delivery](maquinas/htb/facil/delivery/) | Linux | 2026-11-06 | `osticket`, `mattermost`, `fuga-de-informacion`, `reutilizacion-de-credenciales`, `crackeo-de-hash` |
 | [Broker](maquinas/htb/facil/broker/) | Linux | 2026-11-05 | `activemq`, `cve`, `rce`, `sudo-misconfig`, `gtfobins` |
