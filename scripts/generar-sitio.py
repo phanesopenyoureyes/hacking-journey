@@ -16,6 +16,7 @@ import glob
 import os
 import re
 import shutil
+from collections import Counter
 
 SO = {"linux": "Linux", "windows": "Windows"}
 OS_ICONO = {"linux": ":material-linux:", "windows": ":material-microsoft-windows:"}
@@ -290,23 +291,72 @@ def main():
         "    ---\n\n    Quién soy, mis perfiles y cómo contactar.\n"
     )
 
-    destacados = "\n".join(
-        f"- **[{nombre}](maquinas/{dif}/{slug}/)** — {por_que}"
+    # --- Datos reales agregados para la portada ---
+    maquinas_all = []
+    for _slug, _ in DIFICULTADES:
+        maquinas_all += publicados(f"maquinas/htb/{_slug}/*/README.md")
+    tec_count = Counter(t for d in maquinas_all for t in lista(d.get("tecnicas")))
+    n_tec = len(tec_count)
+    top_tecs = [t for t, _ in tec_count.most_common(24)]
+    nube = "".join(f'<span class="tec">{t}</span>' for t in top_tecs)
+
+    # Writeups destacados como tarjetas con icono.
+    destacados_cards = "".join(
+        f'<a class="dest-card" href="maquinas/{dif}/{slug}/">'
+        f'<img class="dest-card__ico" src="maquinas/{dif}/{slug}/capturas/{slug}-icono.png" '
+        f'alt="" loading="lazy">'
+        f'<span class="dest-card__body">'
+        f'<span class="dest-card__nombre">{nombre}'
+        f'<span class="dest-card__arrow" aria-hidden="true">→</span></span>'
+        f'<span class="dest-card__txt">{por_que}</span></span></a>'
         for dif, slug, nombre, por_que in DESTACADOS
+    )
+
+    # Capacidades (lo que domino), basadas en las competencias reales del repo.
+    capacidades = [
+        (":material-magnify:", "Enumeración",
+         "Mapeo de la superficie de ataque: SMB, FTP, HTTP, WebDAV, CGI y servicios menos comunes."),
+        (":material-bug-outline:", "Identificación de vulnerabilidades",
+         "De la versión del servicio a su CVE y al exploit que la aprovecha."),
+        (":material-linux:", "Escalada en Linux",
+         "`sudo` mal configurado, tareas cron, binarios SUID y GTFOBins."),
+        (":material-microsoft-windows:", "Escalada en Windows",
+         "*Token impersonation*, exploits de kernel y Metasploit."),
+        (":material-shield-alert-outline:", "Configuraciones inseguras",
+         "Credenciales por defecto, servicios expuestos, permisos excesivos y reúso de contraseñas."),
+        (":material-file-document-edit-outline:", "Documentación técnica",
+         "Cada writeup sigue la misma plantilla, pasa un validador y cierra con su mitigación."),
+    ]
+    cap_cards = "\n".join(
+        f"- {ic}{{ .lg .middle }} **{tit}**\n\n    ---\n\n    {desc}\n"
+        for ic, tit, desc in capacidades
+    )
+
+    pasos = ["Reconocimiento", "Enumeración", "Explotación",
+             "Acceso inicial", "Escalada", "Mitigación"]
+    metodo = "".join(
+        f'<span class="metodo__step">'
+        f'<span class="metodo__n">{i + 1}</span>'
+        f'<span class="metodo__lbl">{p}</span></span>'
+        for i, p in enumerate(pasos)
     )
 
     index = (
         "---\nhide:\n  - navigation\n  - toc\n---\n\n"
+        # ---------- HERO ----------
         '<div class="hero" markdown>\n\n'
+        '<p class="hero__term"><span class="hero__term-ps">ph4n3s@htb:~$</span> whoami</p>\n\n'
         "# Francisco Gutiérrez García\n\n"
         '<p class="hero__tagline">Seguridad ofensiva · alias <strong>ph4n3s</strong> '
         'en Hack The Box</p>\n\n'
-        "Portfolio de **seguridad ofensiva**. Documento las máquinas **retiradas** de "
-        "Hack The Box que resuelvo, explicando el *porqué* de cada paso —no solo el "
-        "comando— y cerrando cada una con su nota de mitigación.\n\n"
+        "Resuelvo y documento máquinas **retiradas** de Hack The Box: para cada una "
+        "explico el *porqué* de cada paso —no solo el comando— y cierro con la nota de "
+        "mitigación que habría evitado el fallo.\n\n"
         '<div class="hero__stats">\n'
         f'<div class="stat"><span class="stat__num">{n_maq}</span>'
         '<span class="stat__lbl">máquinas resueltas</span></div>\n'
+        f'<div class="stat"><span class="stat__num">{n_tec}</span>'
+        '<span class="stat__lbl">técnicas aplicadas</span></div>\n'
         f'<div class="stat"><span class="stat__num">{n_cert}</span>'
         '<span class="stat__lbl">certificación · eJPT</span></div>\n'
         '<div class="stat"><span class="stat__num">CPTS</span>'
@@ -316,17 +366,38 @@ def main():
         "[LinkedIn](https://www.linkedin.com/in/francisco-gutierrez-garcia){ .md-button }\n"
         "[GitHub](https://github.com/phanesopenyoureyes){ .md-button }\n\n"
         "</div>\n\n"
-        "> Todo el contenido tiene **fines exclusivamente educativos** y se limita a "
-        "máquinas **retiradas** de Hack The Box, resueltas en entornos de laboratorio "
-        "autorizados.\n\n"
+        # ---------- LO QUE DOMINO ----------
+        "## Lo que domino\n\n"
+        "Las competencias que trabajo en cada máquina, del reconocimiento a la escalada:\n\n"
+        '<div class="grid cards" markdown>\n\n'
+        + cap_cards
+        + "\n</div>\n\n"
+        # ---------- METODOLOGÍA ----------
+        "## Metodología\n\n"
+        "Cada writeup sigue el mismo recorrido y se cierra con una nota de mitigación:\n\n"
+        '<div class="metodo">'
+        + metodo
+        + "</div>\n\n"
+        # ---------- TÉCNICAS ----------
+        "## Técnicas que he aplicado\n\n"
+        f"{n_tec} técnicas distintas a lo largo de {n_maq} máquinas. Una muestra:\n\n"
+        '<div class="tec-cloud">'
+        + nube
+        + "</div>\n\n"
+        # ---------- DESTACADOS ----------
+        "## Writeups destacados\n\n"
+        "Tres writeups que resumen cómo trabajo:\n\n"
+        '<div class="dest-grid">'
+        + destacados_cards
+        + "</div>\n\n"
+        # ---------- EXPLORAR ----------
+        "## Explorar\n\n"
         '<div class="grid cards" markdown>\n\n'
         + "\n".join(cards)
         + "\n</div>\n\n"
-        "## Writeups destacados\n\n"
-        "Tres writeups que resumen cómo trabajo —enumeración, el *porqué* de cada paso y "
-        "la mitigación:\n\n"
-        + destacados
-        + "\n"
+        "> Todo el contenido tiene **fines exclusivamente educativos** y se limita a "
+        "máquinas **retiradas** de Hack The Box, resueltas en entornos de laboratorio "
+        "autorizados.\n"
     )
     escribir("docs/index.md", index)
     print(f"sitio generado: {n_maq} máquinas, {n_cert} certificaciones, "
