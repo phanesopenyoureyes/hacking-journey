@@ -176,13 +176,14 @@ palabras.
       (cronos, buff) para que los rehagas?
     - ¿O prefieres revisarlos tú todos y que solo prepare las correcciones propuestas?
 
-    **✅ Respondida (2026-11-08).** **Ninguno todavía**: primero revisas tú el PR #31
-    completo y, a partir de ahí, decides cuáles arreglo. Los seis defectos siguen
-    documentados en `autenticidad.md` §4, con su línea exacta. Excepción: el payload de
-    `cronos` (§4.1), corregido en este PR porque has confirmado que esa escalada la
-    ejecutaste tú. `buff` conserva por tanto sus tres CVEs mal atribuidas (§4.4).
+    **✅ Respondida (2026-11-08).** Primero revisaste el PR #31 y después autorizaste que
+    arreglara los cinco mecánicos. **Los seis defectos están corregidos en este PR**: el
+    payload de `cronos` (§4.1), la ruta de `servmon` (§4.2), el nombre de fichero de
+    `pilgrimage` (§4.3), la atribución de las tres CVEs de `buff` (§4.4), el comando de
+    lanzamiento de `sau` (§4.5) y el `ms17-010` de `legacy` (§4.6). Todos siguen
+    documentados en `autenticidad.md` §4, con su línea exacta.
 
-15. **Los writeups sin una sola marca de primera persona.** Son 16 de 24. El problema no
+15. **Los writeups sin una sola marca de primera persona.** Son 14 de 24. El problema no
     es de autoría, es de legibilidad: sin voz, el texto se lee como una guía de la máquina
     y no como el cuaderno de alguien que la resolvió. ¿Quieres que en E4 reescriba **todos**
     los writeups del bloque B en primera persona (con lo que hay en tus capturas, marcando

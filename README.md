@@ -92,7 +92,7 @@ y documento.
 | [Knife](maquinas/htb/facil/knife/) | Linux | 2026-10-19 | `enumeracion-web`, `php-backdoor`, `sudo-misconfig`, `gtfobins` |
 | [Granny](maquinas/htb/facil/granny/) | Windows | 2026-10-18 | `iis`, `webdav`, `buffer-overflow`, `token-impersonation` |
 | [Blue](maquinas/htb/facil/blue/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms17-010`, `eternalblue` |
-| [Legacy](maquinas/htb/facil/legacy/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms08-067`, `ms17-010` |
+| [Legacy](maquinas/htb/facil/legacy/) | Windows | 2026-10-16 | `enumeracion-smb`, `ms08-067` |
 | [Lame](maquinas/htb/facil/lame/) | Linux | 2026-10-15 | `enumeracion-smb`, `samba`, `rce` |
 | [Validation](maquinas/htb/facil/validation/) | Linux | 2026-10-12 | `inyeccion-sql`, `webshell`, `reutilizacion-de-credenciales` |
 

@@ -57,5 +57,6 @@ escalada, mitigación y claridad.
   - *Narrativa*: validation (encabezados propios).
 - **Campo `dificultad` del front-matter inconsistente**: unos ponen `Easy` (blue, lame, legacy, granny, validation, nibbles, traverxec, optimum, devel…) y otros `Fácil`. La dificultad real la marca la carpeta (`facil`), así que el campo es cosmético, pero conviene unificarlo a `Fácil`.
 - **Flags**: ver `informe.md` (hallazgo ALTA). 18/22 las muestran completas.
-- **Relleno/afirmaciones sin sustento**: no se detecta relleno genérico grave. Punto menor:
-  `legacy` lista la técnica `ms17-010` que no llega a usar (explota `ms08-067`).
+- **Relleno/afirmaciones sin sustento**: no se detecta relleno genérico grave. Punto menor
+  **corregido**: `legacy` listaba la técnica `ms17-010` que no llega a usar (explota
+  `ms08-067`); ya no aparece ni en las técnicas, ni en el resumen, ni en la mitigación.

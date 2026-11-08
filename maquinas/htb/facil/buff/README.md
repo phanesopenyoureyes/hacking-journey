@@ -60,9 +60,12 @@ nmap -p 8080,7680 -sVC -Pn --min-rate 5000 -T4 10.129.25.107 > targeted
 | http-open-proxy: Potentially OPEN proxy.
 ```
 
-Apache 2.4.43 tiene CVE de *buffer overflow* asociadas (CVE-2020-11984, CVE-2020-9490) y
-PHP 7.4.6 también (CVE-2020-7068). Lanzamos el script `vuln` de nmap para una primera
-visión:
+Apache 2.4.43 y PHP 7.4.6 son versiones con CVEs conocidas, pero conviene ser precisos con
+cuáles: **CVE-2020-11984** y **CVE-2020-9490** afectan a **Apache Traffic Server** (agotamiento
+de memoria con HTTP/2), no al `httpd` de Apache, y **CVE-2020-7068** es un *use-after-free* del
+`exif` de PHP, no un *buffer overflow*. **Ninguna de las tres se usa después en esta máquina**: los
+exploits reales son el `48506` (Gym Management) y el `48389` (CloudMe). Lanzamos el script `vuln`
+de nmap para una primera visión:
 
 ```
 nmap -p 8080 --script vuln -Pn -vvv -T4 --min-rate 5000 10.129.25.107 > vulns
