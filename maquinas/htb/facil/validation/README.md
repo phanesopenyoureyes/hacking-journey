@@ -16,7 +16,7 @@ htb: "https://app.hackthebox.com/machines/Validation"
 
 ## Resumen
 
-Máquina Linux, dificultad Easy. La hice como parte de mi ruta de aprendizaje en seguridad mientras estudio ASIR. La dejo documentada tal y como la fui resolviendo, con los atascos incluidos, porque creo que así se entiende mejor el proceso real que si solo pongo "comando → resultado → flag".
+Máquina Linux, dificultad Easy. La hice como parte de mi ruta de aprendizaje en seguridad ofensiva. La dejo documentada tal y como la fui resolviendo, con los atascos incluidos, porque creo que así se entiende mejor el proceso real que si solo pongo "comando → resultado → flag".
 
 ## Primeros pasos
 
