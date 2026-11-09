@@ -742,6 +742,24 @@ a, .md-nav__link, .md-button, .md-typeset .md-button,
   color: var(--md-default-fg-color--light);
 }
 .md-typeset .maq-card .chip { margin: 0; cursor: pointer; }
+.md-typeset .maq-card__tecs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .3rem;
+  margin-top: .1rem;
+}
+.md-typeset .maq-card__tec {
+  padding: .1rem .45rem;
+  border-radius: .4rem;
+  font-size: .64rem;
+  font-family: var(--md-code-font-family, monospace);
+  line-height: 1.5;
+  background: rgba(124, 58, 237, .1);
+  color: var(--brand-2);
+  border: 1px solid rgba(124, 58, 237, .22);
+}
+[data-md-color-scheme="slate"] .md-typeset .maq-card__tec { color: #c4b5fd; }
 
 /* Ajustes de la ficha y galería en modo oscuro */
 [data-md-color-scheme="slate"] .md-typeset .chip--linux  { color: #67e8f9; }
