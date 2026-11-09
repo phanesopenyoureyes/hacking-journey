@@ -226,7 +226,7 @@ def tarjetas_certs(items, badge, estado, clase):
         chips = ("".join(f'<span class="cert-card__tema">{t}</span>' for t in temas))
         temas_html = f'<span class="cert-card__temas">{chips}</span>' if temas else ""
         cards.append(
-            f'<a class="cert-card" href="{d["_slug"]}/README.md">'
+            f'<a class="cert-card" href="{d["_slug"]}/">'
             f'<span class="cert-card__top">'
             f'<span class="cert-card__badge">{badge}</span>'
             f'<span class="cert-card__estado cert-card__estado--{clase}">{estado}</span>'
