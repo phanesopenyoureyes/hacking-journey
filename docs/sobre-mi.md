@@ -1,12 +1,11 @@
 # Sobre mí
 
-<div class="perfil" markdown>
-![Foto de perfil de Francisco Gutiérrez García](https://github.com/phanesopenyoureyes.png?size=256){ loading=lazy }
-
-<div class="perfil__info" markdown>
-**Francisco Gutiérrez García**<br>
-Seguridad ofensiva · alias **ph4n3s** en Hack The Box.
-</div>
+<div class="perfil">
+<span class="perfil__avatar" aria-hidden="true">FG</span>
+<span class="perfil__info">
+<strong>Francisco Gutiérrez García</strong><br>
+Seguridad ofensiva · alias <strong>ph4n3s</strong> en Hack The Box.
+</span>
 </div>
 
 Este sitio reúne mis writeups de máquinas **retiradas** de Hack The Box y mi
