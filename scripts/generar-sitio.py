@@ -83,6 +83,16 @@ def etiqueta_tec(slug):
     return txt[:1].upper() + txt[1:]
 
 
+def nav_titulo(d):
+    """Título corto para el menú lateral (awesome-pages no respeta `title:`).
+
+    Usa el `titulo` del front-matter (p.ej. 'ServMon'), quedándose con la parte
+    antes de ' — ' para las certificaciones ('eJPT — Junior…' → 'eJPT').
+    """
+    t = (d.get("titulo") or "").split("—")[0].strip()
+    return t or d["_slug"]
+
+
 def descripcion_desde_resumen(body, limite=155):
     """Extrae el primer párrafo tras '## Resumen' y lo deja limpio para meta-description."""
     m = re.search(r"^##\s+Resumen\s*\n+(.+?)(?:\n\n|\n##|\Z)", body, re.S | re.M)
@@ -208,6 +218,12 @@ def galeria_maquinas(items, base_rel):
     cards = []
     for d in items:
         slug, so = d["_slug"], d.get("so", "")
+        tecs = lista(d.get("tecnicas"))[:3]
+        tecs_html = (
+            '<span class="maq-card__tecs">'
+            + "".join(f'<span class="maq-card__tec">{etiqueta_tec(t)}</span>' for t in tecs)
+            + "</span>"
+        ) if tecs else ""
         cards.append(
             f'<a class="maq-card maq-card--{so}" href="{base_rel}{slug}/">'
             f'<img class="maq-card__ico" src="{base_rel}{slug}/capturas/{slug}-icono.png" '
@@ -216,7 +232,9 @@ def galeria_maquinas(items, base_rel):
             f'<span class="maq-card__meta">'
             f'<span class="chip chip--os chip--{so}">{SO.get(so, so)}</span>'
             f'<span class="maq-card__fecha">{d.get("fecha", "")}</span>'
-            f'</span></a>'
+            f'</span>'
+            f'{tecs_html}'
+            f'</a>'
         )
     return '<div class="maq-grid">\n' + "\n".join(cards) + "\n</div>"
 
@@ -292,7 +310,7 @@ def seccion_maquinas():
             )
         escribir(f"{destdir}/index.md", cuerpo)
         # orden dentro de la dificultad: la portada primero, luego por fecha
-        pages = f"title: {nombre}\nnav:\n  - index.md\n" + "".join(f"  - {d['_slug']}\n" for d in items)
+        pages = f"title: {nombre}\nnav:\n  - index.md\n" + "".join(f'  - "{nav_titulo(d)}": {d["_slug"]}\n' for d in items)
         escribir(f"{destdir}/.pages", pages)
     # .pages de la sección Máquinas: orden de dificultades
     nav = "".join(f"  - {slug}\n" for slug, _ in DIFICULTADES)
@@ -357,7 +375,7 @@ def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, va
         cuerpo = (f'---\ntitle: "{titulo}"\nhide:\n  - toc\n---\n\n'
                   + sec_head(emoji, titulo, vacio_txt) + "\n")
     escribir(f"{base}/index.md", cuerpo)
-    pages = f"title: {titulo}\nnav:\n  - index.md\n" + "".join(f"  - {d['_slug']}\n" for d in items)
+    pages = f"title: {titulo}\nnav:\n  - index.md\n" + "".join(f'  - "{nav_titulo(d)}": {d["_slug"]}\n' for d in items)
     escribir(f"{base}/.pages", pages)
     return len(items)
 
