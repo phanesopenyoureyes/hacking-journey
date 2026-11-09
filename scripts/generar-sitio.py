@@ -42,6 +42,87 @@ def lista(campo):
     return [t.strip() for t in str(campo or "").strip().strip("[]").split(",") if t.strip()]
 
 
+# Etiquetas legibles para las técnicas (los datos siguen siendo slugs sin tildes;
+# esto es solo lo que se muestra al lector). Lo que no esté aquí se muestra con un
+# formato por defecto (guiones → espacios, primera letra en mayúscula).
+TEC_LABEL = {
+    "enumeracion-web": "Enumeración web", "enumeracion-smb": "Enumeración SMB",
+    "reutilizacion-de-credenciales": "Reutilización de credenciales",
+    "credenciales-por-defecto": "Credenciales por defecto",
+    "inyeccion-sql": "Inyección SQL", "inyeccion-de-comandos": "Inyección de comandos",
+    "command-injection": "Inyección de comandos", "inyeccion-clave-ssh": "Inyección de clave SSH",
+    "clave-ssh": "Clave SSH", "crackeo-de-hash": "Crackeo de hash",
+    "fuga-de-informacion": "Fuga de información", "lectura-de-ficheros": "Lectura de ficheros",
+    "carga-de-archivos": "Carga de archivos", "file-upload": "Carga de archivos",
+    "exposicion-git": "Exposición de .git", "exposicion-de-herramienta": "Exposición de herramienta",
+    "sudo-misconfig": "sudo mal configurado", "cron-abuse": "Abuso de cron",
+    "path-hijacking": "Path hijacking", "token-impersonation": "Token impersonation",
+    "kernel-exploit": "Exploit de kernel", "buffer-overflow": "Buffer overflow",
+    "directory-traversal": "Directory traversal", "reverse-shell": "Reverse shell",
+    "bypass-autenticacion": "Bypass de autenticación", "php-backdoor": "Backdoor PHP",
+    "unrealircd-backdoor": "Backdoor UnrealIRCd", "binwalk-rce": "RCE en binwalk",
+    "nsclient-abuse": "Abuso de NSClient++", "ftp-anonimo": "FTP anónimo",
+    "esteganografia": "Esteganografía", "http-file-server": "HTTP File Server",
+    "request-tracker": "Request Tracker", "nvms-1000": "NVMS-1000",
+    "cve": "CVE", "rce": "RCE", "ssrf": "SSRF", "dns": "DNS", "iis": "IIS", "snmp": "SNMP",
+    "suid": "SUID", "cups": "CUPS", "smb": "SMB", "ssh": "SSH", "ftp": "FTP", "webdav": "WebDAV",
+    "redis": "Redis", "webmin": "Webmin", "keepass": "KeePass", "activemq": "ActiveMQ",
+    "osticket": "osTicket", "mattermost": "Mattermost", "imagemagick": "ImageMagick",
+    "gtfobins": "GTFOBins", "vhosts": "vhosts", "telnet": "Telnet", "chisel": "Chisel",
+    "pivoting": "Pivoting", "fuzzing": "Fuzzing", "samba": "Samba", "webshell": "Webshell",
+    "shellshock": "Shellshock", "eternalblue": "EternalBlue", "ms17-010": "MS17-010",
+    "ms08-067": "MS08-067", "irked": "Irked",
+}
+
+
+def etiqueta_tec(slug):
+    """Etiqueta legible de una técnica a partir de su slug."""
+    if slug in TEC_LABEL:
+        return TEC_LABEL[slug]
+    txt = slug.replace("-", " ")
+    return txt[:1].upper() + txt[1:]
+
+
+def descripcion_desde_resumen(body, limite=155):
+    """Extrae el primer párrafo tras '## Resumen' y lo deja limpio para meta-description."""
+    m = re.search(r"^##\s+Resumen\s*\n+(.+?)(?:\n\n|\n##|\Z)", body, re.S | re.M)
+    if not m:
+        return ""
+    txt = m.group(1)
+    txt = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", txt)          # imágenes
+    txt = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", txt)        # enlaces → texto
+    txt = re.sub(r"[`*_>#]", "", txt)                          # marcas markdown
+    txt = re.sub(r"\s+", " ", txt).strip()
+    if len(txt) > limite:
+        txt = txt[:limite].rsplit(" ", 1)[0].rstrip(" ,.;:") + "…"
+    return txt
+
+
+def con_descripcion(fm_txt, body):
+    """Añade `description:` al front-matter (desde el Resumen) si aún no la tiene."""
+    if re.search(r"^description:\s", fm_txt, re.M):
+        return fm_txt
+    desc = descripcion_desde_resumen(body)
+    if not desc:
+        return fm_txt
+    desc = desc.replace('"', "'")
+    return fm_txt.replace("---\n", f'---\ndescription: "{desc}"\n', 1)
+
+
+def anadir_descripcion_a_fichero(path):
+    """Inyecta `description:` (desde el Resumen) en un README ya copiado a docs/."""
+    if not os.path.exists(path):
+        return
+    txt = open(path, encoding="utf-8").read()
+    m = re.match(r"^---\n.*?\n---\n", txt, re.S)
+    if not m:
+        return
+    fm, body = m.group(0), txt[m.end():]
+    nuevo = con_descripcion(fm, body)
+    if nuevo != fm:
+        open(path, "w", encoding="utf-8").write(nuevo + body)
+
+
 def cuenta(n, singular, plural):
     """Devuelve 'N palabra' concordando singular/plural (1 certificación / 2 certificaciones)."""
     return f"{n} {singular if n == 1 else plural}"
@@ -70,7 +151,7 @@ def ficha_maquina(d, dif_nombre):
     htb = d.get("htb", "")
     so = d.get("so", "")
     dif_slug = next((s for s, n in DIFICULTADES if n == dif_nombre), "facil")
-    tecs = "".join(f'<span class="tec">{t}</span>' for t in lista(d.get("tecnicas")))
+    tecs = "".join(f'<span class="tec">{etiqueta_tec(t)}</span>' for t in lista(d.get("tecnicas")))
     herr = "".join(f'<span class="tec tec--herr">{t}</span>' for t in lista(d.get("herramientas")))
     ini = (f'<a class="ficha__ico" href="{htb}" target="_blank" rel="noopener" '
            f'title="Ver {titulo} en Hack The Box">') if htb else '<span class="ficha__ico">'
@@ -108,6 +189,8 @@ def reescribir_con_ficha(path, d, dif_nombre):
     # página con la clave `title:` del front-matter, que MkDocs sí respeta.
     if m and not re.search(r"^title:\s", fm_txt, re.M):
         fm_txt = fm_txt.replace("---\n", f'---\ntitle: "{d["titulo"]}"\n', 1)
+    if m:
+        fm_txt = con_descripcion(fm_txt, body)
     nuevas, h1_fuera = [], False
     for ln in body.split("\n"):
         if ".maquina-icono" in ln:
@@ -255,6 +338,7 @@ def seccion_simple(carpeta, titulo, titulo_sing, columnas, emoji, intro=None, va
     os.makedirs(base, exist_ok=True)
     for d in items:
         shutil.copytree(d["_src"], f"{base}/{d['_slug']}")
+        anadir_descripcion_a_fichero(f"{base}/{d['_slug']}/README.md")
     if items:
         intro_txt = intro.format(n=len(items)) if intro else f"Mis {titulo.lower()} ({len(items)})."
         if tarjeta:
@@ -362,7 +446,7 @@ def main():
     tec_count = Counter(t for d in maquinas_all for t in lista(d.get("tecnicas")))
     n_tec = len(tec_count)
     top_tecs = [t for t, _ in tec_count.most_common(24)]
-    nube = "".join(f'<span class="tec">{t}</span>' for t in top_tecs)
+    nube = "".join(f'<span class="tec">{etiqueta_tec(t)}</span>' for t in top_tecs)
 
     # Desglose de plataformas para el hero (muestra alcance Linux/Windows).
     pills = []
@@ -370,6 +454,7 @@ def main():
         pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{n_linux}</span> Linux</span>')
     if n_win:
         pills.append(f'<span class="hero__pill"><span class="hero__pill-n">{n_win}</span> Windows</span>')
+    pills.append('<span class="hero__pill"><span class="hero__pill-n">C1</span> inglés · Cambridge</span>')
     hero_meta = '<div class="hero__meta">' + "".join(pills) + "</div>" if pills else ""
 
     # Writeups destacados como tarjetas con icono.
@@ -423,7 +508,8 @@ def main():
         'en Hack The Box</p>\n\n'
         "Resuelvo y documento máquinas **retiradas** de Hack The Box: para cada una "
         "explico el *porqué* de cada paso —no solo el comando— y cierro con la nota de "
-        "mitigación que habría evitado el fallo.\n\n"
+        "mitigación que habría evitado el fallo. Estudio **ASIR**, tengo el **eJPT** y "
+        "busco **prácticas en ciberseguridad ofensiva**.\n\n"
         '<div class="hero__stats">\n'
         f'<div class="stat"><span class="stat__num">{n_maq}</span>'
         '<span class="stat__lbl">máquinas resueltas y documentadas</span></div>\n'
@@ -434,6 +520,7 @@ def main():
         "</div>\n\n"
         + hero_meta + "\n\n"
         "[:material-server-network: Ver máquinas](maquinas/facil/){ .md-button .md-button--primary }\n"
+        "[:material-email: Contacto](sobre-mi/){ .md-button }\n"
         "[:simple-hackthebox: Hack The Box](https://app.hackthebox.com/users/4011018){ .md-button }\n"
         "[:fontawesome-brands-linkedin: LinkedIn](https://www.linkedin.com/in/francisco-gutierrez-garcia){ .md-button }\n"
         "[:fontawesome-brands-github: GitHub](https://github.com/phanesopenyoureyes){ .md-button }\n\n"

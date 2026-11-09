@@ -4,7 +4,8 @@
 <span class="perfil__avatar" aria-hidden="true">FG</span>
 <span class="perfil__info">
 <strong>Francisco Gutiérrez García</strong><br>
-Seguridad ofensiva · alias <strong>ph4n3s</strong> en Hack The Box.
+Seguridad ofensiva · alias <strong>ph4n3s</strong> en Hack The Box.<br>
+Estudiante de <strong>ASIR</strong> · <strong>eJPT</strong> · inglés <strong>C1 (Cambridge)</strong>. Busco <strong>prácticas en ciberseguridad ofensiva</strong>.
 </span>
 </div>
 
@@ -15,6 +16,14 @@ fallo: documento criterio y método, no solo el resultado.
 
 Cada writeup sigue la misma estructura —reconocimiento, enumeración, explotación,
 escalada y mitigación— y pasa un validador automático antes de publicarse.
+
+!!! note "Qué es mío y en qué me ayuda la IA"
+
+    Las máquinas las resuelvo yo y los writeups los redacto yo: el camino, los
+    atascos reales y las decisiones técnicas son míos. Uso **Claude Code** para
+    pulir la redacción y para afinar las notas de mitigación del final de cada
+    máquina. Si ves un fragmento en primera persona contando un atasco o un error,
+    ese soy yo.
 
 ## Contacto
 
