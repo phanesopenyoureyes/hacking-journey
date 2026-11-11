@@ -74,6 +74,7 @@ TEC_LABEL = {
     "ms08-067": "MS08-067", "irked": "Irked",
     "mssql": "MSSQL", "evasion-av": "Evasión de AV", "gpp-passwords": "Contraseñas en GPP",
     "apache-james": "Apache James", "pop3": "POP3",
+    "strapi": "Strapi", "pwnkit": "PwnKit",
 }
 
 
