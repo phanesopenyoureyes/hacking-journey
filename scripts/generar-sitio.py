@@ -73,6 +73,7 @@ TEC_LABEL = {
     "shellshock": "Shellshock", "eternalblue": "EternalBlue", "ms17-010": "MS17-010",
     "ms08-067": "MS08-067", "irked": "Irked",
     "mssql": "MSSQL", "evasion-av": "Evasión de AV", "gpp-passwords": "Contraseñas en GPP",
+    "apache-james": "Apache James", "pop3": "POP3",
 }
 
 
