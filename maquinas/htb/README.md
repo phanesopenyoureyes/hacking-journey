@@ -16,6 +16,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Horizontall](facil/horizontall/) | Linux | 2026-11-11 | `enumeracion-web`, `vhosts`, `strapi`, `cve`, `rce`, `pwnkit` |
 | [Postman](facil/postman/) | Linux | 2026-11-08 | `redis`, `inyeccion-clave-ssh`, `crackeo-de-hash`, `webmin`, `cve` |
 | [Keeper](facil/keeper/) | Linux | 2026-11-07 | `request-tracker`, `credenciales-por-defecto`, `keepass`, `cve`, `clave-ssh` |
 | [Delivery](facil/delivery/) | Linux | 2026-11-06 | `osticket`, `mattermost`, `fuga-de-informacion`, `reutilizacion-de-credenciales`, `crackeo-de-hash` |
