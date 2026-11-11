@@ -132,10 +132,11 @@ administración le **cambiamos la contraseña a mindy** (así podremos leer su b
 setpassword mindy writeup
 ```
 
-Y leemos su correo por **POP3** (puerto 110) con `curl`, usando la clave que acabamos de poner:
+Y leemos su correo por **POP3** (puerto 110) con `curl`. Al pasar `-u mindy` nos pedirá la
+contraseña, y metemos la que acabamos de poner (`writeup`):
 
 ```
-curl -v "pop3://10.129.88.131/2" --user mindy:writeup
+curl -v "pop3://10.129.88.131/2" -u mindy
 ```
 
 ![Correo de mindy por POP3: su instructor le manda las credenciales de SSH](capturas/solid-state-pop3-correo.png)
