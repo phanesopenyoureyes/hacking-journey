@@ -399,12 +399,14 @@ def main():
         tarjeta={"badge": "🎓", "estado": "Obtenida", "clase": "ok"},
     )
     n_herr = seccion_simple(
-        "herramientas", "Herramientas", "herramienta",
-        [("Herramienta", lambda d: f"[{d['titulo']}]({d['_slug']}/README.md)"),
+        "herramientas", "Scripts caseros", "script",
+        [("Script", lambda d: f"[{d['titulo']}]({d['_slug']}/README.md)"),
          ("Tipo", lambda d: d.get("tipo", "")),
          ("Fecha", lambda d: d.get("fecha", ""))],
-        "🛠️",
+        "💻",
+        intro="Scripts propios que me he ido haciendo para tareas concretas ({n}).",
         ocultar_si_vacia=True,
+        tarjeta={"badge": "💻", "estado": "Script", "clase": "ok"},
     )
     n_prep = seccion_simple(
         "preparacion", "Preparación para certificaciones", "preparación",
@@ -446,8 +448,8 @@ def main():
         )
     if n_herr:
         cards.append(
-            f"- :material-tools:{{ .lg .middle }} **[Herramientas](herramientas/)**\n\n"
-            f"    ---\n\n    {cuenta(n_herr, 'herramienta propia publicada', 'herramientas propias publicadas')}.\n"
+            f"- :material-script-text-outline:{{ .lg .middle }} **[Scripts caseros](herramientas/)**\n\n"
+            f"    ---\n\n    {cuenta(n_herr, 'script propio publicado', 'scripts propios publicados')}.\n"
         )
     cards.append(
         "- :material-account:{ .lg .middle } **[Sobre mí](sobre-mi/)**\n\n"
