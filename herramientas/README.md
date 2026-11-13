@@ -8,4 +8,4 @@ scripts/nueva-herramienta.sh "Nombre de la herramienta"
 ```
 
 Rellena el front-matter y las secciones, pon `estado: publicado` y haz `git push`.
-Aparecerá sola en la sección **Herramientas** del sitio.
+Aparecerá sola en la sección **Scripts caseros** del sitio.
