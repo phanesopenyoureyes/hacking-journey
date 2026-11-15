@@ -16,6 +16,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Return](facil/return/) | Windows | 2026-11-15 | `ldap-passback`, `captura-de-credenciales`, `winrm`, `server-operators`, `abuso-de-servicio` |
 | [Horizontall](facil/horizontall/) | Linux | 2026-11-11 | `enumeracion-web`, `vhosts`, `strapi`, `cve`, `rce`, `pwnkit` |
 | [Postman](facil/postman/) | Linux | 2026-11-08 | `redis`, `inyeccion-clave-ssh`, `crackeo-de-hash`, `webmin`, `cve` |
 | [Keeper](facil/keeper/) | Linux | 2026-11-07 | `request-tracker`, `credenciales-por-defecto`, `keepass`, `cve`, `clave-ssh` |
