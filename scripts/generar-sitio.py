@@ -75,6 +75,9 @@ TEC_LABEL = {
     "mssql": "MSSQL", "evasion-av": "Evasión de AV", "gpp-passwords": "Contraseñas en GPP",
     "apache-james": "Apache James", "pop3": "POP3",
     "strapi": "Strapi", "pwnkit": "PwnKit",
+    "ldap-passback": "LDAP passback", "captura-de-credenciales": "Captura de credenciales",
+    "winrm": "WinRM", "server-operators": "Server Operators",
+    "abuso-de-servicio": "Abuso de servicio (binpath)",
 }
 
 
