@@ -78,6 +78,8 @@ TEC_LABEL = {
     "ldap-passback": "LDAP passback", "captura-de-credenciales": "Captura de credenciales",
     "winrm": "WinRM", "server-operators": "Server Operators",
     "abuso-de-servicio": "Abuso de servicio (binpath)",
+    "node-red": "Node-RED", "rsync-wildcard": "Rsync wildcard injection",
+    "contenedor-privilegiado": "Contenedor privilegiado",
 }
 
 

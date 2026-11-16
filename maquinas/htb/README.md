@@ -51,4 +51,10 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 | [Querier](media/querier/) | Windows | 2026-11-09 | `enumeracion-smb`, `mssql`, `fuga-de-informacion`, `crackeo-de-hash`, `evasion-av`, `gpp-passwords` |
 | [Cronos](media/cronos/) | Linux | 2026-11-02 | `dns`, `vhosts`, `inyeccion-sql`, `bypass-autenticacion`, `command-injection`, `cron-abuse` |
 
+### Insane
+
+| Máquina | SO | Fecha | Técnicas |
+| --- | --- | --- | --- |
+| [Reddish](insane/reddish/) | Linux | 2026-11-16 | `pivoting`, `node-red`, `chisel`, `redis`, `rsync-wildcard`, `contenedor-privilegiado` |
+
 <!-- INDICE:FIN -->
