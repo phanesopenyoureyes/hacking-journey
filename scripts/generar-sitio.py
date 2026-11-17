@@ -80,6 +80,7 @@ TEC_LABEL = {
     "abuso-de-servicio": "Abuso de servicio (binpath)",
     "node-red": "Node-RED", "rsync-wildcard": "Rsync wildcard injection",
     "contenedor-privilegiado": "Contenedor privilegiado",
+    "kerberoasting": "Kerberoasting", "active-directory": "Active Directory",
 }
 
 
