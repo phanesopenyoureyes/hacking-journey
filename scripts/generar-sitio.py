@@ -77,6 +77,13 @@ TEC_LABEL = {
     "strapi": "Strapi", "pwnkit": "PwnKit",
     "lpd": "LPD (RFC 1179)", "path-traversal": "Path traversal",
     "jetdirect-pjl": "HP JetDirect/PJL", "scm-rights": "Fuga de descriptor (SCM_RIGHTS)",
+    "ldap-passback": "LDAP passback", "captura-de-credenciales": "Captura de credenciales",
+    "winrm": "WinRM", "server-operators": "Server Operators",
+    "abuso-de-servicio": "Abuso de servicio (binpath)",
+    "node-red": "Node-RED", "rsync-wildcard": "Rsync wildcard injection",
+    "contenedor-privilegiado": "Contenedor privilegiado",
+    "kerberoasting": "Kerberoasting", "active-directory": "Active Directory",
+    "pi-hole": "Pi-hole", "recuperacion-de-datos": "Recuperación de datos",
 }
 
 

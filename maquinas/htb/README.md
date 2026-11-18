@@ -16,6 +16,9 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Mirai](facil/mirai/) | Linux | 2026-11-18 | `credenciales-por-defecto`, `fuzzing`, `pi-hole`, `sudo-misconfig`, `recuperacion-de-datos` |
+| [Active](facil/active/) | Windows | 2026-11-17 | `enumeracion-smb`, `gpp-passwords`, `kerberoasting`, `crackeo-de-hash`, `active-directory` |
+| [Return](facil/return/) | Windows | 2026-11-15 | `ldap-passback`, `captura-de-credenciales`, `winrm`, `server-operators`, `abuso-de-servicio` |
 | [Horizontall](facil/horizontall/) | Linux | 2026-11-11 | `enumeracion-web`, `vhosts`, `strapi`, `cve`, `rce`, `pwnkit` |
 | [Postman](facil/postman/) | Linux | 2026-11-08 | `redis`, `inyeccion-clave-ssh`, `crackeo-de-hash`, `webmin`, `cve` |
 | [Keeper](facil/keeper/) | Linux | 2026-11-07 | `request-tracker`, `credenciales-por-defecto`, `keepass`, `cve`, `clave-ssh` |
@@ -49,5 +52,11 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 | [Solid State](media/solid-state/) | Linux | 2026-11-10 | `apache-james`, `credenciales-por-defecto`, `cve`, `rce`, `pop3`, `cron-abuse` |
 | [Querier](media/querier/) | Windows | 2026-11-09 | `enumeracion-smb`, `mssql`, `fuga-de-informacion`, `crackeo-de-hash`, `evasion-av`, `gpp-passwords` |
 | [Cronos](media/cronos/) | Linux | 2026-11-02 | `dns`, `vhosts`, `inyeccion-sql`, `bypass-autenticacion`, `command-injection`, `cron-abuse` |
+
+### Insane
+
+| Máquina | SO | Fecha | Técnicas |
+| --- | --- | --- | --- |
+| [Reddish](insane/reddish/) | Linux | 2026-11-16 | `pivoting`, `node-red`, `chisel`, `redis`, `rsync-wildcard`, `contenedor-privilegiado` |
 
 <!-- INDICE:FIN -->
