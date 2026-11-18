@@ -74,6 +74,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Mirai](maquinas/htb/facil/mirai/) | Linux | 2026-11-18 | `credenciales-por-defecto`, `fuzzing`, `pi-hole`, `sudo-misconfig`, `recuperacion-de-datos` |
 | [Active](maquinas/htb/facil/active/) | Windows | 2026-11-17 | `enumeracion-smb`, `gpp-passwords`, `kerberoasting`, `crackeo-de-hash`, `active-directory` |
 | [Return](maquinas/htb/facil/return/) | Windows | 2026-11-15 | `ldap-passback`, `captura-de-credenciales`, `winrm`, `server-operators`, `abuso-de-servicio` |
 | [Horizontall](maquinas/htb/facil/horizontall/) | Linux | 2026-11-11 | `enumeracion-web`, `vhosts`, `strapi`, `cve`, `rce`, `pwnkit` |
