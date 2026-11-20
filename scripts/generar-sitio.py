@@ -303,12 +303,12 @@ def tabla_maquinas(items, base_rel):
 
 def seccion_maquinas():
     base = "docs/maquinas"
-    total = 0
+    total_all = 0   # todas las resueltas (publicadas + activas)
+    total_doc = 0   # solo las que tienen writeup publicado
     for slug, nombre in DIFICULTADES:
         items = publicados(f"maquinas/htb/{slug}/*/README.md", incluir_activa=True)
-        # El total solo cuenta máquinas con writeup publicado; las 'activa' salen
-        # listadas (con candado) pero no inflan el recuento de documentadas.
-        total += sum(1 for d in items if d.get("estado") == "publicado")
+        total_all += len(items)
+        total_doc += sum(1 for d in items if d.get("estado") == "publicado")
         destdir = f"{base}/{slug}"
         os.makedirs(destdir, exist_ok=True)
         for d in items:
@@ -339,7 +339,7 @@ def seccion_maquinas():
     # .pages de la sección Máquinas: orden de dificultades
     nav = "".join(f"  - {slug}\n" for slug, _ in DIFICULTADES)
     escribir(f"{base}/.pages", f"title: Máquinas\nnav:\n{nav}")
-    return total
+    return total_all, total_doc
 
 
 def tarjetas_certs(items, badge, estado, clase):
@@ -409,7 +409,7 @@ def main():
         if os.path.isdir(d):
             shutil.rmtree(d)
 
-    n_maq = seccion_maquinas()
+    n_maq, n_maq_doc = seccion_maquinas()
     n_cert = seccion_simple(
         "certificaciones", "Certificaciones", "certificación",
         [("Certificación", lambda d: f"[{d['titulo']}]({d['_slug']}/README.md)"),
@@ -556,7 +556,7 @@ def main():
         "busco **prácticas en ciberseguridad ofensiva**.\n\n"
         '<div class="hero__stats">\n'
         f'<div class="stat"><span class="stat__num">{n_maq}</span>'
-        '<span class="stat__lbl">máquinas resueltas y documentadas</span></div>\n'
+        '<span class="stat__lbl">máquinas resueltas</span></div>\n'
         '<div class="stat"><span class="stat__num">eJPT</span>'
         '<span class="stat__lbl">certificación obtenida</span></div>\n'
         '<div class="stat"><span class="stat__num">CPTS</span>'
@@ -583,7 +583,7 @@ def main():
         + "</div>\n\n"
         # ---------- TÉCNICAS ----------
         "## Técnicas que he practicado\n\n"
-        f"Las {n_tec} técnicas que aparecen en los writeups de las {n_maq} máquinas. "
+        f"Las {n_tec} técnicas que aparecen en los writeups de las {n_maq_doc} máquinas documentadas. "
         "Una muestra:\n\n"
         '<div class="tec-cloud">'
         + nube
