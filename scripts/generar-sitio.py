@@ -192,7 +192,8 @@ def ficha_maquina(d, dif_nombre):
         f'<span class="chip chip--os chip--{so}">{OS_ICONO.get(so, "")} {SO.get(so, so)}</span>'
         f'<span class="chip chip--dif chip--dif-{dif_slug}">{dif_nombre}</span>'
         f'<span class="chip chip--date">:material-calendar-outline: {d.get("fecha", "")}</span>'
-        '</span>\n\n'
+        + ('<span class="chip">🔒 Activa</span>' if d.get("estado") == "activa" else "")
+        + '</span>\n\n'
         f'<div class="ficha__tecs">{tecs}{herr}</div>\n\n'
         f'{cta}\n'
         '</div>\n'
@@ -230,12 +231,16 @@ def galeria_maquinas(items, base_rel):
     cards = []
     for d in items:
         slug, so = d["_slug"], d.get("so", "")
-        tecs = lista(d.get("tecnicas"))[:3]
-        tecs_html = (
-            '<span class="maq-card__tecs">'
-            + "".join(f'<span class="maq-card__tec">{etiqueta_tec(t)}</span>' for t in tecs)
-            + "</span>"
-        ) if tecs else ""
+        if d.get("estado") == "activa":
+            tecs_html = ('<span class="maq-card__tecs">'
+                         '<span class="maq-card__tec">🔒 Activa</span></span>')
+        else:
+            tecs = lista(d.get("tecnicas"))[:3]
+            tecs_html = (
+                '<span class="maq-card__tecs">'
+                + "".join(f'<span class="maq-card__tec">{etiqueta_tec(t)}</span>' for t in tecs)
+                + "</span>"
+            ) if tecs else ""
         cards.append(
             f'<a class="maq-card maq-card--{so}" href="{base_rel}{slug}/">'
             f'<img class="maq-card__ico" src="{base_rel}{slug}/capturas/{slug}-icono.png" '
@@ -265,11 +270,16 @@ def fm(texto):
     return d
 
 
-def publicados(patron):
+def publicados(patron, incluir_activa=False):
+    # Por defecto solo cuenta lo 'publicado' (así las estadísticas no incluyen
+    # máquinas activas sin writeup). Con incluir_activa=True también se listan las
+    # máquinas en estado 'activa': aparecen en la web con un candado y una página
+    # que remite a HTB, pero sin writeup, hasta que la máquina se retire.
+    estados = {"publicado", "activa"} if incluir_activa else {"publicado"}
     out = []
     for f in sorted(glob.glob(patron)):
         d = fm(open(f, encoding="utf-8").read())
-        if not d or d.get("estado") != "publicado":
+        if not d or d.get("estado") not in estados:
             continue
         d["_src"] = os.path.dirname(f)
         d["_slug"] = os.path.basename(os.path.dirname(f))
@@ -295,8 +305,10 @@ def seccion_maquinas():
     base = "docs/maquinas"
     total = 0
     for slug, nombre in DIFICULTADES:
-        items = publicados(f"maquinas/htb/{slug}/*/README.md")
-        total += len(items)
+        items = publicados(f"maquinas/htb/{slug}/*/README.md", incluir_activa=True)
+        # El total solo cuenta máquinas con writeup publicado; las 'activa' salen
+        # listadas (con candado) pero no inflan el recuento de documentadas.
+        total += sum(1 for d in items if d.get("estado") == "publicado")
         destdir = f"{base}/{slug}"
         os.makedirs(destdir, exist_ok=True)
         for d in items:

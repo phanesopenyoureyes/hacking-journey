@@ -31,10 +31,13 @@ def fm(texto):
 
 
 def publicadas(slug):
+    # Incluye las publicadas y las 'activa' (estas salen en la tabla con un
+    # candado, sin técnicas, porque su writeup no se publica hasta que la máquina
+    # se retira). Omite 'privado' y 'pendiente'.
     out = []
     for f in sorted(glob.glob(f"maquinas/htb/{slug}/*/README.md")):
         d = fm(open(f, encoding="utf-8").read())
-        if not d or d.get("estado") != "publicado":
+        if not d or d.get("estado") not in ("publicado", "activa"):
             continue
         d["_dir"] = os.path.dirname(f)
         out.append(d)
@@ -53,7 +56,10 @@ def bloque(base):
         for d in items:
             # En Markdown los enlaces usan '/', también en Windows.
             rel = os.path.relpath(d["_dir"], base).replace("\\", "/")
-            tec = ", ".join(f"`{t.strip()}`" for t in d.get("tecnicas", "").strip("[]").split(",") if t.strip())
+            if d.get("estado") == "activa":
+                tec = "🔒 _Máquina activa — write-up al retirarse_"
+            else:
+                tec = ", ".join(f"`{t.strip()}`" for t in d.get("tecnicas", "").strip("[]").split(",") if t.strip())
             filas.append(f"| [{d['titulo']}]({rel}/) | {SO.get(d['so'], d['so'])} | {d['fecha']} | {tec} |")
         partes.append("\n".join(filas) + "\n")
     return "\n".join(partes) if partes else "_Aún no hay máquinas publicadas._\n"
