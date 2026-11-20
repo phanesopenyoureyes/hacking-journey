@@ -74,9 +74,12 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Management](maquinas/htb/facil/management/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
+| [Connected](maquinas/htb/facil/connected/) | Linux | 2026-11-19 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Mirai](maquinas/htb/facil/mirai/) | Linux | 2026-11-18 | `credenciales-por-defecto`, `fuzzing`, `pi-hole`, `sudo-misconfig`, `recuperacion-de-datos` |
 | [Active](maquinas/htb/facil/active/) | Windows | 2026-11-17 | `enumeracion-smb`, `gpp-passwords`, `kerberoasting`, `crackeo-de-hash`, `active-directory` |
 | [Return](maquinas/htb/facil/return/) | Windows | 2026-11-15 | `ldap-passback`, `captura-de-credenciales`, `winrm`, `server-operators`, `abuso-de-servicio` |
+| [Paperwork](maquinas/htb/facil/paperwork/) | Linux | 2026-11-14 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Horizontall](maquinas/htb/facil/horizontall/) | Linux | 2026-11-11 | `enumeracion-web`, `vhosts`, `strapi`, `cve`, `rce`, `pwnkit` |
 | [Postman](maquinas/htb/facil/postman/) | Linux | 2026-11-08 | `redis`, `inyeccion-clave-ssh`, `crackeo-de-hash`, `webmin`, `cve` |
 | [Keeper](maquinas/htb/facil/keeper/) | Linux | 2026-11-07 | `request-tracker`, `credenciales-por-defecto`, `keepass`, `cve`, `clave-ssh` |

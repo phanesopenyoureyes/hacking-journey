@@ -11,7 +11,7 @@ import re
 import sys
 import unicodedata
 
-ESTADOS = {"publicado", "privado", "pendiente"}
+ESTADOS = {"publicado", "privado", "pendiente", "activa"}
 DIFICULTADES = {"facil", "media", "dificil", "insane"}
 
 # tipo -> (patrón glob, campos de front-matter, secciones H2 obligatorias)
@@ -115,12 +115,15 @@ def main():
                 dif = re.split(r"[\\/]", f)[2]
                 if dif not in DIFICULTADES:
                     errores.append(f"{f}: dificultad de carpeta '{dif}' no válida (facil|media|dificil|insane)")
-            secs = h2(cuerpo)
-            for s in secciones:
-                alts = alternativas(s)
-                if not any(any(a in h for h in secs) for a in alts):
-                    errores.append(f"{f}: falta la sección obligatoria '## {s}'")
+            # Las secciones obligatorias solo se exigen al contenido 'publicado';
+            # lo demás (borradores 'privado'/'pendiente' y máquinas 'activa' sin
+            # writeup) se valida solo a nivel de metadatos.
             if estado == "publicado":
+                secs = h2(cuerpo)
+                for s in secciones:
+                    alts = alternativas(s)
+                    if not any(any(a in h for h in secs) for a in alts):
+                        errores.append(f"{f}: falta la sección obligatoria '## {s}'")
                 for s in secciones:
                     alts = alternativas(s)
                     if any(seccion_pendiente(cuerpo, a) for a in alts):
