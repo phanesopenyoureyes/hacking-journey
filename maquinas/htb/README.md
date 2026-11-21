@@ -16,6 +16,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Enigma](facil/enigma/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Management](facil/management/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Connected](facil/connected/) | Linux | 2026-11-19 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Mirai](facil/mirai/) | Linux | 2026-11-18 | `credenciales-por-defecto`, `fuzzing`, `pi-hole`, `sudo-misconfig`, `recuperacion-de-datos` |

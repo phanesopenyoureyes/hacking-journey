@@ -74,6 +74,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Enigma](maquinas/htb/facil/enigma/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Management](maquinas/htb/facil/management/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Connected](maquinas/htb/facil/connected/) | Linux | 2026-11-19 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Mirai](maquinas/htb/facil/mirai/) | Linux | 2026-11-18 | `credenciales-por-defecto`, `fuzzing`, `pi-hole`, `sudo-misconfig`, `recuperacion-de-datos` |
