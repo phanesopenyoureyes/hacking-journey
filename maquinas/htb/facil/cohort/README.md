@@ -2,7 +2,7 @@
 titulo: "Cohort"
 fecha: 2026-11-21
 plataforma: htb
-so: windows
+so: linux
 dificultad: Fácil
 estado: activa
 tecnicas: []
