@@ -74,7 +74,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
-| [Cohort](maquinas/htb/facil/cohort/) | Windows | 2026-11-21 | 🔒 _Máquina activa — write-up al retirarse_ |
+| [Cohort](maquinas/htb/facil/cohort/) | Linux | 2026-11-21 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Enigma](maquinas/htb/facil/enigma/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Management](maquinas/htb/facil/management/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Connected](maquinas/htb/facil/connected/) | Linux | 2026-11-19 | 🔒 _Máquina activa — write-up al retirarse_ |
@@ -112,6 +112,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Bedside](maquinas/htb/media/bedside/) | Linux | 2026-11-22 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Solid State](maquinas/htb/media/solid-state/) | Linux | 2026-11-10 | `apache-james`, `credenciales-por-defecto`, `cve`, `rce`, `pop3`, `cron-abuse` |
 | [Querier](maquinas/htb/media/querier/) | Windows | 2026-11-09 | `enumeracion-smb`, `mssql`, `fuga-de-informacion`, `crackeo-de-hash`, `evasion-av`, `gpp-passwords` |
 | [Cronos](maquinas/htb/media/cronos/) | Linux | 2026-11-02 | `dns`, `vhosts`, `inyeccion-sql`, `bypass-autenticacion`, `command-injection`, `cron-abuse` |
