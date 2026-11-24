@@ -54,6 +54,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Cascade](media/cascade/) | Windows | 2026-11-23 | `enumeracion-ldap`, `cascadelegacypwd`, `tightvnc`, `reversing-dotnet`, `crackeo-de-hash`, `ad-recycle-bin`, `reutilizacion-de-credenciales` |
 | [Bedside](media/bedside/) | Linux | 2026-11-22 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Solid State](media/solid-state/) | Linux | 2026-11-10 | `apache-james`, `credenciales-por-defecto`, `cve`, `rce`, `pop3`, `cron-abuse` |
 | [Querier](media/querier/) | Windows | 2026-11-09 | `enumeracion-smb`, `mssql`, `fuga-de-informacion`, `crackeo-de-hash`, `evasion-av`, `gpp-passwords` |

@@ -112,6 +112,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Cascade](maquinas/htb/media/cascade/) | Windows | 2026-11-23 | `enumeracion-ldap`, `cascadelegacypwd`, `tightvnc`, `reversing-dotnet`, `crackeo-de-hash`, `ad-recycle-bin`, `reutilizacion-de-credenciales` |
 | [Bedside](maquinas/htb/media/bedside/) | Linux | 2026-11-22 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Solid State](maquinas/htb/media/solid-state/) | Linux | 2026-11-10 | `apache-james`, `credenciales-por-defecto`, `cve`, `rce`, `pop3`, `cron-abuse` |
 | [Querier](maquinas/htb/media/querier/) | Windows | 2026-11-09 | `enumeracion-smb`, `mssql`, `fuga-de-informacion`, `crackeo-de-hash`, `evasion-av`, `gpp-passwords` |
