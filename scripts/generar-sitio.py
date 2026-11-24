@@ -84,6 +84,9 @@ TEC_LABEL = {
     "contenedor-privilegiado": "Contenedor privilegiado",
     "kerberoasting": "Kerberoasting", "active-directory": "Active Directory",
     "pi-hole": "Pi-hole", "recuperacion-de-datos": "Recuperación de datos",
+    "enumeracion-ldap": "Enumeración LDAP", "cascadelegacypwd": "cascadeLegacyPwd",
+    "tightvnc": "TightVNC", "reversing-dotnet": "Reversing .NET",
+    "ad-recycle-bin": "AD Recycle Bin",
 }
 
 
