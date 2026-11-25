@@ -74,6 +74,7 @@ y documento.
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Networked](maquinas/htb/facil/networked/) | Linux | 2026-11-25 | `enumeracion-web`, `fuzzing`, `carga-de-archivos`, `webshell`, `command-injection`, `cron-abuse`, `sudo-misconfig` |
 | [Cohort](maquinas/htb/facil/cohort/) | Linux | 2026-11-21 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Enigma](maquinas/htb/facil/enigma/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Management](maquinas/htb/facil/management/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
