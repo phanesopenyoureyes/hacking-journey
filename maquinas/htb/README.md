@@ -16,6 +16,7 @@ La tabla se genera sola con `python scripts/generar-indice.py`. No la edites a m
 
 | Máquina | SO | Fecha | Técnicas |
 | --- | --- | --- | --- |
+| [Networked](facil/networked/) | Linux | 2026-11-25 | `enumeracion-web`, `fuzzing`, `carga-de-archivos`, `webshell`, `command-injection`, `cron-abuse`, `sudo-misconfig` |
 | [Cohort](facil/cohort/) | Linux | 2026-11-21 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Enigma](facil/enigma/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
 | [Management](facil/management/) | Linux | 2026-11-20 | 🔒 _Máquina activa — write-up al retirarse_ |
