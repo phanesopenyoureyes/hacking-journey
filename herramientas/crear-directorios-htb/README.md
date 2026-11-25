@@ -37,33 +37,37 @@ Por ejemplo, `./htbworkdir.sh Cascade` deja listo `~/htb_boxes/Cascade/` con sus
 ```bash
 #!/bin/bash
 
-#Create the machine directory
+# Create the machine directory
 
 machine_name=$1
-printf "\n [+] Creating: %s\n" "$machine_name"
+
+# Validar el argumento ANTES de anunciar nada
 
 if [ -z "$machine_name" ]; then
-  printf "\n [!] You miss the machine name s%\n"
-  sleep 1
-  printf "\n Usage: chmod +x htbworkdir.sh && ./htbworkdir.sh <machine name> s%\n"
+  printf "\n [!] You miss the machine name\n"
+  printf "\n Usage: chmod +x htbworkdir.sh && ./htbworkdir.sh <machine name>\n"
   exit 1
 fi
 
-#Check if the directory "~/htb_boxes" already exists
+printf "\n [+] Creating: %s\n" "$machine_name"
+sleep 1
+
+# Comprobar si el directorio base "~/htb_boxes" ya existe
 
 if [ ! -d "$HOME/htb_boxes" ]; then
   mkdir "$HOME/htb_boxes"
 fi
 
-#Create the machine main Directory
+# Crear el directorio de la máquina (comprobando si ya existe)
 
-if [ "1" = "1" ]; then
+machine_dir="$HOME/htb_boxes/$machine_name"
+
+if [ ! -d "$machine_dir" ]; then
+  mkdir -p "$machine_dir"/{nmap,exploits,loot,generalDocumentation}
   sleep 1
-  cd "$HOME/htb_boxes" && mkdir -p "$HOME/htb_boxes/$machine_name"/{nmap,exploits,loot,generalDocumentation}
-  sleep 1
-  printf "\n [+] Directory succesfully created, you can find it in "$HOME/htb_boxes/$machine_name" s%\n"
+  printf "\n [+] Directory succesfully created, you can find it in %s\n" "$machine_dir"
 else
-  printf "\n [!] You already own a directory with that name, you can check it in "$HOME/htb_boxes/$machine_name" s%\n"
+  printf "\n [!] You already own a directory with that name, you can check it in %s\n" "$machine_dir"
 fi
 ```
 
