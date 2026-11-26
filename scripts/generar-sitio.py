@@ -613,19 +613,25 @@ def main():
 
 
 def cache_bust_css():
-    """Añade ?v=<hash> a extra.css en mkdocs.yml para forzar recarga al cambiar.
+    """Añade ?v=<hash> a los assets propios (CSS/JS) en mkdocs.yml.
 
-    Evita que los navegadores sirvan una hoja de estilos antigua con HTML nuevo
-    (lo que deja las tarjetas y botones sin estilo). El hash depende del
-    contenido del CSS, así que solo cambia cuando cambia el CSS.
+    Fuerza a los navegadores a recargar la hoja de estilos o el script cuando
+    cambian, evitando que sirvan una versión antigua con HTML nuevo. El hash
+    depende del contenido de cada fichero, así que solo cambia cuando cambia él.
     """
-    css = "docs/stylesheets/extra.css"
-    if not (os.path.exists(css) and os.path.exists("mkdocs.yml")):
+    if not os.path.exists("mkdocs.yml"):
         return
-    h = hashlib.md5(open(css, "rb").read()).hexdigest()[:10]
     mk = open("mkdocs.yml", encoding="utf-8").read()
-    nuevo = re.sub(r"(stylesheets/extra\.css)(\?v=[A-Za-z0-9]+)?", rf"\1?v={h}", mk)
-    if nuevo != mk:
+    for ruta, patron in (
+        ("docs/stylesheets/extra.css", r"(stylesheets/extra\.css)(\?v=[A-Za-z0-9]+)?"),
+        ("docs/javascripts/lang.js", r"(javascripts/lang\.js)(\?v=[A-Za-z0-9]+)?"),
+    ):
+        if not os.path.exists(ruta):
+            continue
+        h = hashlib.md5(open(ruta, "rb").read()).hexdigest()[:10]
+        mk = re.sub(patron, rf"\1?v={h}", mk)
+    nuevo = mk
+    if nuevo != open("mkdocs.yml", encoding="utf-8").read():
         open("mkdocs.yml", "w", encoding="utf-8").write(nuevo)
 
 
